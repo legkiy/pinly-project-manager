@@ -1,15 +1,16 @@
+import { BrowserWindow } from 'electron';
 import osUtils from 'os-utils';
+import { ipcWebContentsSend } from './utils.js';
 
-function getSystemResources() {
+function getSystemResources(mainWindow: BrowserWindow) {
   setInterval(async () => {
-    const [cpu, ram, driveUsed] = await Promise.all([
+    const [cpu, ram, driveUsed] = await Promise.all<number>([
       new Promise((resolve) => osUtils.cpuUsage(resolve)),
       1 - osUtils.freememPercentage(),
-      new Promise((resolve) =>
-        osUtils.harddrive((total, free, used) => resolve(used))
-      ),
+      new Promise((resolve) => osUtils.harddrive((total, free, used) => resolve(used))),
     ]);
-    console.log({ cpu, ram, driveUsed });
+
+    ipcWebContentsSend('systemResources', mainWindow.webContents, { cpu, ram, driveUsed });
   }, 500);
 }
 
