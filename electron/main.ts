@@ -8,6 +8,7 @@ app.on('ready', () => {
   const mainWindow = new BrowserWindow({
     webPreferences: {
       preload: path.join(app.getAppPath(), './dist-electron/preload.cjs'),
+      devTools: isDev ? true : false,
     },
   });
 
