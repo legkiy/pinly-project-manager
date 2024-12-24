@@ -6,7 +6,8 @@ function App() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    window.electron.systemResources((data) => console.log(data));
+    const data = window.electron.systemResources((data) => console.log(data));
+    return data;
   }, []);
 
   return (

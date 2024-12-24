@@ -10,7 +10,7 @@ interface IEventPayloadyMapping {
 }
 
 interface IElectron {
-  systemResources: (callback: (systemResources: SystemResources) => void) => void;
+  systemResources: (callback: (systemResources: SystemResources) => void) => () => void;
   getStaticData: () => Promise<{ cpu: os.CpuInfo }>;
 }
 

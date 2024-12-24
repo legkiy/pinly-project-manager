@@ -11,9 +11,6 @@
     // ignore errors from dependencies
     "skipLibCheck": true,
 
-    "types": ["../types"],
-    "paths": {
-      "@/*": ["../src/*"]
-    }
+    "types": ["../types"]
   }
 }

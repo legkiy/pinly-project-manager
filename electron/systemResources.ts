@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import osUtils from 'os-utils';
-import { ipcWebContentsSend } from './utils.js';
+import { ipcWebContentsSend } from './lib.js';
 
 function getSystemResources(mainWindow: BrowserWindow) {
   setInterval(async () => {
