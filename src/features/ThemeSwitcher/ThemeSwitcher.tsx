@@ -1,9 +1,15 @@
 import { Themes } from '@/shared/types';
-import { Button, Stack } from '@mui/material';
+import { Button, Stack, useColorScheme } from '@mui/material';
 
 const ThemeSwitcher = () => {
+  const { setMode, mode } = useColorScheme();
+  if (!mode) {
+    return null;
+  }
+
   const handleSwitchTheme = (theme: Themes) => {
     localStorage.setItem('theme', theme);
+    setMode(theme);
   };
 
   return (

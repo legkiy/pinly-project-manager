@@ -1,20 +1,34 @@
-import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
-import themes from './themes';
+import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 import { Themes } from '@/shared/types';
+import palette from './palette';
+import typography from './typography';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const MuiThemeProvider = (props: Props) => {
-  const currentThemeKey = (localStorage.getItem('theme') as Themes) ?? Themes.System;
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)') ? palette.dark : palette.light;
+  const savedTheme: Themes = localStorage.getItem('theme') as Themes;
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)') ? themes.dark : themes.light;
+  const THEMES_PALETTE_MAP = {
+    [Themes.Dark]: palette.dark,
+    [Themes.Light]: palette.light,
+    [Themes.System]: prefersDarkMode,
+  };
 
-  const selectedTheme = currentThemeKey === Themes.System ? prefersDarkMode : themes[currentThemeKey];
+  const appTheme = createTheme({
+    colorSchemes: {
+      dark: true,
+      light: true,
+    },
+    palette: THEMES_PALETTE_MAP[savedTheme],
+    typography,
+    components: {},
+  });
 
   return (
-    <ThemeProvider theme={selectedTheme}>
+    <ThemeProvider theme={appTheme}>
       <CssBaseline />
       {props.children}
     </ThemeProvider>
