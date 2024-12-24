@@ -22,9 +22,12 @@
     "@fontsource/roboto": "^5.1.0",
     "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.3.0",
+    "i18next": "^24.2.0",
+    "i18next-browser-languagedetector": "^8.0.2",
     "os-utils": "^0.0.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-i18next": "^15.2.0",
     "react-router": "^7.1.1",
     "zustand": "^5.0.2"
   },

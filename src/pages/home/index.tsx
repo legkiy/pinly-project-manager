@@ -1,10 +1,13 @@
-import { ThemeSwitcher } from '@/features';
+import { LocaleSwitcher, ThemeSwitcher } from '@/features';
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <ThemeSwitcher />
-      Home
+      <LocaleSwitcher />
+      {t('appName')}
     </div>
   );
 };
