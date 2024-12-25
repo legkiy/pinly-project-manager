@@ -1,4 +1,4 @@
-import { Themes } from '@/shared/types';
+import { Themes } from '@/shared/models';
 import { Button, Stack, useColorScheme } from '@mui/material';
 
 const ThemeSwitcher = () => {
@@ -14,10 +14,10 @@ const ThemeSwitcher = () => {
 
   return (
     <Stack>
-      <Button variant="contained" onClick={() => handleSwitchTheme(Themes.Light)} style={{ marginRight: '10px' }}>
+      <Button variant="contained" onClick={() => handleSwitchTheme(Themes.Light)}>
         Светлая Тема
       </Button>
-      <Button variant="contained" onClick={() => handleSwitchTheme(Themes.Dark)} style={{ marginRight: '10px' }}>
+      <Button variant="contained" onClick={() => handleSwitchTheme(Themes.Dark)}>
         Темная Тема
       </Button>
       <Button variant="contained" onClick={() => handleSwitchTheme(Themes.System)}>

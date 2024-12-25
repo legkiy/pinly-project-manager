@@ -1,5 +1,5 @@
 import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
-import { Themes } from '@/shared/types';
+import { Themes } from '@/shared/models';
 import palette from './palette';
 import typography from './typography';
 

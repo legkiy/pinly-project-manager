@@ -1,4 +1,11 @@
+import { LocaleSwitcher, ThemeSwitcher } from '@/features';
+
 const SettingsPage = () => {
-  return <div>SettingsPage</div>;
+  return (
+    <div>
+      <ThemeSwitcher />
+      <LocaleSwitcher />
+    </div>
+  );
 };
 export default SettingsPage;
