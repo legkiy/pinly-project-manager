@@ -1,4 +1,8 @@
 const EN = {
-  appName:'Project Manager'
+  appName: 'Project Manager',
+  settings: {
+    title: 'Settings',
+    quick: 'Quick Setting',
+  },
 };
 export default EN;

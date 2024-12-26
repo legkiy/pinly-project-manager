@@ -1,10 +1,10 @@
-import { LocaleSwitcher, ThemeSwitcher } from '@/features';
 import { createMockData } from '@/shared/lib';
 import { Project } from '@/shared/models';
-import { useTranslation } from 'react-i18next';
+import { Text } from '@/shared/ui';
+import { QuickSettings } from '@/widgets';
+import { Container } from '@mui/material';
 
 const HomePage = () => {
-  const { t } = useTranslation();
   const mockData = createMockData<Project>(3, (step, id) => ({
     id,
     createdAt: new Date(),
@@ -12,14 +12,11 @@ const HomePage = () => {
     description: `description to project ${step}`,
   }));
 
-  console.log(mockData);
-
   return (
-    <div>
-      <ThemeSwitcher />
-      <LocaleSwitcher />
-      {t('appName')}
-    </div>
+    <Container maxWidth="xl" sx={{ py: 2 }}>
+      <QuickSettings />
+      <Text mess="appName" />
+    </Container>
   );
 };
 export default HomePage;

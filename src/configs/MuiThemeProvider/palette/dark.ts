@@ -5,5 +5,8 @@ const palette: PaletteOptions = {
   background: {
     default: '#111922',
   },
+  primary: {
+    main: '#ff6363',
+  },
 };
 export default palette;

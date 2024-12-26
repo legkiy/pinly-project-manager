@@ -5,6 +5,7 @@ import SettingsPage from '@/pages/settings';
 const routes: RouteObject[] = [
   {
     path: '/',
+    index: true,
     element: <HomePage />,
   },
   {

@@ -1,4 +1,4 @@
-import { Button, Stack } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const LocaleSwitcher = () => {
@@ -9,10 +9,14 @@ const LocaleSwitcher = () => {
   };
 
   return (
-    <Stack>
-      <Button onClick={() => handleChangeLang('en')}>EN</Button>
-      <Button onClick={() => handleChangeLang('ru')}>RU</Button>
-    </Stack>
+    <ButtonGroup variant="outlined">
+      <Button onClick={() => handleChangeLang('en')} variant={i18n.language === 'en' ? 'contained' : 'outlined'}>
+        EN
+      </Button>
+      <Button onClick={() => handleChangeLang('ru')} variant={i18n.language === 'ru' ? 'contained' : 'outlined'}>
+        RU
+      </Button>
+    </ButtonGroup>
   );
 };
 export default LocaleSwitcher;

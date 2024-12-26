@@ -1,5 +1,8 @@
 import { Themes } from '@/shared/models';
-import { Button, Stack, useColorScheme } from '@mui/material';
+import { Button, ButtonGroup, useColorScheme } from '@mui/material';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
+import ContrastRoundedIcon from '@mui/icons-material/ContrastRounded';
 
 const ThemeSwitcher = () => {
   const { setMode, mode } = useColorScheme();
@@ -13,17 +16,23 @@ const ThemeSwitcher = () => {
   };
 
   return (
-    <Stack>
-      <Button variant="contained" onClick={() => handleSwitchTheme(Themes.Light)}>
-        Светлая Тема
+    <ButtonGroup>
+      <Button
+        onClick={() => handleSwitchTheme(Themes.Light)}
+        variant={mode === Themes.Light ? 'contained' : 'outlined'}
+      >
+        <LightModeRoundedIcon />
       </Button>
-      <Button variant="contained" onClick={() => handleSwitchTheme(Themes.Dark)}>
-        Темная Тема
+      <Button onClick={() => handleSwitchTheme(Themes.Dark)} variant={mode === Themes.Dark ? 'contained' : 'outlined'}>
+        <DarkModeOutlinedIcon />
       </Button>
-      <Button variant="contained" onClick={() => handleSwitchTheme(Themes.System)}>
-        Системная Тема
+      <Button
+        onClick={() => handleSwitchTheme(Themes.System)}
+        variant={mode === Themes.System ? 'contained' : 'outlined'}
+      >
+        <ContrastRoundedIcon />
       </Button>
-    </Stack>
+    </ButtonGroup>
   );
 };
 export default ThemeSwitcher;
