@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject } from 'react-router';
+import { RouteObject, createHashRouter } from 'react-router';
 import HomePage from '@/pages/home';
 import SettingsPage from '@/pages/settings';
 
@@ -14,6 +14,6 @@ const routes: RouteObject[] = [
   },
 ];
 
-const router = createBrowserRouter(routes, {});
+const router = createHashRouter(routes, {});
 
 export default router;

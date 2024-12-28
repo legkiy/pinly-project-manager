@@ -12,6 +12,8 @@ const HomePage = () => {
     description: `description to project ${step}`,
   }));
 
+  console.log(mockData);
+
   return (
     <Container maxWidth="xl" sx={{ py: 2 }}>
       <QuickSettings />
