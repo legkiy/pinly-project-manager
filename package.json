@@ -15,9 +15,10 @@
     "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac --arm64",
     "dist:win": "npm run transpile:electron && npm run build && electron-builder --win --x64",
     "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux --x64",
-    "create-f": "npm run build:scripts && node ./create-scripts/dist/index.js features",
-    "create-e": "npm run build:scripts && node ./create-scripts/dist/index.js entities",
-    "create-w": "npm run build:scripts && node ./create-scripts/dist/index.js Widgets"
+    "build:scripts": "tsc ./create-scripts/index.ts --outDir ./create-scripts/dist",
+    "create-f": "npm run build:scripts && node --input-type=commonjs ./create-scripts/dist/index.js features",
+    "create-e": "npm run build:scripts && node --input-type=commonjs ./create-scripts/dist/index.js entities",
+    "create-w": "npm run build:scripts && node --input-type=commonjs ./create-scripts/dist/index.js Widgets"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
