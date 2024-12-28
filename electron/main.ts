@@ -1,11 +1,14 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, screen } from 'electron';
 import path from 'path';
 import os from 'os';
 import getSystemResources from './systemResources.js';
 import { devLocalhost, ipcHandler, isDev, uiPath } from './lib.js';
 
 app.on('ready', () => {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   const mainWindow = new BrowserWindow({
+    width,
+    height,
     webPreferences: {
       preload: path.join(app.getAppPath(), './dist-electron/preload.cjs'),
       devTools: isDev ? true : false,
