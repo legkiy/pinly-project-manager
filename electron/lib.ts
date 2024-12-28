@@ -24,7 +24,7 @@ export function ipcWebContentsSend<Key extends keyof IEventPayloadyMapping>(
 
 export const isDev = process?.env?.NODE_ENV === 'development';
 
-export const uiPath = path.join(app.getAppPath(), '/dist-react/index.html');
+export const uiPath = path.join(app.getAppPath(), '/pre-dist/react/index.html');
 
 export function validateEventFrame(frame: WebFrameMain | null) {
   if (isDev && frame?.url && new URL(frame?.url).host === 'localhost:' + devLocalhost) {

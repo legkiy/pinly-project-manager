@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   base: './',
   build: {
-    outDir: 'dist-react',
+    outDir: 'pre-dist/react',
   },
   server: {
     port: 3333,

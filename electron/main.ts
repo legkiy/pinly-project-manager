@@ -10,7 +10,7 @@ app.on('ready', () => {
     width,
     height,
     webPreferences: {
-      preload: path.join(app.getAppPath(), './dist-electron/preload.cjs'),
+      preload: path.join(app.getAppPath(), './pre-dist/electron/preload.cjs'),
       devTools: isDev ? true : false,
     },
   });
