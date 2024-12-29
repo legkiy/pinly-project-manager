@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 interface TextProps {
   mess: string;
-  options?: Record<string, string>;
+  options?: Record<string, string | number>;
 }
 
 const Text = ({ mess, options }: TextProps) => {

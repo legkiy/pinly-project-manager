@@ -1,11 +1,10 @@
 import { createMockData } from '@/shared/lib';
 import { Text } from '@/shared/ui';
-import { Stack, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Project } from '../model';
 import ProjectCard from './ProjectCard';
-import { scrollbarStyles } from '@/shared/models';
 
-const CARD_SIZE = { width: 366, height: 166 };
+const CARD_SIZE = { width: 364, height: 166 };
 
 const ProjectsList = () => {
   const mockData = createMockData<Project>(48, (step, id) => ({
@@ -14,34 +13,61 @@ const ProjectsList = () => {
     title: `project ${step}`,
     description: `description to project ${step}`,
   }));
+
   return (
-    <Stack gap={2}>
+    <>
       <Typography
         variant="h3"
         sx={{
           mx: 1,
         }}
       >
-        <Text mess="avalableProjectsCount" options={{ count: '1' }} />
+        <Text mess="avalableProjectsCount" options={{ count: mockData.length }} />
       </Typography>
-      <Stack
-        direction="row"
-        flexWrap="wrap"
+      <Box
         sx={{
-          gap: 2,
-          // border: '1px solid red',
-          // height: 640,
-          overflowY: 'scroll',
-          justifyContent: 'center',
+          flex: 1,
+          overflowY: 'auto',
           p: 1,
         }}
-        className={scrollbarStyles.default}
       >
-        {mockData.map((project) => (
-          <ProjectCard key={project.id} {...project} {...CARD_SIZE} />
-        ))}
-      </Stack>
-    </Stack>
+        <Box
+          sx={{
+            display: 'grid',
+            gap: 2,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          }}
+        >
+          {mockData.map((project) => (
+            <ProjectCard key={project.id} {...project} {...CARD_SIZE} />
+          ))}
+        </Box>
+      </Box>
+      {/* <Box
+        gap={2}
+        sx={{
+          flex: 1,
+          overflowY: 'auto',
+        }}
+      >
+        <Stack
+          direction="row"
+          flexWrap="wrap"
+          sx={{
+            gap: 2,
+            overflowY: 'scroll',
+            justifyContent: 'center',
+            p: 1,
+            flex: 1,
+          }}
+          className={scrollbarStyles.default}
+        >
+          {mockData.map((project) => (
+            <ProjectCard key={project.id} {...project} {...CARD_SIZE} />
+          ))}
+        </Stack>
+      </Box> */}
+    </>
   );
 };
 export default ProjectsList;

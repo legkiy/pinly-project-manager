@@ -3,8 +3,8 @@ import { Container, Stack } from '@mui/material';
 
 const HomePage = () => {
   return (
-    <Container sx={{ p: 2, height: '100vh' }} maxWidth="lg">
-      <Stack gap={2}>
+    <Container maxWidth="lg" sx={{ p: 1, height: '100vh' }}>
+      <Stack gap={2} height="100%">
         <QuickSettings />
         <ProjectsList />
       </Stack>

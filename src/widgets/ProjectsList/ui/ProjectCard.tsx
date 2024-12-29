@@ -10,9 +10,14 @@ interface Props extends Project {
 const ProjectCard = (project: Props) => {
   return (
     <Card
+      elevation={0}
       sx={{
         height: project.height,
         width: project.width,
+        cursor: 'pointer',
+        ':hover': {
+          scale: 1.02,
+        },
       }}
     >
       <Grid2 container>

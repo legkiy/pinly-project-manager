@@ -16,6 +16,7 @@ const QuickSettings = ({ collapse }: Props) => {
       sx={{
         width: 'fit-content',
         alignSelf: 'center',
+        flexShrink: 0,
       }}
     >
       <CardContent>
