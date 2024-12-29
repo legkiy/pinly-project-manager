@@ -1,16 +1,25 @@
 import { RouteObject, createHashRouter } from 'react-router';
-import HomePage from '@/pages/home';
-import SettingsPage from '@/pages/settings';
+import * as Pages from '@/pages';
 
 const routes: RouteObject[] = [
   {
-    path: '/',
     index: true,
-    element: <HomePage />,
+    path: '/',
+    element: <Pages.Main />,
+  },
+  {
+    path: '/project',
+    children: [
+      {
+        index: true,
+        path: ':id',
+        element: <Pages.ProjectId />,
+      },
+    ],
   },
   {
     path: '/settings',
-    element: <SettingsPage />,
+    element: <Pages.Settings />,
   },
 ];
 
