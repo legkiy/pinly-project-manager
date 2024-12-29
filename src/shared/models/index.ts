@@ -1,1 +1,1 @@
-export * from './project';
+export { default as scrollbarStyles } from './scrollbarStyles.module.css';

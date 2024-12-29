@@ -7,9 +7,6 @@ const SHADOWS_MAP = {
 const components: Theme['components'] = {
   MuiButtonGroup: {
     styleOverrides: {
-      root: {
-        borderRadius: 8,
-      },
       contained: {
         width: 'fit-content',
         boxShadow: SHADOWS_MAP.contained,
@@ -18,11 +15,33 @@ const components: Theme['components'] = {
   },
   MuiButton: {
     styleOverrides: {
-      root: {
-        borderRadius: 8,
-      },
       contained: {
         boxShadow: SHADOWS_MAP.contained,
+      },
+    },
+  },
+  MuiPaper: {
+    styleOverrides: {
+      elevation1: ({ theme }) => ({
+        boxShadow: 'none',
+        borderColor: theme.palette.grey[200],
+        borderWidth: 1,
+        borderStyle: 'solid',
+      }),
+    },
+  },
+  MuiCard: {
+    defaultProps: {
+      elevation: 5,
+    },
+  },
+  MuiCardContent: {
+    styleOverrides: {
+      root: {
+        padding: 12,
+        '&:last-child': {
+          paddingBottom: 12,
+        },
       },
     },
   },
