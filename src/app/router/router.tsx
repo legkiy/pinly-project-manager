@@ -1,5 +1,6 @@
 import { RouteObject, createHashRouter } from 'react-router';
 import * as Pages from '@/pages';
+import { LayoutWithNavbar } from '@/widgets';
 
 const routes: RouteObject[] = [
   {
@@ -9,6 +10,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '/project',
+    Component: LayoutWithNavbar,
     children: [
       {
         index: true,

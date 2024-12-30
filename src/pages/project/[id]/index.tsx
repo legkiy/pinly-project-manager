@@ -1,4 +1,4 @@
 const ProjectIdPage = () => {
-  return <div>ProjectIdPage</div>;
+  return <>ProjectIdPage</>;
 };
 export default ProjectIdPage;
