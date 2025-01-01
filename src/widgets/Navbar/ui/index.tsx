@@ -1,19 +1,9 @@
-import { routerService } from '@/shared/lib';
-import { Link } from '@/shared/ui';
-import { Button, CSSObject, Drawer, IconButton, List, ListItem, styled, Theme, useTheme } from '@mui/material';
-import WindowRounded from '@mui/icons-material/WindowRounded';
+import { Link, Text } from '@/shared/ui';
+import { Box, Button, CSSObject, Drawer, IconButton, List, ListItem, Theme, useTheme } from '@mui/material';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
+import { NAV_ITEMS_LIST } from '../lib';
 
 interface Props {
   width: number;
@@ -69,33 +59,44 @@ const Navbar = ({ width }: Props) => {
         boxSizing: 'border-box',
       }}
     >
-      <DrawerHeader>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          py: 1,
+          pr: 1.5,
+        }}
+      >
         <IconButton onClick={handleDrawerToggle}>{open ? <ChevronLeft /> : <ChevronRight />}</IconButton>
-      </DrawerHeader>
+      </Box>
       <List>
-        <Link to={routerService.main.root} underline="none" color="textPrimary">
-          <ListItem
-            disablePadding
-            sx={{
-              justifyContent: 'center',
-            }}
-          >
-            <Button
-              variant="contained"
-              startIcon={open ? <WindowRounded /> : null}
-              sx={
-                open
-                  ? {}
-                  : {
-                      minWidth: 'unset',
-                      p: 0.8,
-                    }
-              }
+        {NAV_ITEMS_LIST.map((item) => (
+          <Link to={item.link} underline="none" color="textPrimary">
+            <ListItem
+              sx={{
+                justifyContent: 'center',
+                p: 1.6,
+              }}
             >
-              {open ? 'Список проектов' : <WindowRounded />}
-            </Button>
-          </ListItem>
-        </Link>
+              <Button
+                fullWidth
+                variant="contained"
+                startIcon={open ? <item.icon /> : null}
+                sx={
+                  open
+                    ? {}
+                    : {
+                        minWidth: 'unset',
+                        p: 0.8,
+                      }
+                }
+              >
+                {open ? <Text mess={item.titleKet} /> : <item.icon />}
+              </Button>
+            </ListItem>
+          </Link>
+        ))}
       </List>
     </Drawer>
   );

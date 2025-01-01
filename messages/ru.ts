@@ -7,5 +7,11 @@ const RU: typeof EN = {
     quick: 'Быстрые Настройки',
   },
   avalableProjectsCount: 'Доступые Проекты {{count}}',
+  projectsList:'Список Проектов',
+  kanban: {
+    toDo: 'Сделать',
+    inProgress: 'В процессе',
+    done: 'готово',
+  },
 };
 export default RU;

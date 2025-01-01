@@ -43,30 +43,6 @@ const ProjectsList = () => {
           ))}
         </Box>
       </Box>
-      {/* <Box
-        gap={2}
-        sx={{
-          flex: 1,
-          overflowY: 'auto',
-        }}
-      >
-        <Stack
-          direction="row"
-          flexWrap="wrap"
-          sx={{
-            gap: 2,
-            overflowY: 'scroll',
-            justifyContent: 'center',
-            p: 1,
-            flex: 1,
-          }}
-          className={scrollbarStyles.default}
-        >
-          {mockData.map((project) => (
-            <ProjectCard key={project.id} {...project} {...CARD_SIZE} />
-          ))}
-        </Stack>
-      </Box> */}
     </>
   );
 };
