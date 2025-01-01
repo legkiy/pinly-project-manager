@@ -1,15 +1,19 @@
 import { Outlet } from 'react-router';
+import { Box } from '@mui/material';
 import { Navbar } from '@/widgets';
-import { Container } from '@mui/material';
+
+const drawerWidth = 230;
 
 const LayoutWithNavbar = () => {
   return (
-    <>
-      <Navbar />
-      <Container>
+    <Box sx={{ display: 'flex' }}>
+      <Navbar width={drawerWidth} />
+
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Outlet />
-      </Container>
-    </>
+      </Box>
+    </Box>
   );
 };
+
 export default LayoutWithNavbar;

@@ -20,7 +20,7 @@ const MuiThemeProvider = (props: Props) => {
 
   const theme = createTheme({
     shape: {
-      borderRadius: 10,
+      borderRadius: 14,
     },
     palette: THEMES_MAP[mode ?? ThemeMode.System],
     typography,
