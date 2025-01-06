@@ -14,6 +14,9 @@ const components: Theme['components'] = {
     },
   },
   MuiButton: {
+    defaultProps: {
+      variant: 'contained',
+    },
     styleOverrides: {
       contained: {
         boxShadow: SHADOWS_MAP.contained,

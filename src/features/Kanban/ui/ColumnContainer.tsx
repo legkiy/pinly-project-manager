@@ -2,10 +2,10 @@ import { Paper } from '@mui/material';
 
 interface Props {
   title: React.ReactNode;
+  // children?: React.ReactNode;
 }
 
-const Column = ({ title }: Props) => {
-
+const ColumnContainer = ({ title }: Props) => {
   return (
     <Paper
       sx={{
@@ -16,4 +16,4 @@ const Column = ({ title }: Props) => {
     </Paper>
   );
 };
-export default Column;
+export default ColumnContainer;

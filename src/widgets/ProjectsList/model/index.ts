@@ -1,7 +1,6 @@
-export type Project = {
-  id: string;
-  title: string;
+import { UniqEntity } from '@/shared/models';
+
+export type Project = UniqEntity & {
   description: string;
-  createdAt: Date;
   image?: string;
 };

@@ -1,8 +1,10 @@
-function createMockData<T>(count: number, callback: (step: number, id: string) => T): T[] {
+export function generateId(index: number = Math.random()) {
+  return (Date.now() + Math.random() * index).toString(36);
+}
+
+export function createMockArray<T>(count: number, callback: (step: number, id: string) => T): T[] {
   return Array.from({ length: count }, (_, i) => {
-    const id = (Date.now() + Math.random() * i).toString(36);
+    const id = generateId(i);
     return callback(i, id);
   });
 }
-
-export default createMockData;

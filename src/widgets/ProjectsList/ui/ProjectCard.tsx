@@ -35,7 +35,7 @@ const ProjectCard = (project: Props) => {
                     textOverflow: 'ellipsis',
                   }}
                 >
-                  {project.title}
+                  {project.name}
                 </Typography>
                 <Typography
                   variant="subtitle1"
@@ -57,7 +57,7 @@ const ProjectCard = (project: Props) => {
               component="img"
               sx={{ width: 150, height: project.height }}
               src="src/widgets/ProjectsList/example.png"
-              alt={`${project.title} image`}
+              alt={`${project.name} image`}
             />
           </Grid2>
         </Grid2>

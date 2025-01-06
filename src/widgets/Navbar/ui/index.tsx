@@ -72,7 +72,7 @@ const Navbar = ({ width }: Props) => {
       </Box>
       <List>
         {NAV_ITEMS_LIST.map((item) => (
-          <Link to={item.link} underline="none" color="textPrimary">
+          <Link to={item.link} underline="none" color="textPrimary" key={item.link}>
             <ListItem
               sx={{
                 justifyContent: 'center',
@@ -92,7 +92,7 @@ const Navbar = ({ width }: Props) => {
                       }
                 }
               >
-                {open ? <Text mess={item.titleKet} /> : <item.icon />}
+                {open ? <Text mess={item.titleKey} /> : <item.icon />}
               </Button>
             </ListItem>
           </Link>

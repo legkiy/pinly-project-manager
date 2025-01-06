@@ -1,4 +1,4 @@
-import { createMockData } from '@/shared/lib';
+import { createMockArray } from '@/shared/lib';
 import { Text } from '@/shared/ui';
 import { Box, Typography } from '@mui/material';
 import { Project } from '../model';
@@ -7,10 +7,10 @@ import ProjectCard from './ProjectCard';
 const CARD_SIZE = { width: 364, height: 166 };
 
 const ProjectsList = () => {
-  const mockData = createMockData<Project>(48, (step, id) => ({
+  const mockData = createMockArray<Project>(48, (step, id) => ({
     id,
     createdAt: new Date(),
-    title: `project ${step}`,
+    name: `project ${step}`,
     description: `description to project ${step}`,
   }));
 
