@@ -9,6 +9,7 @@ export const enum TaskStatus {
 export type Task = UniqEntity & {
   description?: string;
   status: TaskStatus;
+  columnId: string;
 };
 
 export type Column = UniqEntity & {

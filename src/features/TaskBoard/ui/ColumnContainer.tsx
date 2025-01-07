@@ -1,23 +1,18 @@
-import { createMockArray } from '@/shared/lib';
-import { Box, Card, IconButton, Stack, Typography } from '@mui/material';
-import { Column, Task, TaskStatus } from '../model';
-import { RemoveCircleRounded } from '@mui/icons-material';
+import { Box, Button, Card, IconButton, Stack, Typography } from '@mui/material';
+import { Column, Task } from '../model';
+import { AddRounded, RemoveCircleRounded } from '@mui/icons-material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
-const mockTasks = createMockArray<Task>(50, (step, id) => ({
-  id,
-  name: `Task ${step}`,
-  status: TaskStatus.Queue,
-  createdAt: new Date(),
-}));
+import { Text } from '@/shared/ui';
 
 interface Props {
   onDelete: (id: string) => void;
   column: Column;
+  creteTask: (columnId: string) => void;
+  tasks: Task[];
 }
 
-const ColumnContainer = ({ column, onDelete }: Props) => {
+const ColumnContainer = ({ column, onDelete, creteTask, tasks }: Props) => {
   const { isDragging, attributes, setNodeRef, listeners, transition, transform } = useSortable({
     id: column.id,
     data: {
@@ -34,7 +29,7 @@ const ColumnContainer = ({ column, onDelete }: Props) => {
   return (
     <Stack
       ref={setNodeRef}
-      gap={2}
+      gap={1}
       sx={{
         bgcolor: 'background.paper',
         width: 350,
@@ -62,7 +57,7 @@ const ColumnContainer = ({ column, onDelete }: Props) => {
       </Stack>
       <Box
         sx={{
-          height: '100%',
+          // height: '100%',
           overflowY: 'auto',
         }}
       >
@@ -70,14 +65,26 @@ const ColumnContainer = ({ column, onDelete }: Props) => {
           gap={2}
           sx={{
             p: 1,
+            pb: 2,
           }}
         >
-          {mockTasks.map((task) => (
+          {tasks.map((task) => (
             <Card key={task.id}>
               <Typography variant="subtitle1">{task.name}</Typography>
             </Card>
           ))}
         </Stack>
+      </Box>
+      <Box textAlign="center">
+        <Button
+          startIcon={<AddRounded />}
+          onClick={() => creteTask(column.id)}
+          sx={{
+            minWidth: 100,
+          }}
+        >
+          <Text mess="Add" />
+        </Button>
       </Box>
     </Stack>
   );

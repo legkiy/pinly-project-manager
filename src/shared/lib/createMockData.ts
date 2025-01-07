@@ -1,7 +1,7 @@
 /**
  * Generate id key by date
  */
-export function generateId(index: number = Math.random()) {
+export function generateId(index: number = Math.random() * 100) {
   return (Date.now() + Math.random() * index).toString(36);
 }
 

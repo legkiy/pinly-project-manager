@@ -10,29 +10,44 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { Task } from '../model';
+import { Task, TaskStatus } from '../model';
 import { Fragment, useMemo, useState } from 'react';
 import ColumnContainer from './ColumnContainer';
 import { SortableContext } from '@dnd-kit/sortable';
 import { UniqEntity } from '@/shared/models';
 import { createPortal } from 'react-dom';
 import { useTaskBoard } from '../lib';
+import { generateId } from '@/shared/lib';
 
 const TaskBoard = () => {
-  const { createColumn, deleteColumn, moveColumn, columns } = useTaskBoard();
-
-  const columnsIds = useMemo(() => columns.map((column) => column.id), [columns]);
-
-  const [activeColumn, setActiveColumn] = useState<UniqEntity | null>(null);
-
-  const [activeItem, setActiveItem] = useState<Task | null>(null);
-
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
-      distance: 0.1,
+      distance: 1,
     },
   });
   const sensors = useSensors(pointerSensor);
+
+  const { createColumn, deleteColumn, moveColumn, columns } = useTaskBoard();
+
+  const columnsIds = useMemo(() => columns.map((column) => column.id), [columns]);
+  const [activeColumn, setActiveColumn] = useState<UniqEntity | null>(null);
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const [activeItem, setActiveItem] = useState<Task | null>(null);
+
+  const handleOnCreateTask = (columnId: string) => {
+    const newTask: Task = {
+      id: generateId(),
+      columnId,
+      createdAt: new Date(),
+      name: `Task №${tasks.length + 1}`,
+      description: `Task description №${tasks.length + 1}`,
+      status: TaskStatus.Queue,
+    };
+
+    setTasks((prev) => [...prev, newTask]);
+  };
 
   const onDragStart = (event: DragStartEvent) => {
     if (event.active.data?.current?.type === 'column') {
@@ -72,7 +87,12 @@ const TaskBoard = () => {
         <SortableContext items={columnsIds}>
           {columns.map((column, index) => (
             <Fragment key={column.id}>
-              <ColumnContainer column={column} onDelete={deleteColumn} />
+              <ColumnContainer
+                column={column}
+                onDelete={deleteColumn}
+                creteTask={handleOnCreateTask}
+                tasks={tasks.filter((task) => task.columnId === column.id)}
+              />
               {columns.length - 1 !== index && <Divider orientation="vertical" flexItem />}
             </Fragment>
           ))}
@@ -88,7 +108,16 @@ const TaskBoard = () => {
         </Button>
       </Stack>
       {createPortal(
-        <DragOverlay>{activeColumn && <ColumnContainer column={activeColumn} onDelete={deleteColumn} />}</DragOverlay>,
+        <DragOverlay>
+          {activeColumn && (
+            <ColumnContainer
+              column={activeColumn}
+              onDelete={deleteColumn}
+              creteTask={handleOnCreateTask}
+              tasks={tasks.filter((task) => task.columnId === activeColumn.id)}
+            />
+          )}
+        </DragOverlay>,
         document.body
       )}
     </DndContext>
