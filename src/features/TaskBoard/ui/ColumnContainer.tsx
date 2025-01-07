@@ -1,10 +1,9 @@
 import { createMockArray } from '@/shared/lib';
 import { Box, Card, IconButton, Stack, Typography } from '@mui/material';
-import { Task, TaskStatus } from '../model';
+import { Column, Task, TaskStatus } from '../model';
 import { RemoveCircleRounded } from '@mui/icons-material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { UniqEntity } from '@/shared/models';
 
 const mockTasks = createMockArray<Task>(50, (step, id) => ({
   id,
@@ -15,7 +14,7 @@ const mockTasks = createMockArray<Task>(50, (step, id) => ({
 
 interface Props {
   onDelete: (id: string) => void;
-  column: UniqEntity;
+  column: Column;
 }
 
 const ColumnContainer = ({ column, onDelete }: Props) => {

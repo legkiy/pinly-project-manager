@@ -11,4 +11,6 @@ export type Task = UniqEntity & {
   status: TaskStatus;
 };
 
-export type Column = UniqEntity & {};
+export type Column = UniqEntity & {
+  countOfTasks?: number;
+};

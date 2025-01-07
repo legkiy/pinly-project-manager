@@ -1,4 +1,4 @@
-import { Kanban } from '@/features';
+import { TaskBoard } from '@/features';
 import { Text } from '@/shared/ui';
 import { Stack, Typography } from '@mui/material';
 
@@ -8,7 +8,7 @@ const ProjectIdPage = () => {
       <Typography>
         <Text mess="kanban.title" />
       </Typography>
-      <Kanban />
+      <TaskBoard />
     </Stack>
   );
 };

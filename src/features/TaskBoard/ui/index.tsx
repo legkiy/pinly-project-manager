@@ -10,16 +10,17 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { generateId } from '@/shared/lib';
-import { Column, Task } from '../model';
+import { Task } from '../model';
 import { Fragment, useMemo, useState } from 'react';
 import ColumnContainer from './ColumnContainer';
-import { arrayMove, SortableContext } from '@dnd-kit/sortable';
+import { SortableContext } from '@dnd-kit/sortable';
 import { UniqEntity } from '@/shared/models';
 import { createPortal } from 'react-dom';
+import { useTaskBoard } from '../lib';
 
-const Kanban = () => {
-  const [columns, setColumns] = useState<Column[]>([]);
+const TaskBoard = () => {
+  const { createColumn, deleteColumn, moveColumn, columns } = useTaskBoard();
+
   const columnsIds = useMemo(() => columns.map((column) => column.id), [columns]);
 
   const [activeColumn, setActiveColumn] = useState<UniqEntity | null>(null);
@@ -32,21 +33,6 @@ const Kanban = () => {
     },
   });
   const sensors = useSensors(pointerSensor);
-
-  const createNewColumn = () => {
-    const newColumn: Column = {
-      id: generateId(),
-      createdAt: new Date(),
-      name: `new column ${columns.length + 1}`,
-    };
-
-    setColumns((prev) => [...prev, newColumn]);
-  };
-
-  const handleOnDeleteColumn = (id: string) => {
-    const filtredColumns = columns.filter((column) => column.id !== id);
-    setColumns(filtredColumns);
-  };
 
   const onDragStart = (event: DragStartEvent) => {
     if (event.active.data?.current?.type === 'column') {
@@ -64,12 +50,8 @@ const Kanban = () => {
     const overColumnId = over.id;
 
     if (activeColumnId === overColumnId) return;
-    setColumns((prev) => {
-      const activeColumnIndex = prev.findIndex((column) => column.id === activeColumnId);
-      const overColumnIndex = prev.findIndex((column) => column.id === overColumnId);
 
-      return arrayMove(prev, activeColumnIndex, overColumnIndex);
-    });
+    moveColumn(activeColumnId, overColumnId);
 
     setActiveColumn(null);
   };
@@ -90,14 +72,14 @@ const Kanban = () => {
         <SortableContext items={columnsIds}>
           {columns.map((column, index) => (
             <Fragment key={column.id}>
-              <ColumnContainer column={column} onDelete={handleOnDeleteColumn} />
+              <ColumnContainer column={column} onDelete={deleteColumn} />
               {columns.length - 1 !== index && <Divider orientation="vertical" flexItem />}
             </Fragment>
           ))}
         </SortableContext>
         <Button
           startIcon={<AddRounded />}
-          onClick={createNewColumn}
+          onClick={createColumn}
           sx={{
             minWidth: 100,
           }}
@@ -106,12 +88,10 @@ const Kanban = () => {
         </Button>
       </Stack>
       {createPortal(
-        <DragOverlay>
-          {activeColumn && <ColumnContainer column={activeColumn} onDelete={handleOnDeleteColumn} />}
-        </DragOverlay>,
+        <DragOverlay>{activeColumn && <ColumnContainer column={activeColumn} onDelete={deleteColumn} />}</DragOverlay>,
         document.body
       )}
     </DndContext>
   );
 };
-export default Kanban;
+export default TaskBoard;
