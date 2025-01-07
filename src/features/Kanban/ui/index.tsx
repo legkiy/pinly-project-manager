@@ -1,61 +1,37 @@
-import { Button, Stack } from '@mui/material';
+import { Button, Divider, Stack } from '@mui/material';
 import { Text } from '@/shared/ui';
 import AddRounded from '@mui/icons-material/AddRounded';
 import {
-  closestCenter,
   DndContext,
   DragEndEvent,
   DragOverlay,
+  DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { createMockArray, generateId } from '@/shared/lib';
-import { Column, Task, TaskStatus } from '../model';
-import DnDItem from './DnDItem';
-import { useCallback, useState } from 'react';
+import { generateId } from '@/shared/lib';
+import { Column, Task } from '../model';
+import { Fragment, useMemo, useState } from 'react';
 import ColumnContainer from './ColumnContainer';
-
-const mockTasks = createMockArray<Task>(10, (step, id) => ({
-  id,
-  name: `Task ${step}`,
-  status: TaskStatus.Queue,
-  createdAt: new Date(),
-}));
+import { arrayMove, SortableContext } from '@dnd-kit/sortable';
+import { UniqEntity } from '@/shared/models';
+import { createPortal } from 'react-dom';
 
 const Kanban = () => {
   const [columns, setColumns] = useState<Column[]>([]);
+  const columnsIds = useMemo(() => columns.map((column) => column.id), [columns]);
+
+  const [activeColumn, setActiveColumn] = useState<UniqEntity | null>(null);
 
   const [activeItem, setActiveItem] = useState<Task | null>(null);
 
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
-      distance: 0.01,
+      distance: 0.1,
     },
   });
   const sensors = useSensors(pointerSensor);
-
-  const handleDragStart = (event: any) => {
-    console.log(event);
-  };
-
-  const handleDragEnd = useCallback(
-    ({ active, over }: DragEndEvent) => {
-      // const itemId = activeItemId;
-
-      setActiveItem(null);
-
-      if (!over || active.id === over.id) {
-        return;
-      }
-
-      const index = mockTasks.findIndex((item) => item.id);
-
-      // onChange(active.id, { index })
-    },
-    [activeItem, mockTasks]
-  );
 
   const createNewColumn = () => {
     const newColumn: Column = {
@@ -67,50 +43,75 @@ const Kanban = () => {
     setColumns((prev) => [...prev, newColumn]);
   };
 
-  console.log(columns);
+  const handleOnDeleteColumn = (id: string) => {
+    const filtredColumns = columns.filter((column) => column.id !== id);
+    setColumns(filtredColumns);
+  };
+
+  const onDragStart = (event: DragStartEvent) => {
+    if (event.active.data?.current?.type === 'column') {
+      setActiveColumn(event.active.data?.current?.item);
+      return;
+    }
+  };
+
+  const onDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    const activeColumnId = active.id;
+    const overColumnId = over.id;
+
+    if (activeColumnId === overColumnId) return;
+    setColumns((prev) => {
+      const activeColumnIndex = prev.findIndex((column) => column.id === activeColumnId);
+      const overColumnIndex = prev.findIndex((column) => column.id === overColumnId);
+
+      return arrayMove(prev, activeColumnIndex, overColumnIndex);
+    });
+
+    setActiveColumn(null);
+  };
 
   return (
-    <Stack
-      direction="row"
-      gap={2}
-      sx={{
-        outline: '1px solid black',
-        overflowY: 'hidden',
-        overflowX: 'scroll',
-      }}
-    >
-      {/* <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={(event) => handleDragStart(event)}
-        onDragEnd={handleDragEnd}
-        onDragCancel={() => setActiveItem(null)}
+    <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd} sensors={sensors}>
+      <Stack
+        direction="row"
+        gap={1}
+        sx={{
+          outline: '1px solid grey',
+          overflowY: 'hidden',
+          overflowX: 'auto',
+          height: '100%',
+          alignItems: 'flex-start',
+        }}
       >
-        <SortableContext items={mockTasks.map((item) => item.id)} strategy={verticalListSortingStrategy}>
-          {mockTasks.map((item) => (
-            <DnDItem {...item} />
+        <SortableContext items={columnsIds}>
+          {columns.map((column, index) => (
+            <Fragment key={column.id}>
+              <ColumnContainer column={column} onDelete={handleOnDeleteColumn} />
+              {columns.length - 1 !== index && <Divider orientation="vertical" flexItem />}
+            </Fragment>
           ))}
         </SortableContext>
+        <Button
+          startIcon={<AddRounded />}
+          onClick={createNewColumn}
+          sx={{
+            minWidth: 100,
+          }}
+        >
+          <Text mess="Add" />
+        </Button>
+      </Stack>
+      {createPortal(
         <DragOverlay>
-          {activeItem
-            ? renderItem({
-                item: shouldBePresent(items.find((item) => getItemId(item) === activeItem)),
-                status: 'overlay',
-              })
-              <DnDItem />
-            : null}
-        </DragOverlay>
-      </DndContext> */}
-      {/* <Column title={<Text mess="kanban.toDo" />} />
-      <Column title={<Text mess="kanban.inProgress" />} />
-      <Column title={<Text mess="kanban.done" />} /> */}
-      {columns.map((column) => (
-        <ColumnContainer key={column.id} title={column.name} />
-      ))}
-      <Button startIcon={<AddRounded />} onClick={createNewColumn}>
-        <Text mess="Add" />
-      </Button>
-    </Stack>
+          {activeColumn && <ColumnContainer column={activeColumn} onDelete={handleOnDeleteColumn} />}
+        </DragOverlay>,
+        document.body
+      )}
+    </DndContext>
   );
 };
 export default Kanban;

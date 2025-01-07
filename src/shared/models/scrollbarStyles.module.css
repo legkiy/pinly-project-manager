@@ -9,6 +9,7 @@
 .default::-webkit-scrollbar {
   background-color: #ffffff00;
   width: 6px;
+  height: 6px;
 }
 .default::-webkit-scrollbar-track {
   background-color: #ffffff00;

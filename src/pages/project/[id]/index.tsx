@@ -1,12 +1,15 @@
 import { Kanban } from '@/features';
-import { Box } from '@mui/material';
+import { Text } from '@/shared/ui';
+import { Stack, Typography } from '@mui/material';
 
 const ProjectIdPage = () => {
   return (
-    <Box>
-      ProjectIdPage
+    <Stack gap={1} height="100%">
+      <Typography>
+        <Text mess="kanban.title" />
+      </Typography>
       <Kanban />
-    </Box>
+    </Stack>
   );
 };
 export default ProjectIdPage;
