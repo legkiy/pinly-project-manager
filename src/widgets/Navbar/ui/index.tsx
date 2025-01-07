@@ -1,34 +1,13 @@
 import { Link, Text } from '@/shared/ui';
-import { Box, Button, CSSObject, Drawer, IconButton, List, ListItem, Theme, useTheme } from '@mui/material';
+import { Box, Button, Drawer, IconButton, List, ListItem, useTheme } from '@mui/material';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
-import { NAV_ITEMS_LIST } from '../lib';
+import { closedMixin, NAV_ITEMS_LIST, openedMixin } from '../lib';
 
 interface Props {
   width: number;
 }
-
-const openedMixin = (theme: Theme, width: number): CSSObject => ({
-  width,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
 
 const Navbar = ({ width }: Props) => {
   const [open, setOpen] = useState(false);

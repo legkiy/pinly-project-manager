@@ -8,3 +8,5 @@ export const NAV_ITEMS_LIST = [
     icon: WindowRounded,
   },
 ];
+
+export { closedMixin, openedMixin } from './mixins';
