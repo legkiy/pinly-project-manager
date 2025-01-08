@@ -1,11 +1,12 @@
 import { create } from 'zustand';
-import { Column } from '../model';
+import { Column, Task } from '../model';
 import { generateId } from '@/shared/lib';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 
 type State = {
   columns: Column[];
+  tasks: Task[];
 };
 
 type Actions = {
@@ -18,9 +19,10 @@ type Store = State & Actions;
 
 const initState: State = {
   columns: [],
+  tasks: [],
 };
 
-const useTaskBoard = create<Store>((set) => ({
+const useTaskBoard = create<Store>((set, get) => ({
   ...initState,
   createColumn: () => {
     set((prev) => {
@@ -34,20 +36,19 @@ const useTaskBoard = create<Store>((set) => ({
       };
     });
   },
-  deleteColumn: (id) =>
-    set((prev) => {
-      const filtredColumns = prev.columns.filter((column) => column.id !== id);
-      console.log('filtredColumns', filtredColumns);
+  deleteColumn: (id) => {
+    const newTasks = get().tasks.filter((task) => task.columnId !== id);
+    const filtredColumns = get().columns.filter((column) => column.id !== id);
 
-      return { columns: filtredColumns };
-    }),
-  moveColumn: (activeColumnId, overColumnId) =>
-    set((prev) => {
-      const activeColumnIndex = prev.columns.findIndex((column) => column.id === activeColumnId);
-      const overColumnIndex = prev.columns.findIndex((column) => column.id === overColumnId);
+    set({ columns: filtredColumns, tasks: newTasks });
+  },
+  moveColumn: (activeColumnId, overColumnId) => {
+    const columns = get().columns;
+    const activeColumnIndex = columns.findIndex((column) => column.id === activeColumnId);
+    const overColumnIndex = columns.findIndex((column) => column.id === overColumnId);
 
-      return { columns: arrayMove(prev.columns, activeColumnIndex, overColumnIndex) };
-    }),
+    set({ columns: arrayMove(columns, activeColumnIndex, overColumnIndex) });
+  },
 }));
 
 export default useTaskBoard;

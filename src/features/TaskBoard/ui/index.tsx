@@ -4,20 +4,24 @@ import AddRounded from '@mui/icons-material/AddRounded';
 import {
   DndContext,
   DragEndEvent,
+  DragOverEvent,
   DragOverlay,
   DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { Task, TaskStatus } from '../model';
+import { DnDItemType, Task, TaskStatus } from '../model';
 import { Fragment, useMemo, useState } from 'react';
 import ColumnContainer from './ColumnContainer';
-import { SortableContext } from '@dnd-kit/sortable';
+import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { UniqEntity } from '@/shared/models';
 import { createPortal } from 'react-dom';
 import { useTaskBoard } from '../lib';
 import { generateId } from '@/shared/lib';
+import TaskDnDCard from './TaskDnDCard';
+
+// TODO: move task actions in store
 
 const TaskBoard = () => {
   const pointerSensor = useSensor(PointerSensor, {
@@ -34,7 +38,65 @@ const TaskBoard = () => {
 
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const [activeItem, setActiveItem] = useState<Task | null>(null);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+
+  const onDragStart = (event: DragStartEvent) => {
+    if (event.active.data?.current?.type === DnDItemType.Column) {
+      setActiveColumn(event.active.data?.current?.item);
+      return;
+    }
+    if (event.active.data?.current?.type === DnDItemType.Task) {
+      setActiveTask(event.active.data?.current?.item);
+      return;
+    }
+  };
+
+  const onDragEnd = (event: DragEndEvent) => {
+    setActiveColumn(null);
+    setActiveTask(null);
+    const { active, over } = event;
+
+    if (!over) return;
+
+    if (active.id === over.id) return;
+
+    moveColumn(active.id, over.id);
+  };
+
+  const onDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    if (active.id === over.id) return;
+
+    const isActiveTask = active.data.current?.type === DnDItemType.Task;
+    if (!isActiveTask) return;
+
+    const isOverTask = over.data.current?.type === DnDItemType.Task;
+
+    // Task over another Task
+    if (isOverTask) {
+      setTasks((prev) => {
+        const activeIndex = prev.findIndex((task) => task.id === active.id);
+        const overIndex = prev.findIndex((task) => task.id === over.id);
+        prev[activeIndex].columnId = prev[overIndex].columnId;
+
+        return arrayMove(tasks, activeIndex, overIndex);
+      });
+    }
+
+    const isOverColumn = over.data.current?.type === DnDItemType.Column;
+    // Task over column
+    if (isOverColumn) {
+      setTasks((prev) => {
+        const activeIndex = prev.findIndex((task) => task.id === active.id);
+        prev[activeIndex].columnId = over.id as string;
+
+        return arrayMove(tasks, activeIndex, activeIndex);
+      });
+    }
+  };
 
   const handleOnCreateTask = (columnId: string) => {
     const newTask: Task = {
@@ -49,33 +111,15 @@ const TaskBoard = () => {
     setTasks((prev) => [...prev, newTask]);
   };
 
-  const onDragStart = (event: DragStartEvent) => {
-    if (event.active.data?.current?.type === 'column') {
-      setActiveColumn(event.active.data?.current?.item);
-      return;
-    }
-  };
-
-  const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (!over) return;
-
-    const activeColumnId = active.id;
-    const overColumnId = over.id;
-
-    if (activeColumnId === overColumnId) return;
-
-    moveColumn(activeColumnId, overColumnId);
-
-    setActiveColumn(null);
+  const handleDeleteTask = (id: string) => {
+    const filtredTasks = tasks.filter((task) => task.id !== id);
+    setTasks(filtredTasks);
   };
 
   return (
-    <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd} sensors={sensors}>
+    <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}>
       <Stack
         direction="row"
-        gap={1}
         sx={{
           outline: '1px solid grey',
           overflowY: 'hidden',
@@ -92,6 +136,7 @@ const TaskBoard = () => {
                 onDelete={deleteColumn}
                 creteTask={handleOnCreateTask}
                 tasks={tasks.filter((task) => task.columnId === column.id)}
+                onDeleteTask={handleDeleteTask}
               />
               {columns.length - 1 !== index && <Divider orientation="vertical" flexItem />}
             </Fragment>
@@ -115,8 +160,10 @@ const TaskBoard = () => {
               onDelete={deleteColumn}
               creteTask={handleOnCreateTask}
               tasks={tasks.filter((task) => task.columnId === activeColumn.id)}
+              onDeleteTask={handleDeleteTask}
             />
           )}
+          {activeTask && <TaskDnDCard task={activeTask} onDelete={deleteColumn} />}
         </DragOverlay>,
         document.body
       )}

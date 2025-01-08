@@ -4,10 +4,10 @@ import { Box, Typography } from '@mui/material';
 import { Project } from '../model';
 import ProjectCard from './ProjectCard';
 
-const CARD_SIZE = { width: 364, height: 166 };
+const CARD_SIZE = { width: 364, height: 204 };
 
 const ProjectsList = () => {
-  const mockData = createMockArray<Project>(48, (step, id) => ({
+  const mockData = createMockArray<Project>(6, (step, id) => ({
     id,
     createdAt: new Date(),
     name: `project ${step}`,
@@ -35,7 +35,7 @@ const ProjectsList = () => {
           sx={{
             display: 'grid',
             gap: 2,
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(calc(50% - 16px), 1fr))',
           }}
         >
           {mockData.map((project) => (

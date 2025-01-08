@@ -15,15 +15,14 @@ const ProjectCard = (project: Props) => {
       <Card
         elevation={0}
         sx={{
-          height: project.height,
-          width: project.width,
+          aspectRatio: 16 / 9,
           cursor: 'pointer',
           ':hover': {
             scale: 1.02,
           },
         }}
       >
-        <Grid2 container>
+        <Grid2 container height="100%">
           <Grid2 size={8}>
             <CardContent>
               <Box>
@@ -55,7 +54,7 @@ const ProjectCard = (project: Props) => {
           <Grid2 size={4}>
             <CardMedia
               component="img"
-              sx={{ width: 150, height: project.height }}
+              sx={{ width: '100%', height: '100%' }}
               src="src/widgets/ProjectsList/example.png"
               alt={`${project.name} image`}
             />

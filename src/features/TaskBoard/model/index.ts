@@ -6,6 +6,11 @@ export const enum TaskStatus {
   Done = 'done',
 }
 
+export const enum DnDItemType {
+  Task = 'task',
+  Column = 'column',
+}
+
 export type Task = UniqEntity & {
   description?: string;
   status: TaskStatus;
