@@ -5,9 +5,10 @@ const RU: typeof EN = {
   settings: {
     title: 'Настройки',
     quick: 'Быстрые Настройки',
+    pageWhenOpened: 'Страница при открытии',
   },
   avalableProjectsCount: 'Доступые Проекты {{count}}',
-  projectsList:'Список Проектов',
+  projectsList: 'Список Проектов',
   kanban: {
     toDo: 'Сделать',
     inProgress: 'В процессе',

@@ -1,4 +1,3 @@
-import { createMockArray } from '@/shared/lib';
 import { Text } from '@/shared/ui';
 import { Box, Typography } from '@mui/material';
 import { Project } from '../model';
@@ -6,14 +5,11 @@ import ProjectCard from './ProjectCard';
 
 const CARD_SIZE = { width: 364, height: 204 };
 
-const ProjectsList = () => {
-  const mockData = createMockArray<Project>(6, (step, id) => ({
-    id,
-    createdAt: new Date(),
-    name: `project ${step}`,
-    description: `description to project ${step}`,
-  }));
+interface Props {
+  projects: Project[];
+}
 
+const ProjectsList = ({ projects }: Props) => {
   return (
     <>
       <Typography
@@ -22,7 +18,7 @@ const ProjectsList = () => {
           mx: 1,
         }}
       >
-        <Text mess="avalableProjectsCount" options={{ count: mockData.length }} />
+        <Text mess="avalableProjectsCount" options={{ count: projects.length }} />
       </Typography>
       <Box
         sx={{
@@ -38,7 +34,7 @@ const ProjectsList = () => {
             gridTemplateColumns: 'repeat(auto-fit, minmax(calc(50% - 16px), 1fr))',
           }}
         >
-          {mockData.map((project) => (
+          {projects.map((project) => (
             <ProjectCard key={project.id} {...project} {...CARD_SIZE} />
           ))}
         </Box>

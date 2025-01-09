@@ -3,6 +3,7 @@ const EN = {
   settings: {
     title: 'Settings',
     quick: 'Quick Setting',
+    pageWhenOpened: 'Page when opened',
   },
   avalableProjectsCount: 'Available Projects {{count}}',
   projectsList: 'Projects List',
