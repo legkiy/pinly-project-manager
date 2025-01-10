@@ -59,8 +59,9 @@ const TaskBoard = () => {
     if (!over) return;
 
     if (active.id === over.id) return;
-
-    moveColumn(active.id, over.id);
+    if (active.data.current?.type === DnDItemType.Column) {
+      moveColumn(active.id, over.id);
+    }
   };
 
   const onDragOver = (event: DragOverEvent) => {

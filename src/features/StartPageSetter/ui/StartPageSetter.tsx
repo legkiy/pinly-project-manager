@@ -1,29 +1,35 @@
 import { Text } from '@/shared/ui';
 import { Project } from '@/widgets/ProjectsList/model';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { useState } from 'react';
+import { useStartPageSetter } from '../lib';
+import { routerService } from '@/shared/lib';
 
 interface Props {
   projects: Project[];
 }
 
 const StartPageSetter = ({ projects }: Props) => {
-  const [defaultPage, setDefaultPage] = useState<string>('/');
+  const { setStartPage, startPage } = useStartPageSetter();
+
   const handleChange = (event: SelectChangeEvent) => {
-    setDefaultPage(event.target.value);
+    setStartPage(event.target.value);
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl
+      sx={{
+        minWidth: 200,
+      }}
+    >
       <InputLabel>
         <Text mess="settings.pageWhenOpened" />
       </InputLabel>
-      <Select onChange={handleChange} label={<Text mess="settings.pageWhenOpened" />} value={defaultPage}>
+      <Select onChange={handleChange} label={<Text mess="settings.pageWhenOpened" />} value={startPage}>
         <MenuItem value="/">
           <Text mess="projectsList" />
         </MenuItem>
         {projects.map((project) => (
-          <MenuItem key={project.id} value={project.id}>
+          <MenuItem key={project.id} value={routerService.project.slug(project.id)}>
             {project.name}
           </MenuItem>
         ))}
