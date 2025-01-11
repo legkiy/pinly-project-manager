@@ -17,7 +17,7 @@ import ColumnContainer from './ColumnContainer';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { UniqEntity } from '@/shared/models';
 import { createPortal } from 'react-dom';
-import { useTaskBoard } from '../lib';
+import { checkDragItemType, useTaskBoard } from '../lib';
 import { generateId } from '@/shared/lib';
 import TaskDnDCard from './TaskDnDCard';
 
@@ -37,16 +37,15 @@ const TaskBoard = () => {
   const [activeColumn, setActiveColumn] = useState<UniqEntity | null>(null);
 
   const [tasks, setTasks] = useState<Task[]>([]);
-
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
-  const onDragStart = (event: DragStartEvent) => {
-    if (event.active.data?.current?.type === DnDItemType.Column) {
-      setActiveColumn(event.active.data?.current?.item);
+  const onDragStart = ({ active }: DragStartEvent) => {
+    if (checkDragItemType(active, DnDItemType.Column)) {
+      setActiveColumn(active.data?.current?.item);
       return;
     }
-    if (event.active.data?.current?.type === DnDItemType.Task) {
-      setActiveTask(event.active.data?.current?.item);
+    if (checkDragItemType(active, DnDItemType.Task)) {
+      setActiveTask(active.data?.current?.item);
       return;
     }
   };
@@ -59,8 +58,9 @@ const TaskBoard = () => {
     if (!over) return;
 
     if (active.id === over.id) return;
-
-    moveColumn(active.id, over.id);
+    if (checkDragItemType(active, DnDItemType.Column)) {
+      moveColumn(active.id, over.id);
+    }
   };
 
   const onDragOver = (event: DragOverEvent) => {
@@ -70,13 +70,10 @@ const TaskBoard = () => {
 
     if (active.id === over.id) return;
 
-    const isActiveTask = active.data.current?.type === DnDItemType.Task;
-    if (!isActiveTask) return;
-
-    const isOverTask = over.data.current?.type === DnDItemType.Task;
+    if (!checkDragItemType(active, DnDItemType.Task)) return;
 
     // Task over another Task
-    if (isOverTask) {
+    if (checkDragItemType(over, DnDItemType.Task)) {
       setTasks((prev) => {
         const activeIndex = prev.findIndex((task) => task.id === active.id);
         const overIndex = prev.findIndex((task) => task.id === over.id);
@@ -86,9 +83,8 @@ const TaskBoard = () => {
       });
     }
 
-    const isOverColumn = over.data.current?.type === DnDItemType.Column;
     // Task over column
-    if (isOverColumn) {
+    if (checkDragItemType(over, DnDItemType.Column)) {
       setTasks((prev) => {
         const activeIndex = prev.findIndex((task) => task.id === active.id);
         prev[activeIndex].columnId = over.id as string;

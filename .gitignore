@@ -9,7 +9,6 @@ lerna-debug.log*
 
 node_modules
 dist*
-pre-dist
 dist-ssr
 *.local
 /create-scripts/dist
@@ -24,4 +23,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-*.png
