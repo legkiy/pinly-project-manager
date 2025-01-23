@@ -1,8 +1,10 @@
-import { Box, Card, CardContent, CardMedia, Grid2, Typography } from '@mui/material';
-import { Project } from '../model';
+import { Box, Card, CardActions, CardContent, CardMedia, Grid2, IconButton, Typography } from '@mui/material';
 import { memo } from 'react';
 import { routerService } from '@/shared/lib';
 import { Link } from '@/shared/ui';
+import { Project } from '@/shared/models';
+import { useProjectStore } from '@/entities/Project';
+import { RemoveCircleRounded } from '@mui/icons-material';
 
 interface Props extends Project {
   height: number;
@@ -10,6 +12,14 @@ interface Props extends Project {
 }
 
 const ProjectCard = (project: Props) => {
+  const { removeProject } = useProjectStore();
+
+  const handleRemove = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    event.preventDefault();
+    removeProject(project.id);
+  };
+
   return (
     <Link to={routerService.project.slug(project.id)} underline="none">
       <Card
@@ -54,11 +64,16 @@ const ProjectCard = (project: Props) => {
           <Grid2 size={4}>
             <CardMedia
               component="img"
-              sx={{ width: '100%', height: '100%' }}
-              src="src/widgets/ProjectsList/example.png"
+              sx={{ width: '100%', height: '100%', bgcolor: 'divider' }}
+              src="/img/placeholder.avif"
               alt={`${project.name} image`}
             />
           </Grid2>
+          <CardActions>
+            <IconButton onClick={handleRemove}>
+              <RemoveCircleRounded />
+            </IconButton>
+          </CardActions>
         </Grid2>
       </Card>
     </Link>

@@ -1,8 +1,9 @@
+import { TOptions } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 interface TextProps {
   mess: string;
-  options?: Record<string, string | number>;
+  options?: TOptions;
 }
 
 const Text = ({ mess, options }: TextProps) => {

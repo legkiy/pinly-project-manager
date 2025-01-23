@@ -5,3 +5,5 @@ export type UniqEntity = {
   name: string;
   createdAt: Date;
 };
+
+export * from './project';

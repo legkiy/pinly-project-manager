@@ -1,9 +1,9 @@
 import { createMockArray } from '@/shared/lib';
+import { Project } from '@/shared/models';
 import { ProjectsList, QuickSettings } from '@/widgets';
-import { Project } from '@/widgets/ProjectsList/model';
 import { Container, Stack } from '@mui/material';
 
-const mockData = createMockArray<Project>(6, (step, id) => ({
+const mockData = createMockArray<Project>(4, (step, id) => ({
   id,
   createdAt: new Date(),
   name: `project ${step}`,
