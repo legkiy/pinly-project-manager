@@ -1,6 +1,6 @@
-import { Project } from '@/shared/models';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { Project } from '../model';
 
 type State = {
   projectsList: Project[];

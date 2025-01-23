@@ -8,4 +8,7 @@ export interface CreateProjectDTO {
 export const createSchema = z.object({
   name: z.string().min(4, 'errors.required'),
   description: z.string().optional(),
+  columns:z.array(z.object({
+    
+  }))
 });

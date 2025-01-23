@@ -1,8 +1,9 @@
 import { create } from 'zustand';
-import { Column, Task } from '../model';
+import { Column } from '../model';
 import { generateId } from '@/shared/lib';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
+import { Task } from '@/entities/Task';
 
 type State = {
   columns: Column[];

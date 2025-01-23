@@ -3,8 +3,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Box } from '@mui/material';
 import { DnDItemType } from '../model';
 import { memo } from 'react';
-import { TaskCard } from '@/entities/Task';
-import { Task } from '@/shared/models';
+import { TaskCard, Task } from '@/entities/Task';
 
 interface Props {
   task: Task;

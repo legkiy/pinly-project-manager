@@ -2,7 +2,7 @@ import { Text } from '@/shared/ui';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useStartPageSetter } from '../lib';
 import { routerService } from '@/shared/lib';
-import { Project } from '@/shared/models';
+import { Project } from '@/entities/Project';
 
 interface Props {
   projects: Project[];

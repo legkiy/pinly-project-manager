@@ -1,11 +1,12 @@
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
-import { Column, DnDItemType, Task } from '../model';
+import { Column, DnDItemType } from '../model';
 import { AddRounded, RemoveCircleRounded } from '@mui/icons-material';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Text } from '@/shared/ui';
 import TaskDnDCard from './TaskDnDCard';
 import { useMemo } from 'react';
+import { Task } from '@/entities/Task';
 
 interface Props {
   onDelete: (id: string) => void;

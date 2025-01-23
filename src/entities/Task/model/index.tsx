@@ -1,4 +1,4 @@
-import { UniqEntity } from './common';
+import { UniqEntity } from '@/shared/models';
 
 export const enum TaskStatus {
   Queue = 'queue',

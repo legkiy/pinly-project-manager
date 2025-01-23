@@ -15,11 +15,12 @@ import { DnDItemType } from '../model';
 import { Fragment, useMemo, useState } from 'react';
 import ColumnContainer from './ColumnContainer';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
-import { Task, TaskStatus, UniqEntity } from '@/shared/models';
+import { UniqEntity } from '@/shared/models';
 import { createPortal } from 'react-dom';
 import { checkDragItemType, useTaskBoard } from '../lib';
 import { generateId } from '@/shared/lib';
 import TaskDnDCard from './TaskDnDCard';
+import { Task, TaskStatus } from '@/entities/Task';
 
 // TODO: move task actions in store
 

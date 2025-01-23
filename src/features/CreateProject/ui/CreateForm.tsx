@@ -4,8 +4,8 @@ import { CreateProjectDTO, createSchema } from '../model';
 import { SubmitBtns, Text } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useProjectStore } from '@/entities/Project';
-import { Project } from '@/shared/models';
 import { generateId } from '@/shared/lib';
+import { Project } from '@/entities/Project';
 
 interface Props {
   onCancel: () => void;
