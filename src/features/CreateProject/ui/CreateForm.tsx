@@ -4,8 +4,11 @@ import { CreateProjectDTO, createSchema } from '../model';
 import { SubmitBtns, Text } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useProjectStore } from '@/entities/Project';
-import { generateId } from '@/shared/lib';
-import { Project } from '@/entities/Project';
+import { routerService } from '@/shared/lib';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import { createProjectByDto } from '../lib';
+import CreateColumnsArray from './CreateColumnsArray';
 
 interface Props {
   onCancel: () => void;
@@ -13,19 +16,22 @@ interface Props {
 }
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const { addProject } = useProjectStore();
+
   const methods = useForm<CreateProjectDTO>({
     resolver: zodResolver(createSchema),
+    defaultValues: {
+      columns: [{ name: t('kanban.toDo') }, { name: t('kanban.inProgress') }, { name: t('kanban.done') }],
+    },
   });
 
   const handleOnSubmit = (data: CreateProjectDTO) => {
-    const newProject: Project = {
-      ...data,
-      id: generateId(),
-      createdAt: new Date(),
-    };
+    const newProject = createProjectByDto(data);
     addProject(newProject);
     onSubmit();
+    navigate(routerService.project.slug(newProject.id));
   };
 
   return (
@@ -49,6 +55,7 @@ const CreateForm = ({ onCancel, onSubmit }: Props) => {
           multiline
           rows={3}
         />
+        <CreateColumnsArray methods={methods} name="columns" defaultField={{ name: '' }} />
         <SubmitBtns onCancel={onCancel} />
       </Stack>
     </form>

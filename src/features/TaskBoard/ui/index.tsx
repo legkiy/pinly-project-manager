@@ -21,6 +21,8 @@ import { checkDragItemType, useTaskBoard } from '../lib';
 import { generateId } from '@/shared/lib';
 import TaskDnDCard from './TaskDnDCard';
 import { Task, TaskStatus } from '@/entities/Task';
+import { useProjectStore } from '@/entities/Project';
+import { useParams } from 'react-router';
 
 // TODO: move task actions in store
 
@@ -32,9 +34,13 @@ const TaskBoard = () => {
   });
   const sensors = useSensors(pointerSensor);
 
-  const { createColumn, deleteColumn, moveColumn, columns } = useTaskBoard();
+  const { createColumn, deleteColumn, moveColumn } = useTaskBoard();
+  const { id } = useParams();
 
-  const columnsIds = useMemo(() => columns.map((column) => column.id), [columns]);
+  const project = useProjectStore((state) => state.projectsList.find((el) => el.id === id));
+
+  const columnsIds = useMemo(() => project?.columns.map((column) => column.id) ?? [''], [project?.columns]);
+
   const [activeColumn, setActiveColumn] = useState<UniqEntity | null>(null);
 
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -126,7 +132,7 @@ const TaskBoard = () => {
         }}
       >
         <SortableContext items={columnsIds}>
-          {columns.map((column, index) => (
+          {project?.columns.map((column, index) => (
             <Fragment key={column.id}>
               <ColumnContainer
                 column={column}
@@ -135,7 +141,7 @@ const TaskBoard = () => {
                 tasks={tasks.filter((task) => task.columnId === column.id)}
                 onDeleteTask={handleDeleteTask}
               />
-              {columns.length - 1 !== index && <Divider orientation="vertical" flexItem />}
+              {project?.columns.length - 1 !== index && <Divider orientation="vertical" flexItem />}
             </Fragment>
           ))}
         </SortableContext>

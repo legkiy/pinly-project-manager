@@ -6,9 +6,11 @@ const EN = {
     pageWhenOpened: 'Page when opened',
   },
   kanban: {
+    columns: 'Columns',
     toDo: 'To Do',
     inProgress: 'In Progress',
     done: 'Done',
+    addColumn: 'Add Column',
   },
   avalableProjectsCount: 'Available Projects {{count}}',
   projectsList: 'Projects List',

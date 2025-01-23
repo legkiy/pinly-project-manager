@@ -8,9 +8,11 @@ const RU: typeof EN = {
     pageWhenOpened: 'Страница при открытии',
   },
   kanban: {
+    columns: 'Колонки',
     toDo: 'Сделать',
     inProgress: 'В процессе',
-    done: 'готово',
+    done: 'Готово',
+    addColumn: 'Добавить колонку',
   },
   avalableProjectsCount: 'Доступые Проекты {{count}}',
   projectsList: 'Список Проектов',

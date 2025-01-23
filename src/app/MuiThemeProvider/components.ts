@@ -5,6 +5,11 @@ const SHADOWS_MAP = {
 };
 
 const components: Theme['components'] = {
+  MuiTextField: {
+    defaultProps: {
+      autoComplete: 'off',
+    },
+  },
   MuiButtonGroup: {
     styleOverrides: {
       contained: {
