@@ -1,8 +1,8 @@
 import { Text } from '@/shared/ui';
-import { Project } from '@/widgets/ProjectsList/model';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useStartPageSetter } from '../lib';
 import { routerService } from '@/shared/lib';
+import { Project } from '@/shared/models';
 
 interface Props {
   projects: Project[];

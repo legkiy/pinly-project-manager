@@ -1,11 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card, CardContent, CardHeader, IconButton, MenuItem } from '@mui/material';
-import MoreVert from '@mui/icons-material/MoreVert';
-import DeleteRounded from '@mui/icons-material/DeleteRounded';
-import { DnDItemType, Task } from '../model';
-import { DropdownMenu } from '@/shared/ui';
+import { Box } from '@mui/material';
+import { DnDItemType } from '../model';
 import { memo } from 'react';
+import { TaskCard } from '@/entities/Task';
+import { Task } from '@/shared/models';
 
 interface Props {
   task: Task;
@@ -27,44 +26,18 @@ const TaskDnDCard = ({ task, onDelete }: Props) => {
   };
 
   return (
-    <Card
+    <Box
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      elevation={1}
       sx={{
         cursor: 'grab',
         opacity: isDragging ? 0.3 : 1,
         ...style,
       }}
     >
-      <CardHeader
-        title={task.name}
-        action={
-          <DropdownMenu
-            renderBtn={(onOpen) => (
-              <IconButton onClick={onOpen}>
-                <MoreVert />
-              </IconButton>
-            )}
-          >
-            {(onClose) => (
-              <>
-                <MenuItem
-                  onClick={() => {
-                    onClose();
-                    onDelete(task.id);
-                  }}
-                >
-                  <DeleteRounded />
-                </MenuItem>
-              </>
-            )}
-          </DropdownMenu>
-        }
-      />
-      <CardContent>{task.description}</CardContent>
-    </Card>
+      <TaskCard {...task} onDelete={onDelete} />
+    </Box>
   );
 };
 export default memo(TaskDnDCard);

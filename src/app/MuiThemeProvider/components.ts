@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material';
 
 const SHADOWS_MAP = {
-  contained: '0px 8px 16px 0px rgba(24, 143, 255, 0.24)',
+  contained: '0px 2px 16px 0px rgba(24, 143, 255, 0.24)',
 };
 
 const components: Theme['components'] = {

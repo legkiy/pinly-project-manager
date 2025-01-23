@@ -1,17 +1,11 @@
 import { Text } from '@/shared/ui';
 import { Box, Stack, Typography } from '@mui/material';
-import ProjectCard from './ProjectCard';
 import { CreateProject } from '@/features';
-import { Project } from '@/shared/models';
-import { useProjectStore } from '@/entities/Project';
+import { ProjectCard, useProjectStore } from '@/entities/Project';
 
 const CARD_SIZE = { width: 355, height: 200 };
 
-interface Props {
-  projects: Project[];
-}
-
-const ProjectsList = ({ projects }: Props) => {
+const ProjectsList = () => {
   const { projectsList } = useProjectStore();
   return (
     <>
@@ -24,7 +18,7 @@ const ProjectsList = ({ projects }: Props) => {
         }}
       >
         <Typography variant="h3">
-          <Text mess="avalableProjectsCount" options={{ count: projects.length }} />
+          <Text mess="avalableProjectsCount" options={{ count: projectsList.length }} />
         </Typography>
         <CreateProject />
       </Stack>

@@ -11,11 +11,11 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { DnDItemType, Task, TaskStatus } from '../model';
+import { DnDItemType } from '../model';
 import { Fragment, useMemo, useState } from 'react';
 import ColumnContainer from './ColumnContainer';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
-import { UniqEntity } from '@/shared/models';
+import { Task, TaskStatus, UniqEntity } from '@/shared/models';
 import { createPortal } from 'react-dom';
 import { checkDragItemType, useTaskBoard } from '../lib';
 import { generateId } from '@/shared/lib';
