@@ -2,7 +2,8 @@ import { ThemeMode, useThemeStore } from '@/features/ThemeSwitcher';
 import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 import typography from './typography';
 import components from './components';
-import palette from './palette';
+import dark from './palette/dark';
+import light from './palette/light';
 
 interface Props {
   children: React.ReactNode;
@@ -13,9 +14,9 @@ const MuiThemeProvider = (props: Props) => {
   const { mode } = useThemeStore();
 
   const THEMES_MAP = {
-    [ThemeMode.Dark]: palette.dark,
-    [ThemeMode.Light]: palette.light,
-    [ThemeMode.System]: prefersDarkMode ? palette.dark : palette.light,
+    [ThemeMode.Dark]: dark,
+    [ThemeMode.Light]: light,
+    [ThemeMode.System]: prefersDarkMode ? dark : light,
   };
 
   const theme = createTheme({
