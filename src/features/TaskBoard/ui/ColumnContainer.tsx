@@ -58,9 +58,9 @@ const ColumnContainer = ({ column, onDelete, creteTask, tasks, onDeleteTask }: P
         }}
       >
         <Typography variant="h6">{column.name}</Typography>
-        <IconButton onClick={() => onDelete(column.id)}>
+        {/* <IconButton onClick={() => onDelete(column.id)}>
           <RemoveCircleRounded />
-        </IconButton>
+        </IconButton> */}
       </Stack>
       <Box
         sx={{
@@ -83,13 +83,7 @@ const ColumnContainer = ({ column, onDelete, creteTask, tasks, onDeleteTask }: P
         </Stack>
       </Box>
       <Box textAlign="center">
-        <Button
-          startIcon={<AddRounded />}
-          onClick={() => creteTask(column.id)}
-          sx={{
-            minWidth: 100,
-          }}
-        >
+        <Button startIcon={<AddRounded />} onClick={() => creteTask(column.id)}>
           <Text mess="Add" />
         </Button>
       </Box>

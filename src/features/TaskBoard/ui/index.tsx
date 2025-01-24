@@ -20,16 +20,17 @@ import { createPortal } from 'react-dom';
 import { checkDragItemType, useTaskBoard } from '../lib';
 import { generateId } from '@/shared/lib';
 import TaskDnDCard from './TaskDnDCard';
-import { Task, TaskStatus } from '@/entities/Task';
+import { Task, TaskStatus, useTaskStore } from '@/entities/Task';
 import { useProjectStore } from '@/entities/Project';
 import { useParams } from 'react-router';
 
 // TODO: move task actions in store
 
 const TaskBoard = () => {
-  const { createColumn, deleteColumn } = useTaskBoard();
   const { id: projectId } = useParams();
 
+  const { createColumn, deleteColumn } = useTaskBoard();
+  const { tasksList } = useTaskStore();
   const { project, moveProjectColumn } = useProjectStore(projectId);
 
   const columnsIds = useMemo(() => project?.columns.map((column) => column.id) ?? [''], [project?.columns]);
