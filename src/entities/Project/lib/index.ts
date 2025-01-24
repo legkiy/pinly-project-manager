@@ -25,14 +25,15 @@ const projectStore = create<Store>()(
     (set, get) => ({
       ...initState,
       moveProjectColumn: (id, activeColumnId, overColumnId) => {
-        const project = get().projectsList.find((project) => project.id === id);
+        const projectsList = get().projectsList;
+        const project = projectsList.find((project) => project.id === id);
         if (!project) return;
 
         const columns = project?.columns ?? [];
         const activeColumnIndex = columns.findIndex((column) => column.id === activeColumnId);
         const overColumnIndex = columns.findIndex((column) => column.id === overColumnId);
 
-        const newProjectList = get().projectsList.map((project) => {
+        const newProjectList = projectsList.map((project) => {
           if (project.id === id) {
             return { ...project, columns: arrayMove(columns, activeColumnIndex, overColumnIndex) };
           }

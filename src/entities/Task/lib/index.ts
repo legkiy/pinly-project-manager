@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Task } from '../model';
+import { UniqueIdentifier } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 
 type State = {
   tasksList: Task[];
@@ -9,6 +11,7 @@ type State = {
 type Actions = {
   addTask: (task: Task) => void;
   removeTask: (id: string) => void;
+  moveTask: (activeId: UniqueIdentifier, overId: UniqueIdentifier, columnId?: UniqueIdentifier) => void;
 };
 
 type Store = State & Actions;
@@ -19,8 +22,19 @@ const initState: State = {
 
 const taskStore = create<Store>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       ...initState,
+      moveTask: (activeId, overId, columnId) => {
+        const taskList = get().tasksList;
+        const activeIndex = taskList.findIndex((task) => task.id === activeId);
+        const overIndex = taskList.findIndex((task) => task.id === overId);
+        if (columnId) {
+          taskList[activeIndex].columnId = columnId as string;
+        }
+
+        const newTaskList = arrayMove(taskList, activeIndex, overIndex);
+        set({ tasksList: newTaskList });
+      },
       addTask: (task) => {
         set((state) => ({
           tasksList: [...state.tasksList, task],

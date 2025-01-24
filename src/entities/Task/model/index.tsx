@@ -10,4 +10,5 @@ export type Task = UniqEntity & {
   description?: string;
   status: TaskStatus;
   columnId: string;
+  projectId: string;
 };
