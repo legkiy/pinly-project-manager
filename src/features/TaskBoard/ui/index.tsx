@@ -65,34 +65,15 @@ const TaskBoard = () => {
   const onDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
 
-    if (!over) return;
-
-    if (active.id === over.id) return;
-
-    if (!checkDragItemType(active, DnDItemType.Task)) return;
+    if (!over || active.id === over.id || !checkDragItemType(active, DnDItemType.Task)) return;
 
     // Task over another Task
     if (checkDragItemType(over, DnDItemType.Task)) {
       moveTask(active.id, over.id);
-      // setTasks((prev) => {
-      //   const activeIndex = prev.findIndex((task) => task.id === active.id);
-      //   const overIndex = prev.findIndex((task) => task.id === over.id);
-      //   prev[activeIndex].columnId = prev[overIndex].columnId;
-
-      //   return arrayMove(tasks, activeIndex, overIndex);
-      // });
     }
-
     // Task over column
     if (checkDragItemType(over, DnDItemType.Column)) {
       moveTask(active.id, active.id, over.id);
-
-      // setTasks((prev) => {
-      //   const activeIndex = prev.findIndex((task) => task.id === active.id);
-      //   prev[activeIndex].columnId = over.id as string;
-
-      //   return arrayMove(tasks, activeIndex, activeIndex);
-      // });
     }
   };
 

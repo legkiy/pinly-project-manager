@@ -30,6 +30,8 @@ const taskStore = create<Store>()(
         const overIndex = taskList.findIndex((task) => task.id === overId);
         if (columnId) {
           taskList[activeIndex].columnId = columnId as string;
+        } else {
+          taskList[activeIndex].columnId = taskList[overIndex].columnId;
         }
 
         const newTaskList = arrayMove(taskList, activeIndex, overIndex);
