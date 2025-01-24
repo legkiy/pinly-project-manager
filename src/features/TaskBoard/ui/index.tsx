@@ -27,17 +27,10 @@ import { useParams } from 'react-router';
 // TODO: move task actions in store
 
 const TaskBoard = () => {
-  const pointerSensor = useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 1,
-    },
-  });
-  const sensors = useSensors(pointerSensor);
+  const { createColumn, deleteColumn } = useTaskBoard();
+  const { id: projectId } = useParams();
 
-  const { createColumn, deleteColumn, moveColumn } = useTaskBoard();
-  const { id } = useParams();
-
-  const { project } = useProjectStore(id);
+  const { project, moveProjectColumn } = useProjectStore(projectId);
 
   const columnsIds = useMemo(() => project?.columns.map((column) => column.id) ?? [''], [project?.columns]);
 
@@ -66,7 +59,7 @@ const TaskBoard = () => {
 
     if (active.id === over.id) return;
     if (checkDragItemType(active, DnDItemType.Column)) {
-      moveColumn(active.id, over.id);
+      moveProjectColumn(projectId ?? '', active.id, over.id);
     }
   };
 
@@ -118,6 +111,13 @@ const TaskBoard = () => {
     const filtredTasks = tasks.filter((task) => task.id !== id);
     setTasks(filtredTasks);
   };
+
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 1,
+    },
+  });
+  const sensors = useSensors(pointerSensor);
 
   return (
     <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}>

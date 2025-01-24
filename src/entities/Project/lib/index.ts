@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Project } from '../model';
+import { UniqueIdentifier } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 
 type State = {
   projectsList: Project[];
@@ -9,6 +11,7 @@ type State = {
 type Actions = {
   addProject: (project: Project) => void;
   removeProject: (id: string) => void;
+  moveProjectColumn: (id: string, activeColumnId: UniqueIdentifier, overColumnId: UniqueIdentifier) => void;
 };
 
 type Store = State & Actions;
@@ -19,8 +22,25 @@ const initState: State = {
 
 const projectStore = create<Store>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       ...initState,
+      moveProjectColumn: (id, activeColumnId, overColumnId) => {
+        const project = get().projectsList.find((project) => project.id === id);
+        if (!project) return;
+
+        const columns = project?.columns ?? [];
+        const activeColumnIndex = columns.findIndex((column) => column.id === activeColumnId);
+        const overColumnIndex = columns.findIndex((column) => column.id === overColumnId);
+
+        const newProjectList = get().projectsList.map((project) => {
+          if (project.id === id) {
+            return { ...project, columns: arrayMove(columns, activeColumnIndex, overColumnIndex) };
+          }
+          return project;
+        });
+
+        set({ projectsList: newProjectList });
+      },
       addProject: (project) => {
         set((state) => ({
           projectsList: [...state.projectsList, project],

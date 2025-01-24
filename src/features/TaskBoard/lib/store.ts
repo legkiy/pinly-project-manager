@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import { Column } from '../model';
 import { generateId } from '@/shared/lib';
-import { UniqueIdentifier } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
 import { Task } from '@/entities/Task';
 
 type State = {
@@ -13,7 +11,6 @@ type State = {
 type Actions = {
   createColumn: () => void;
   deleteColumn: (id: string) => void;
-  moveColumn: (activeColumnId: UniqueIdentifier, overColumnId: UniqueIdentifier) => void;
 };
 
 type Store = State & Actions;
@@ -42,13 +39,6 @@ const useTaskBoard = create<Store>((set, get) => ({
     const filtredColumns = get().columns.filter((column) => column.id !== id);
 
     set({ columns: filtredColumns, tasks: newTasks });
-  },
-  moveColumn: (activeColumnId, overColumnId) => {
-    const columns = get().columns;
-    const activeColumnIndex = columns.findIndex((column) => column.id === activeColumnId);
-    const overColumnIndex = columns.findIndex((column) => column.id === overColumnId);
-
-    set({ columns: arrayMove(columns, activeColumnIndex, overColumnIndex) });
   },
 }));
 
