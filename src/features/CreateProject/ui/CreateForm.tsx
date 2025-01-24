@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { CreateProjectDTO, createSchema } from '../model';
 import { SubmitBtns, Text } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useProjectStore } from '@/entities/Project';
 import { routerService } from '@/shared/lib';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { createProjectByDto } from '../lib';
 import CreateColumnsArray from './CreateColumnsArray';
+import { useProjectStore } from '@/entities/Project';
 
 interface Props {
   onCancel: () => void;

@@ -2,9 +2,9 @@ import { Box, Card, CardActions, CardContent, CardMedia, Grid2, IconButton, Typo
 import { memo } from 'react';
 import { routerService } from '@/shared/lib';
 import { Link } from '@/shared/ui';
-import { useProjectStore } from '@/entities/Project';
 import { RemoveCircleRounded } from '@mui/icons-material';
 import { Project } from '../model';
+import useProjectStore from '../lib';
 
 interface Props extends Project {
   height: number;

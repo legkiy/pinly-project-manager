@@ -37,7 +37,7 @@ const TaskBoard = () => {
   const { createColumn, deleteColumn, moveColumn } = useTaskBoard();
   const { id } = useParams();
 
-  const project = useProjectStore((state) => state.projectsList.find((el) => el.id === id));
+  const { project } = useProjectStore(id);
 
   const columnsIds = useMemo(() => project?.columns.map((column) => column.id) ?? [''], [project?.columns]);
 

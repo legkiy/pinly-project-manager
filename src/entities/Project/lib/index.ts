@@ -17,7 +17,7 @@ const initState: State = {
   projectsList: [],
 };
 
-const useProjectStore = create<Store>()(
+const projectStore = create<Store>()(
   persist(
     (set) => ({
       ...initState,
@@ -35,5 +35,20 @@ const useProjectStore = create<Store>()(
     { name: 'projectStore', partialize: ({ projectsList }) => ({ projectsList }) }
   )
 );
+
+// Перегрузка функции для корректного определения возвращаемого объекта
+export function useProjectStore(): Store;
+export function useProjectStore(id: string | undefined): { project: Project | undefined } & Store;
+
+export function useProjectStore(id?: string | undefined) {
+  const store = projectStore();
+
+  if (id) {
+    const project = store.projectsList.find((project) => project.id === id);
+    return { project, ...store };
+  }
+
+  return store;
+}
 
 export default useProjectStore;
