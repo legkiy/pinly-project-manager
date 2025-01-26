@@ -1,9 +1,7 @@
-import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { Column, DnDItemType } from '../model';
-import { AddRounded, RemoveCircleRounded } from '@mui/icons-material';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Text } from '@/shared/ui';
 import TaskDnDCard from './TaskDnDCard';
 import { useMemo } from 'react';
 import { Task } from '@/entities/Task';
@@ -11,12 +9,11 @@ import { Task } from '@/entities/Task';
 interface Props {
   onDelete: (id: string) => void;
   column: Column;
-  creteTask: (columnId: string) => void;
   tasks: Task[];
   onDeleteTask: (id: string) => void;
 }
 
-const ColumnContainer = ({ column, onDelete, creteTask, tasks, onDeleteTask }: Props) => {
+const ColumnContainer = ({ column, onDelete, tasks, onDeleteTask }: Props) => {
   const { isDragging, attributes, setNodeRef, listeners, transition, transform } = useSortable({
     id: column.id,
     data: {
@@ -81,11 +78,6 @@ const ColumnContainer = ({ column, onDelete, creteTask, tasks, onDeleteTask }: P
             ))}
           </SortableContext>
         </Stack>
-      </Box>
-      <Box textAlign="center">
-        <Button startIcon={<AddRounded />} onClick={() => creteTask(column.id)}>
-          <Text mess="Add" />
-        </Button>
       </Box>
     </Stack>
   );

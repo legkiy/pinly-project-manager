@@ -13,6 +13,7 @@ const RU: typeof EN = {
     inProgress: 'В процессе',
     done: 'Готово',
     addColumn: 'Добавить колонку',
+    newTask: 'Новая задача',
   },
   avalableProjectsCount: 'Доступые Проекты {{count}}',
   projectsList: 'Список Проектов',

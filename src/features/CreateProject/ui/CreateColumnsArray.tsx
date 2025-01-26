@@ -44,7 +44,8 @@ const CreateColumnsArray = <T extends FieldValues>({ methods, name, defaultField
           fullWidth
           label={`Column ${index + 1}`}
           {...methods.register(`${name}.${index}.name` as any)}
-          helperText={<Text mess={(methods.formState.errors[name] as any)?.[index]?.message ?? ''} />}
+          error={!!(methods.formState.errors[name] as any)?.[index]}
+          helperText={<Text mess={(methods.formState.errors[name] as any)?.[index]?.name?.message ?? ''} />}
         />
       ))}
     </Stack>
