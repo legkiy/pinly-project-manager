@@ -18,19 +18,19 @@ import { SortableContext } from '@dnd-kit/sortable';
 import { UniqEntity } from '@/shared/models';
 import { createPortal } from 'react-dom';
 import { checkDragItemType, useTaskBoard } from '../lib';
-import { generateId } from '@/shared/lib';
 import TaskDnDCard from './TaskDnDCard';
-import { Task, TaskStatus, useTaskStore } from '@/entities/Task';
-import { useProjectStore } from '@/entities/Project';
-import { useParams } from 'react-router';
+import { Task, useTaskStore } from '@/entities/Task';
+import { Project, useProjectStore } from '@/entities/Project';
 
-const TaskBoard = () => {
-  const { id: projectId } = useParams();
+interface Props {
+  project: Project;
+}
 
+const TaskBoard = ({ project }: Props) => {
   const { createColumn, deleteColumn } = useTaskBoard();
 
-  const { project, moveProjectColumn } = useProjectStore(projectId);
-  const { tasksList, addTask, moveTask, removeTask } = useTaskStore();
+  const { tasksList, moveTask, removeTask } = useTaskStore();
+  const { moveProjectColumn } = useProjectStore();
 
   const columnsIds = useMemo(() => project?.columns.map((column) => column.id) ?? [''], [project?.columns]);
 
@@ -58,7 +58,7 @@ const TaskBoard = () => {
 
     if (active.id === over.id) return;
     if (checkDragItemType(active, DnDItemType.Column)) {
-      moveProjectColumn(projectId ?? '', active.id, over.id);
+      moveProjectColumn(project.id ?? '', active.id, over.id);
     }
   };
 
@@ -75,22 +75,6 @@ const TaskBoard = () => {
     if (checkDragItemType(over, DnDItemType.Column)) {
       moveTask(active.id, active.id, over.id);
     }
-  };
-
-  const handleOnCreateTask = (columnId: string) => {
-    if (!projectId) return;
-
-    const newTask: Task = {
-      id: generateId(),
-      columnId,
-      createdAt: new Date(),
-      name: `Task №${tasksList.length + 1}`,
-      description: `Task description №${tasksList.length + 1}`,
-      status: TaskStatus.Queue,
-      projectId: projectId,
-    };
-
-    addTask(newTask);
   };
 
   const pointerSensor = useSensor(PointerSensor, {
@@ -118,7 +102,6 @@ const TaskBoard = () => {
               <ColumnContainer
                 column={column}
                 onDelete={deleteColumn}
-                creteTask={handleOnCreateTask}
                 tasks={tasksList.filter((task) => task.columnId === column.id)}
                 onDeleteTask={removeTask}
               />
@@ -142,7 +125,6 @@ const TaskBoard = () => {
             <ColumnContainer
               column={activeColumn}
               onDelete={deleteColumn}
-              creteTask={handleOnCreateTask}
               tasks={tasksList.filter((task) => task.columnId === activeColumn.id)}
               onDeleteTask={removeTask}
             />

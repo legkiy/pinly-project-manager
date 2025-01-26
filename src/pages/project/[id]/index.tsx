@@ -1,14 +1,17 @@
+import { useProjectStore } from '@/entities/Project';
 import { TaskBoard } from '@/features';
-import { Text } from '@/shared/ui';
-import { Stack, Typography } from '@mui/material';
+import { ProjectHeader } from '@/widgets';
+import { Stack } from '@mui/material';
+import { useParams } from 'react-router';
 
 const ProjectIdPage = () => {
+  const { id } = useParams();
+  const { project } = useProjectStore(id);
+
   return (
     <Stack gap={1} height="100%">
-      <Typography>
-        <Text mess="kanban.title" />
-      </Typography>
-      <TaskBoard />
+      <ProjectHeader project={project!} />
+      <TaskBoard project={project!} />
     </Stack>
   );
 };

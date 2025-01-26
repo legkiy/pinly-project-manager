@@ -46,6 +46,7 @@ const CreateForm = ({ onCancel, onSubmit }: Props) => {
           fullWidth
           label={<Text mess="common.name" />}
           {...methods.register('name')}
+          error={!!methods.formState.errors.name}
           helperText={<Text mess={methods.formState.errors.name?.message ?? ''} />}
         />
         <TextField

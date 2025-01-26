@@ -11,6 +11,7 @@ const EN = {
     inProgress: 'In Progress',
     done: 'Done',
     addColumn: 'Add Column',
+    newTask: 'New task',
   },
   avalableProjectsCount: 'Available Projects {{count}}',
   projectsList: 'Projects List',
