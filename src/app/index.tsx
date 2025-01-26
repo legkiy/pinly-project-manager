@@ -6,7 +6,7 @@ import './i18n';
 const App = () => {
   return (
     <MuiThemeProvider>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
     </MuiThemeProvider>
   );
 };
