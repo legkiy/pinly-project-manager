@@ -1,6 +1,4 @@
-import { Button, Divider, Stack } from '@mui/material';
-import { Text } from '@/shared/ui';
-import AddRounded from '@mui/icons-material/AddRounded';
+import { Divider, Stack } from '@mui/material';
 import {
   DndContext,
   DragEndEvent,
@@ -27,7 +25,7 @@ interface Props {
 }
 
 const TaskBoard = ({ project }: Props) => {
-  const { createColumn, deleteColumn } = useTaskBoard();
+  const { deleteColumn } = useTaskBoard();
 
   const { tasksList, moveTask, removeTask } = useTaskStore();
   const { moveProjectColumn } = useProjectStore();
@@ -101,7 +99,6 @@ const TaskBoard = ({ project }: Props) => {
             <Fragment key={column.id}>
               <ColumnContainer
                 column={column}
-                onDelete={deleteColumn}
                 tasks={tasksList.filter((task) => task.columnId === column.id)}
                 onDeleteTask={removeTask}
               />
@@ -109,22 +106,12 @@ const TaskBoard = ({ project }: Props) => {
             </Fragment>
           ))}
         </SortableContext>
-        <Button
-          startIcon={<AddRounded />}
-          onClick={createColumn}
-          sx={{
-            minWidth: 100,
-          }}
-        >
-          <Text mess="Add" />
-        </Button>
       </Stack>
       {createPortal(
         <DragOverlay>
           {activeColumn && (
             <ColumnContainer
               column={activeColumn}
-              onDelete={deleteColumn}
               tasks={tasksList.filter((task) => task.columnId === activeColumn.id)}
               onDeleteTask={removeTask}
             />

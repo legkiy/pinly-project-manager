@@ -32,7 +32,7 @@ export default defineConfig(async () => ({
 
   base: './',
   build: {
-    outDir: 'pre-dist/react',
+    outDir: 'dist',
   },
   resolve: {
     alias: {

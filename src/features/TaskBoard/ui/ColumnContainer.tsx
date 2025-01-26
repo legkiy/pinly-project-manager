@@ -7,13 +7,12 @@ import { useMemo } from 'react';
 import { Task } from '@/entities/Task';
 
 interface Props {
-  onDelete: (id: string) => void;
   column: Column;
   tasks: Task[];
   onDeleteTask: (id: string) => void;
 }
 
-const ColumnContainer = ({ column, onDelete, tasks, onDeleteTask }: Props) => {
+const ColumnContainer = ({ column, tasks, onDeleteTask }: Props) => {
   const { isDragging, attributes, setNodeRef, listeners, transition, transform } = useSortable({
     id: column.id,
     data: {
@@ -55,9 +54,6 @@ const ColumnContainer = ({ column, onDelete, tasks, onDeleteTask }: Props) => {
         }}
       >
         <Typography variant="h6">{column.name}</Typography>
-        {/* <IconButton onClick={() => onDelete(column.id)}>
-          <RemoveCircleRounded />
-        </IconButton> */}
       </Stack>
       <Box
         sx={{
