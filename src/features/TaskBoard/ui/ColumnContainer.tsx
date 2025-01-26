@@ -1,13 +1,14 @@
 import { Box, Stack, Typography } from '@mui/material';
-import { Column, DnDItemType } from '../model';
+import { DnDItemType } from '../model';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TaskDnDCard from './TaskDnDCard';
 import { useMemo } from 'react';
 import { Task } from '@/entities/Task';
+import { UniqEntity } from '@/shared/models';
 
 interface Props {
-  column: Column;
+  column: UniqEntity;
   tasks: Task[];
   onDeleteTask: (id: string) => void;
 }

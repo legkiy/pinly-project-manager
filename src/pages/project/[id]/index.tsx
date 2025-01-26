@@ -11,7 +11,7 @@ const ProjectIdPage = () => {
   return (
     <Stack gap={1} height="100%">
       <ProjectHeader project={project!} />
-      <TaskBoard project={project!} />
+      <TaskBoard projectId={id ?? ''} columns={project?.columns ?? []} />
     </Stack>
   );
 };

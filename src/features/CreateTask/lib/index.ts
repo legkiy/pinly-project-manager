@@ -5,7 +5,7 @@ import { generateId } from '@/shared/lib';
 export function createTaskByDto(task: CreateTaskDTO) {
   const newProject: Task = {
     ...task,
-    id: generateId(),
+    id: 'task-' + generateId(),
     createdAt: new Date(),
   };
   return newProject;
