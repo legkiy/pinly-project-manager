@@ -7,11 +7,12 @@ import { useParams } from 'react-router';
 const ProjectIdPage = () => {
   const { id } = useParams();
   const { project } = useProjectStore(id);
+  console.log(project);
 
   return (
     <Stack gap={1} height="100%">
       <ProjectHeader project={project!} />
-      <Kanban />
+      <Kanban columns={project?.columns} />
       {/* <TaskBoard projectId={id ?? ''} columns={project?.columns ?? []} /> */}
     </Stack>
   );
