@@ -21,7 +21,7 @@ const initState: State = {
   tasksList: [],
 };
 
-const useTaskStore = create<Store>()(
+const taskStore = create<Store>()(
   persist(
     (set) => ({
       ...initState,
@@ -53,7 +53,7 @@ const useTaskStore = create<Store>()(
       },
       addTask: (task) => {
         set((state) => ({
-          tasksList: [...state.tasksList, task],
+          tasksList: [task, ...state.tasksList],
         }));
       },
       removeTask: (id) => {
@@ -70,5 +70,16 @@ const useTaskStore = create<Store>()(
     { name: 'taskStore', partialize: ({ tasksList }) => ({ tasksList }) }
   )
 );
+// Перегрузка функции для корректного определения возвращаемого объекта
+function useTaskStore(projectId?: string | undefined) {
+  const store = taskStore();
+
+  if (projectId) {
+    const tasksList = store.tasksList.filter((task) => task.projectId === projectId);
+    return { ...store, tasksList };
+  }
+
+  return store;
+}
 
 export default useTaskStore;

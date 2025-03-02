@@ -1,35 +1,46 @@
-import { Task } from '@/entities/Task';
-import { createMockArray } from '@/shared/lib';
-import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { Task, TaskCard } from '@/entities/Task';
+import {
+  closestCenter,
+  DndContext,
+  DragOverlay,
+  DragStartEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 import Column from './Column';
 import { Project } from '@/entities/Project';
 import { Divider, Stack } from '@mui/material';
-import { Fragment } from 'react';
-
-const moockTask = createMockArray<Task>(5, (step, id) => ({
-  name: `Task ${step}`,
-  description: `Description ${step}`,
-  id,
-  columnId: '1',
-  projectId: '1',
-  createdAt: new Date(),
-}));
+import { Fragment, useState } from 'react';
+import GrabbingItem from './GrabbingItem';
 
 interface Props {
   columns?: Project['columns'];
+  initTasksList: Task[];
 }
 
-const Kanban = ({ columns }: Props) => {
+const Kanban = ({ columns, initTasksList }: Props) => {
+  console.log('initTasksList', initTasksList);
+  const [tasksList, setTaskList] = useState<Task[]>(initTasksList);
+
+  const [dragItem, setDragItem] = useState<Task | null>(null);
+
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
       distance: 0.01,
     },
   });
-
   const sensors = useSensors(pointerSensor);
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const dragedItem = tasksList.find((task) => task.id === event.active.id);
+    if (dragedItem) {
+      setDragItem(dragedItem);
+    }
+  };
+
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter}>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart}>
       <Stack
         direction="row"
         sx={{
@@ -42,13 +53,20 @@ const Kanban = ({ columns }: Props) => {
       >
         {columns?.map((column, index) => (
           <Fragment key={column.id}>
-            <Column {...column} tasksList={moockTask} />
+            <Column {...column} tasksList={tasksList.filter((task) => task.columnId === column.id)} />
             {columns.length - 1 !== index && <Divider orientation="vertical" flexItem />}
           </Fragment>
         ))}
       </Stack>
-      <DragOverlay></DragOverlay>
+      <DragOverlay>
+        {dragItem && (
+          <GrabbingItem>
+            <TaskCard {...dragItem} onDelete={() => {}} />
+          </GrabbingItem>
+        )}
+      </DragOverlay>
     </DndContext>
   );
 };
+
 export default Kanban;

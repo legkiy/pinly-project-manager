@@ -40,4 +40,5 @@ const TaskCard = ({ id, name, description, onDelete }: Props) => {
     </Card>
   );
 };
+
 export default memo(TaskCard);

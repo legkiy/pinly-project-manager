@@ -2,9 +2,9 @@ import { Box, Stack, Typography } from '@mui/material';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useMemo } from 'react';
-import { Task, TaskCard } from '@/entities/Task';
-import { UniqEntity } from '@/shared/models';
 import { ColumnProps } from '../model';
+import { TaskCard } from '@/entities/Task';
+import DragableItem from './DragableItem';
 
 const Column = ({ tasksList, createdAt, id, name }: ColumnProps) => {
   const { isDragging, attributes, setNodeRef, listeners, transition, transform } = useSortable({
@@ -63,13 +63,13 @@ const Column = ({ tasksList, createdAt, id, name }: ColumnProps) => {
             pb: 2,
           }}
         >
-          Task
-          {/* <TaskCard /> */}
-          {/* <SortableContext items={tasksIds}>
-            {tasks.map((task) => (
-              <TaskDnDCard key={task.id} task={task} onDelete={onDeleteTask} />
+          <SortableContext items={tasksIds}>
+            {tasksList.map((task) => (
+              <DragableItem key={task.id} id={task.id}>
+                <TaskCard {...task} onDelete={() => {}} />
+              </DragableItem>
             ))}
-          </SortableContext> */}
+          </SortableContext>
         </Stack>
       </Box>
     </Stack>

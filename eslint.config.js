@@ -27,7 +27,18 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      '@typescript-eslint/no-unused-vars': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       'sort-imports': [
         'warn',
         {
@@ -51,6 +62,19 @@ export default tseslint.config(
         },
       ],
       'import/newline-after-import': ['warn', { count: 1 }],
+      'import/no-anonymous-default-export': [
+        'error',
+        {
+          allowArray: false,
+          allowArrowFunction: false,
+          allowAnonymousClass: false,
+          allowAnonymousFunction: false,
+          allowCallExpression: true,
+          allowNew: false,
+          allowLiteral: false,
+          allowObject: false,
+        },
+      ],
       'react/jsx-key': ['error', { checkFragmentShorthand: true }],
     },
   }
