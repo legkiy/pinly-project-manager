@@ -1,17 +1,19 @@
 import { useProjectStore } from '@/entities/Project';
 import { LocaleSwitcher, StartPageSetter, ThemeSwitcher } from '@/features';
 import { Text } from '@/shared/ui';
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Stack } from '@mui/material';
 
 interface Props {
   collapse?: boolean;
 }
 
 const QuickSettings = ({ collapse }: Props) => {
-  const { projectsList } = useProjectStore();
+  const { projects } = useProjectStore();
   if (collapse) {
     return <div>QuickSettings collapse</div>;
   }
+
+  const projectsList = Object.values(projects);
   return (
     <Card
       elevation={1}
@@ -23,9 +25,7 @@ const QuickSettings = ({ collapse }: Props) => {
     >
       <CardContent>
         <Stack direction="row" gap={3} alignItems="center" justifyContent="center">
-          <Typography variant="h4">
-            <Text mess="settings.quick" />
-          </Typography>
+          <Text mess="settings.quick" variant="h4" />
           <ThemeSwitcher />
           <LocaleSwitcher />
           <StartPageSetter projects={projectsList} />

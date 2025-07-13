@@ -1,14 +1,13 @@
 import { Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { CreateProjectDTO, createSchema } from '../model';
-import { SubmitBtns, Text } from '@/shared/ui';
+import { CreateProjectDTO, defaultColumns, projectSchema } from '../model';
+import { Form, SubmitBtns, Text } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { routerService } from '@/shared/lib';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { createProjectByDto } from '../lib';
 import CreateColumnsArray from './CreateColumnsArray';
 import { useProjectStore } from '@/entities/Project';
+import { routerService } from '@/shared/lib';
 
 interface Props {
   onCancel: () => void;
@@ -16,26 +15,33 @@ interface Props {
 }
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const navigate = useNavigate();
-  const { addProject } = useProjectStore();
+  const { createProject } = useProjectStore();
+
+  // const methods = useForm<CreateProjectDTO>({
+  //   resolver: zodResolver(createSchema),
+  //   defaultValues: {
+  //     columns: DEFAULT_COLUMNS,
+  //   },
+
+  // });
 
   const methods = useForm<CreateProjectDTO>({
-    resolver: zodResolver(createSchema),
+    resolver: zodResolver(projectSchema),
     defaultValues: {
-      columns: [{ name: t('kanban.toDo') }, { name: t('kanban.inProgress') }, { name: t('kanban.done') }],
+      columns: defaultColumns,
     },
   });
 
   const handleOnSubmit = (data: CreateProjectDTO) => {
-    const newProject = createProjectByDto(data);
-    addProject(newProject);
+    const newProject = createProject(data);
     onSubmit();
-    navigate(routerService.project.slug(newProject.id));
+    navigate(routerService.projects.id(newProject.id));
   };
 
   return (
-    <form noValidate onSubmit={methods.handleSubmit(handleOnSubmit)}>
+    <Form methods={methods} onSubmit={handleOnSubmit}>
       <Stack
         gap={2}
         sx={{
@@ -44,22 +50,26 @@ const CreateForm = ({ onCancel, onSubmit }: Props) => {
       >
         <TextField
           fullWidth
-          label={<Text mess="common.name" />}
-          {...methods.register('name')}
-          error={!!methods.formState.errors.name}
-          helperText={<Text mess={methods.formState.errors.name?.message ?? ''} />}
+          label={<Text mess="common.name" text />}
+          {...methods.register('title')}
+          error={!!methods.formState.errors.title}
+          helperText={<Text mess={methods.formState.errors.title?.message ?? ''} text />}
         />
         <TextField
           fullWidth
-          label={<Text mess="common.description" />}
+          label={<Text mess="common.description" text />}
           {...methods.register('description')}
           multiline
-          rows={3}
+          minRows={3}
         />
-        <CreateColumnsArray methods={methods} name="columns" defaultField={{ name: '' }} />
+        <CreateColumnsArray
+          methods={methods}
+          name="columns"
+          defaultField={{ title: '', id: 'column-' + crypto.randomUUID() }}
+        />
         <SubmitBtns onCancel={onCancel} />
       </Stack>
-    </form>
+    </Form>
   );
 };
 export default CreateForm;

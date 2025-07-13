@@ -9,11 +9,11 @@ const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        path: '/',
-        element: <Pages.Main />,
+        path: '/projects',
+        element: <Pages.Projects />,
       },
       {
-        path: '/project',
+        path: '/projects',
         Component: LayoutWithNavbar,
         children: [
           {

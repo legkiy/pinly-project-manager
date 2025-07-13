@@ -4,7 +4,7 @@ import WindowRounded from '@mui/icons-material/WindowRounded';
 export const NAV_ITEMS_LIST = [
   {
     titleKey: 'projectsList',
-    link: routerService.main.root,
+    link: routerService.projects.root,
     icon: WindowRounded,
   },
 ];

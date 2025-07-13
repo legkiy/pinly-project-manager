@@ -1,76 +1,101 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Project } from '../model';
-import { UniqueIdentifier } from '@dnd-kit/core';
+import { CreateProjectDTO } from '@/features/CreateProject/model';
+
+type Column = {
+  id: string;
+  title: string;
+  createdAt: string;
+};
 
 type State = {
-  projectsList: Project[];
+  projects: Record<string, Project>;
+  columns: Record<string, Column>;
 };
 
 type Actions = {
-  addProject: (project: Project) => void;
-  removeProject: (id: string) => void;
-  moveProjectColumn: (id: string, activeColumnId: UniqueIdentifier, overColumnId: UniqueIdentifier) => void;
+  createProject: (project: CreateProjectDTO) => Project;
+  deleteProject: (id: string) => void;
+  updateProject: (id: string, data: Partial<Project>) => void;
 };
 
-type Store = State & Actions;
+type ProjectStore = State & Actions;
 
 const initState: State = {
-  projectsList: [],
+  projects: {},
+  columns: {},
 };
 
-const projectStore = create<Store>()(
+const useProjectStore = create<ProjectStore>()(
   persist(
     (set) => ({
       ...initState,
-      moveProjectColumn: (id, activeColumnId, overColumnId) => {
-        console.log('moveProjectColumn', id, activeColumnId, overColumnId);
+      createProject: (project) => {
+        const projectId = crypto.randomUUID();
 
-        // const projectsList = get().projectsList;
-        // const project = projectsList.find((project) => project.id === id);
-        // if (!project) return;
+        const newProject = {
+          id: projectId,
+          ...project,
+          createdAt: new Date().toISOString(),
+          columnsIds: project.columns.map((el) => el.id),
+        };
 
-        // const columns = project?.columns ?? [];
-        // const activeColumnIndex = columns.findIndex((column) => column.id === activeColumnId);
-        // const overColumnIndex = columns.findIndex((column) => column.id === overColumnId);
-
-        // const newProjectList = projectsList.map((project) => {
-        //   if (project.id === id) {
-        //     return { ...project, columns: arrayMove(columns, activeColumnIndex, overColumnIndex) };
-        //   }
-        //   return project;
-        // });
-
-        // set({ projectsList: newProjectList });
-      },
-      addProject: (project) => {
         set((state) => ({
-          projectsList: [project, ...state.projectsList],
+          ...state,
+          projects: {
+            ...state.projects,
+            [projectId]: newProject,
+          },
+          columns: {
+            ...state.columns,
+            ...newProject.columns.reduce<Record<string, Column>>((acc, column) => {
+              acc[column.id] = { ...column, createdAt: new Date().toISOString() };
+              return acc;
+            }, {}),
+          },
         }));
+        return newProject;
       },
-      removeProject: (id) => {
+      deleteProject: (id) => {
+        set((state) => {
+          const newProjects = { ...state.projects };
+          delete newProjects[id];
+          return { projects: newProjects };
+        });
+      },
+      updateProject: (id, data) => {
         set((state) => ({
-          projectsList: state.projectsList.filter((project) => project.id !== id),
+          projects: {
+            [id]: {
+              ...state.projects[id],
+              ...data,
+            },
+            ...state.projects,
+          },
         }));
       },
     }),
-    { name: 'projectStore', partialize: ({ projectsList }) => ({ projectsList }) }
+    { name: 'projectStore', partialize: ({ projects, columns }) => ({ projects, columns }) }
   )
 );
 
 // Перегрузка функции для корректного определения возвращаемого объекта
-export function useProjectStore(): Store;
-export function useProjectStore(id: string | undefined): { project: Project | undefined } & Store;
+// export function useProjectStore(): ProjectStore;
+// export function useProjectStore(id: string | undefined): { project: Project | undefined } & ProjectStore;
 
-export function useProjectStore(id?: string | undefined) {
-  const store = projectStore();
+// export function useProjectStore(projectId?: string) {
+//   const store = projectStore((state) => {
+//     if (projectId) {
+//       return {
+//         ...state,
+//         project: state.projectsList[projectId] || undefined,
+//       };
+//     }
+//     return state;
+//   });
 
-  if (id) {
-    const project = store.projectsList.find((project) => project.id === id);
-    return { project, ...store };
-  }
-
-  return store;
-}
+//   return store;
+// }
 
 export default useProjectStore;

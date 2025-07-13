@@ -1,7 +1,7 @@
-import { UniqEntity } from '@/shared/models';
-
-export type Task = UniqEntity & {
-  description?: string;
+export type Task = {
+  id: string;
   columnId: string;
-  projectId: string;
+  title: string;
+  description?: string;
+  createdAt: string;
 };
