@@ -48,21 +48,27 @@ const KanbanBoard = ({ project }: KanbanBoardProps) => {
             {project.columnsIds.map((colId) => (
               <SortableColumn key={colId} id={colId} />
             ))}
+            <Box
+              display="flex"
+              gap={1}
+              mt={2}
+              sx={{
+                minWidth: 220,
+              }}
+            >
+              <TextField
+                label="Новая колонка"
+                size="small"
+                value={newColumnTitle}
+                onChange={(e) => setNewColumnTitle(e.target.value)}
+              />
+              <IconButton onClick={handleAddColumn} color="primary">
+                ➕
+              </IconButton>
+            </Box>
           </Stack>
         </SortableContext>
       </DndContext>
-
-      <Box display="flex" gap={1} mt={2}>
-        <TextField
-          label="Новая колонка"
-          size="small"
-          value={newColumnTitle}
-          onChange={(e) => setNewColumnTitle(e.target.value)}
-        />
-        <IconButton onClick={handleAddColumn} color="primary">
-          ➕
-        </IconButton>
-      </Box>
     </Box>
   );
 };

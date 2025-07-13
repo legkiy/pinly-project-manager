@@ -1,14 +1,18 @@
-import { RouteObject, createHashRouter } from 'react-router';
+import { Navigate, RouteObject, createHashRouter } from 'react-router';
 import * as Pages from '@/pages';
 import { LayoutWithNavbar } from '@/widgets';
 import ErrorDisplay from '@/shared/ui/ErrorDisplay';
+import { routerService } from '@/shared/lib';
 
 const routes: RouteObject[] = [
   {
     element: <ErrorDisplay />,
     children: [
       {
-        index: true,
+        path: '/',
+        element: <Navigate to={routerService.projects.root} replace />,
+      },
+      {
         path: '/projects',
         element: <Pages.Projects />,
       },

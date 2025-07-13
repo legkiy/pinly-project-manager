@@ -1,6 +1,6 @@
 import { Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { CreateProjectDTO, defaultColumns, projectSchema } from '../model';
+import { CreateProjectDTO, projectSchema } from '../model';
 import { Form, SubmitBtns, Text } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router';
@@ -14,6 +14,12 @@ interface Props {
 }
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
+  const defaultColumns = [
+    { title: 'Очередь', id: 'column-' + crypto.randomUUID() },
+    { title: 'В процессе', id: 'column-' + crypto.randomUUID() },
+    { title: 'Завершено', id: 'column-' + crypto.randomUUID() },
+  ];
+
   const navigate = useNavigate();
   const { createProject } = useProjectStore();
 

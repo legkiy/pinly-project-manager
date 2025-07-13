@@ -1,53 +1,84 @@
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { createSchema, CreateTaskDTO } from '../model';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Stack, TextField } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { SubmitBtns, Text } from '@/shared/ui';
-import { useTaskStore } from '@/entities/Task';
-import { createTaskByDto } from '../lib';
+import { useProjectStore } from '@/entities/Project';
+import { memo, useMemo } from 'react';
+import { routerService } from '@/shared/lib';
 
 interface Props {
   onCancel: () => void;
   onSubmit: () => void;
   projectId: string;
-  columnId: string;
 }
 
-const CreateForm = ({ onCancel, onSubmit, columnId, projectId }: Props) => {
-  const { addTask } = useTaskStore();
+const CreateForm = ({ onCancel, onSubmit, projectId }: Props) => {
+  const columns = useProjectStore((s) => s.columns);
+  const columnsList = useMemo(
+    () =>
+      Object.entries(columns)
+        .map(([_columnId, column]) => column)
+        .filter((col) => col.projectId === projectId),
+    []
+  );
 
   const methods = useForm<CreateTaskDTO>({
     resolver: zodResolver(createSchema),
     defaultValues: {
-      projectId: projectId,
-      columnId: columnId,
+      // projectId: projectId,
+      columnId: columnsList[0].id,
     },
   });
 
   const handleOnSubmit = (data: CreateTaskDTO) => {
-    addTask(createTaskByDto(data));
-    onSubmit();
+    console.log(data);
+
+    // addTask(createTaskByDto(data));
+    // onSubmit();
   };
+
   return (
     <form noValidate onSubmit={methods.handleSubmit(handleOnSubmit)}>
       <Stack gap={2} pt={1}>
         <TextField
           fullWidth
-          label={<Text mess="common.name" />}
-          {...methods.register('name')}
-          error={!!methods.formState.errors.name}
-          helperText={<Text mess={methods.formState.errors.name?.message ?? ''} />}
+          label={<Text mess="common.name" text />}
+          {...methods.register('title')}
+          error={!!methods.formState.errors.title}
+          helperText={<Text mess={methods.formState.errors.title?.message ?? ''} text />}
         />
         <TextField
           fullWidth
-          label={<Text mess="common.description" />}
+          label={<Text mess="common.description" text />}
           {...methods.register('description')}
           multiline
           rows={3}
+          error={!!methods.formState.errors.description}
+          helperText={<Text mess={methods.formState.errors.description?.message ?? ''} text />}
+        />
+        <Controller
+          name="columnId"
+          control={methods.control}
+          rules={{ required: true }}
+          render={({ field, fieldState }) => (
+            <FormControl fullWidth>
+              <InputLabel>
+                <Text mess="toColumn" />
+              </InputLabel>
+              <Select onChange={field.onChange} label={<Text mess="toColumn" text />} value={field.value}>
+                {columnsList.map((col) => (
+                  <MenuItem key={col.id} value={col.id}>
+                    {col.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         />
         <SubmitBtns onCancel={onCancel} />
       </Stack>
     </form>
   );
 };
-export default CreateForm;
+export default memo(CreateForm);

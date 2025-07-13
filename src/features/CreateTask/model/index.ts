@@ -1,9 +1,14 @@
 import { z } from 'zod';
 
 export const createSchema = z.object({
-  name: z.string().nonempty('errors.required'),
-  description: z.string().optional(),
-  projectId: z.string().nonempty(),
+  title: z
+    .string({
+      error: 'errors.required',
+    })
+    .nonempty('errors.required')
+    .min(1, 'errors.required'),
+  description: z.string().nonempty('errors.required').min(1, 'errors.required'),
+  // projectId: z.string().nonempty(),
   columnId: z.string().nonempty(),
 });
 

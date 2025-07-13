@@ -13,8 +13,3 @@ export const projectSchema = z.object({
 
 export type CreateProjectDTO = z.infer<typeof projectSchema>;
 
-export const defaultColumns = [
-  { title: 'Очередь', id: 'column-' + crypto.randomUUID() },
-  { title: 'В процессе', id: 'column-' + crypto.randomUUID() },
-  { title: 'Завершено', id: 'column-' + crypto.randomUUID() },
-];

@@ -1,6 +1,7 @@
 export type Column = {
   id: string;
-  projectId: string;
   title: string;
+  createdAt: string;
+  projectId: string;
   taskIds: string[];
 };

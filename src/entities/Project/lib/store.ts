@@ -2,27 +2,24 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Project } from '../model';
 import { CreateProjectDTO } from '@/features/CreateProject/model';
-
-type Column = {
-  id: string;
-  title: string;
-  createdAt: string;
-  projectId: string;
-  taskIds: string[];
-};
+import { Task } from '@/entities/Task';
+import { Column } from '@/entities/Column';
+import { CreateTaskDTO } from '@/features/CreateTask/model';
 
 type State = {
   projects: Record<string, Project>;
   columns: Record<string, Column>;
+  tasks: Record<string, Task>;
 };
 
 type Actions = {
   createProject: (project: CreateProjectDTO) => Project;
-  // deleteProject: (id: string) => void;
-  // updateProject: (id: string, data: Partial<Project>) => void;
+  //------------- Column CRUD
   createColumn: (projectId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;
   moveColumn: (projectId: string, newOrder: string[]) => void;
+  //------------- Task CRUD
+  createTask: (task: CreateTaskDTO) => void;
 };
 
 type ProjectStore = State & Actions;
@@ -30,20 +27,21 @@ type ProjectStore = State & Actions;
 const initState: State = {
   projects: {},
   columns: {},
+  tasks: {},
 };
 
 const useProjectStore = create<ProjectStore>()(
   persist(
     (set, get) => ({
       ...initState,
-      createProject: (project) => {
+      createProject: ({ columns, ...project }) => {
         const projectId = crypto.randomUUID();
 
-        const newProject = {
+        const newProject: Project = {
           id: projectId,
           ...project,
           createdAt: new Date().toISOString(),
-          columnsIds: project.columns.map((el) => el.id),
+          columnsIds: columns.map((el) => el.id),
         };
 
         set((state) => ({
@@ -54,7 +52,7 @@ const useProjectStore = create<ProjectStore>()(
           },
           columns: {
             ...state.columns,
-            ...newProject.columns.reduce<Record<string, Column>>((acc, column) => {
+            ...columns.reduce<Record<string, Column>>((acc, column) => {
               acc[column.id] = { ...column, createdAt: new Date().toISOString(), projectId, taskIds: [] };
               return acc;
             }, {}),
@@ -62,25 +60,6 @@ const useProjectStore = create<ProjectStore>()(
         }));
         return newProject;
       },
-
-      // deleteProject: (id) => {
-      //   set((state) => {
-      //     const newProjects = { ...state.projects };
-      //     delete newProjects[id];
-      //     return { projects: newProjects };
-      //   });
-      // },
-      // updateProject: (id, data) => {
-      //   set((state) => ({
-      //     projects: {
-      //       [id]: {
-      //         ...state.projects[id],
-      //         ...data,
-      //       },
-      //       ...state.projects,
-      //     },
-      //   }));
-      // },
       createColumn: (projectId, title) => {
         const id = 'column-' + crypto.randomUUID();
         const newColumn: Column = {
@@ -141,6 +120,7 @@ const useProjectStore = create<ProjectStore>()(
           },
         }));
       },
+      createTask: (task) => {},
     }),
     { name: 'projectStore', partialize: ({ projects, columns }) => ({ projects, columns }) }
   )
