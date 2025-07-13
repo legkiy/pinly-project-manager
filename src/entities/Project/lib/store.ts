@@ -7,6 +7,8 @@ type Column = {
   id: string;
   title: string;
   createdAt: string;
+  projectId: string;
+  taskIds: string[];
 };
 
 type State = {
@@ -16,8 +18,11 @@ type State = {
 
 type Actions = {
   createProject: (project: CreateProjectDTO) => Project;
-  deleteProject: (id: string) => void;
-  updateProject: (id: string, data: Partial<Project>) => void;
+  // deleteProject: (id: string) => void;
+  // updateProject: (id: string, data: Partial<Project>) => void;
+  createColumn: (projectId: string, title: string) => void;
+  deleteColumn: (columnId: string) => void;
+  moveColumn: (projectId: string, newOrder: string[]) => void;
 };
 
 type ProjectStore = State & Actions;
@@ -29,7 +34,7 @@ const initState: State = {
 
 const useProjectStore = create<ProjectStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       ...initState,
       createProject: (project) => {
         const projectId = crypto.randomUUID();
@@ -50,28 +55,89 @@ const useProjectStore = create<ProjectStore>()(
           columns: {
             ...state.columns,
             ...newProject.columns.reduce<Record<string, Column>>((acc, column) => {
-              acc[column.id] = { ...column, createdAt: new Date().toISOString() };
+              acc[column.id] = { ...column, createdAt: new Date().toISOString(), projectId, taskIds: [] };
               return acc;
             }, {}),
           },
         }));
         return newProject;
       },
-      deleteProject: (id) => {
+
+      // deleteProject: (id) => {
+      //   set((state) => {
+      //     const newProjects = { ...state.projects };
+      //     delete newProjects[id];
+      //     return { projects: newProjects };
+      //   });
+      // },
+      // updateProject: (id, data) => {
+      //   set((state) => ({
+      //     projects: {
+      //       [id]: {
+      //         ...state.projects[id],
+      //         ...data,
+      //       },
+      //       ...state.projects,
+      //     },
+      //   }));
+      // },
+      createColumn: (projectId, title) => {
+        const id = 'column-' + crypto.randomUUID();
+        const newColumn: Column = {
+          id,
+          projectId,
+          title,
+          taskIds: [],
+          createdAt: new Date().toISOString(),
+        };
+
         set((state) => {
-          const newProjects = { ...state.projects };
-          delete newProjects[id];
-          return { projects: newProjects };
+          const updatedProject: Project = {
+            ...state.projects[projectId],
+            columnsIds: [...state.projects[projectId].columnsIds, id],
+          };
+
+          return {
+            ...state,
+            columns: {
+              ...state.columns,
+              [id]: newColumn,
+            },
+            projects: {
+              ...state.projects,
+              [projectId]: updatedProject,
+            },
+          };
         });
       },
-      updateProject: (id, data) => {
+      deleteColumn: (columnId) => {
+        console.log('delete', columnId);
+
+        const { columns, projects } = get();
+        const { [columnId]: column, ...rest } = columns;
+        if (!column) return;
+
+        set({
+          columns: rest,
+          projects: {
+            ...projects,
+            [column.projectId]: {
+              ...projects[column.projectId],
+              columnsIds: projects[column.projectId].columnsIds.filter((id) => id !== columnId),
+            },
+          },
+          // TODO: добавить удаление задач при удалении столбца
+          // tasks: Object.fromEntries(Object.entries(tasks).filter(([, task]) => task.columnId !== columnId)),
+        });
+      },
+      moveColumn: (projectId, newOrder) => {
         set((state) => ({
           projects: {
-            [id]: {
-              ...state.projects[id],
-              ...data,
-            },
             ...state.projects,
+            [projectId]: {
+              ...state.projects[projectId],
+              columnsIds: newOrder,
+            },
           },
         }));
       },

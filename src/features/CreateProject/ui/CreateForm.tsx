@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { CreateProjectDTO, defaultColumns, projectSchema } from '../model';
 import { Form, SubmitBtns, Text } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-// import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import CreateColumnsArray from './CreateColumnsArray';
 import { useProjectStore } from '@/entities/Project';
@@ -15,17 +14,8 @@ interface Props {
 }
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
-  // const { t } = useTranslation();
   const navigate = useNavigate();
   const { createProject } = useProjectStore();
-
-  // const methods = useForm<CreateProjectDTO>({
-  //   resolver: zodResolver(createSchema),
-  //   defaultValues: {
-  //     columns: DEFAULT_COLUMNS,
-  //   },
-
-  // });
 
   const methods = useForm<CreateProjectDTO>({
     resolver: zodResolver(projectSchema),
