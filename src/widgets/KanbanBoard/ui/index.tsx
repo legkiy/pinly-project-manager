@@ -1,17 +1,30 @@
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  DragOverEvent,
+  MeasuringStrategy,
+} from '@dnd-kit/core';
 import { arrayMove, SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { Box, IconButton, Stack, TextField } from '@mui/material';
 import { useState } from 'react';
 import SortableColumn from './SortableColumn';
 import { Project, useProjectStore } from '@/entities/Project';
+import { createPortal } from 'react-dom';
+import { DndItemType } from '../model';
 
 interface KanbanBoardProps {
   project: Project;
 }
 
 const KanbanBoard = ({ project }: KanbanBoardProps) => {
-  const createColumn = useProjectStore((s) => s.createColumn);
-  const moveColumn = useProjectStore((s) => s.moveColumn);
+  const { columns, tasks, createColumn, moveColumn, sortTasks, moveTask } = useProjectStore();
+  const [activeDragItem, setActiveDragItem] = useState<{ type: DndItemType; id: string } | null>(null);
 
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
@@ -19,17 +32,6 @@ const KanbanBoard = ({ project }: KanbanBoardProps) => {
     },
   });
   const sensors = useSensors(pointerSensor);
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    const oldIndex = project.columnsIds.indexOf(active.id as string);
-    const newIndex = project.columnsIds.indexOf(over.id as string);
-
-    const newOrder = arrayMove(project.columnsIds, oldIndex, newIndex);
-    moveColumn(project.id!, newOrder);
-  };
 
   const [newColumnTitle, setNewColumnTitle] = useState('');
 
@@ -40,11 +42,89 @@ const KanbanBoard = ({ project }: KanbanBoardProps) => {
     }
   };
 
+  const handleDragStart = ({ active }: DragStartEvent) => {
+    const activeId = active.id as string;
+
+    if (active.data.current?.type === DndItemType.Task) {
+      setActiveDragItem({ id: activeId, type: DndItemType.Task });
+      return;
+    }
+    if (active.data.current?.type === DndItemType.Column) {
+      setActiveDragItem({ id: activeId, type: DndItemType.Column });
+      return;
+    }
+  };
+
+  const handleDragOver = ({ active, over }: DragOverEvent) => {
+    if (!over) return;
+    const activeId = active.id as string;
+    const overId = over?.id as string;
+
+    if (activeId === overId) return;
+    const activeType: DndItemType = active.data.current?.type;
+    const overType: DndItemType = over.data.current?.type;
+
+    const isActiveTask = activeType === DndItemType.Task;
+    const isOverTask = overType === DndItemType.Task;
+    if (!isActiveTask) return;
+    const overColId = isOverTask ? tasks[overId].columnId : overId;
+    if (overColId === tasks[activeId].columnId) return;
+    moveTask(activeId, overColId);
+    return;
+  };
+
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!over) return;
+    const activeId = active.id as string;
+    const overId = over?.id as string;
+    if (overId == activeId) return;
+
+    const activeType: DndItemType = active.data.current?.type;
+    const overType: DndItemType = over.data.current?.type;
+
+    // Перемещение колонки
+    if (activeType === DndItemType.Column && overType === DndItemType.Column) {
+      const oldIndex = project.columnsIds.indexOf(activeId);
+      const newIndex = project.columnsIds.indexOf(overId);
+
+      const newOrder = arrayMove(project.columnsIds, oldIndex, newIndex);
+      moveColumn(project.id, newOrder);
+      return;
+    }
+
+    // Перемещение задачи внутри колонки
+    if (activeType === DndItemType.Task) {
+      const startColumn = columns[tasks[activeId].columnId];
+
+      if (overType === DndItemType.Task) {
+        const oldIndex = startColumn.taskIds.indexOf(activeId);
+        const newIndex = startColumn.taskIds.indexOf(overId);
+
+        const updateStartColumn = arrayMove(startColumn.taskIds, oldIndex, newIndex);
+
+        sortTasks(startColumn.id, updateStartColumn);
+        return;
+      }
+    }
+  };
+
   return (
     <Box>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={project.columnsIds} strategy={horizontalListSortingStrategy}>
-          <Stack direction="row" gap={2} overflow="auto" py={2}>
+      <Stack direction="row" gap={2} overflow="auto" py={2}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          measuring={{
+            droppable: {
+              strategy: MeasuringStrategy.Always,
+            },
+          }}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+          onDragCancel={() => setActiveDragItem(null)}
+        >
+          <SortableContext items={project.columnsIds} strategy={horizontalListSortingStrategy}>
             {project.columnsIds.map((colId) => (
               <SortableColumn key={colId} id={colId} />
             ))}
@@ -66,9 +146,28 @@ const KanbanBoard = ({ project }: KanbanBoardProps) => {
                 ➕
               </IconButton>
             </Box>
-          </Stack>
-        </SortableContext>
-      </DndContext>
+          </SortableContext>
+          {createPortal(
+            <DragOverlay
+              dropAnimation={{
+                duration: 400,
+                easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+              }}
+            >
+              <Box
+                sx={{
+                  bgcolor: 'rgba(255, 200, 200, 1)',
+                  width: 220,
+                  height: 70,
+                }}
+              >
+                {activeDragItem?.type}
+              </Box>
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
+      </Stack>
     </Box>
   );
 };

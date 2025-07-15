@@ -20,6 +20,10 @@ type Actions = {
   moveColumn: (projectId: string, newOrder: string[]) => void;
   //------------- Task CRUD
   createTask: (task: CreateTaskDTO) => void;
+  moveTask: (taskId: string, toColumnId: string, beforeTaskId?: string) => void;
+  moveTask2: () => void;
+
+  sortTasks: (columnId: string, newOrder: string[]) => void;
 };
 
 type ProjectStore = State & Actions;
@@ -38,8 +42,8 @@ const useProjectStore = create<ProjectStore>()(
         const projectId = crypto.randomUUID();
 
         const newProject: Project = {
-          id: projectId,
           ...project,
+          id: projectId,
           createdAt: new Date().toISOString(),
           columnsIds: columns.map((el) => el.id),
         };
@@ -60,6 +64,7 @@ const useProjectStore = create<ProjectStore>()(
         }));
         return newProject;
       },
+      //------------- Column CRUD
       createColumn: (projectId, title) => {
         const id = 'column-' + crypto.randomUUID();
         const newColumn: Column = {
@@ -111,6 +116,7 @@ const useProjectStore = create<ProjectStore>()(
       },
       moveColumn: (projectId, newOrder) => {
         set((state) => ({
+          ...state,
           projects: {
             ...state.projects,
             [projectId]: {
@@ -120,9 +126,89 @@ const useProjectStore = create<ProjectStore>()(
           },
         }));
       },
-      createTask: (task) => {},
+      //------------- Task CRUD
+      createTask: (task) => {
+        const taskId = 'task-' + crypto.randomUUID();
+        const newTask: Task = {
+          ...task,
+          id: taskId,
+          createdAt: new Date().toISOString(),
+        };
+
+        set((state) => {
+          return {
+            ...state,
+            columns: {
+              ...state.columns,
+              [task.columnId]: {
+                ...state.columns[task.columnId],
+                taskIds: [...state.columns[task.columnId].taskIds, taskId],
+              },
+            },
+            tasks: {
+              ...state.tasks,
+              [taskId]: newTask,
+            },
+          };
+        });
+      },
+
+      moveTask: (taskId, toColumnId, beforeTaskId) => {
+        set((state) => {
+          const task = state.tasks[taskId];
+          const fromColumnId = task.columnId;
+
+          if (!task || !state.columns[toColumnId]) return state;
+
+          // Удаляем из старой колонки
+          const updatedFromColumn: Column = {
+            ...state.columns[fromColumnId],
+            taskIds: state.columns[fromColumnId].taskIds.filter((id) => id !== taskId),
+          };
+          console.log(
+            state.columns[fromColumnId].taskIds,
+            state.columns[fromColumnId].taskIds.filter((id) => id !== taskId)
+          );
+
+          // Добавляем в новую колонку
+          const newTaskIds = [...state.columns[toColumnId].taskIds, taskId];
+          const insertIndex = beforeTaskId ? newTaskIds.indexOf(beforeTaskId) : newTaskIds.length;
+
+          return {
+            ...state,
+            columns: {
+              ...state.columns,
+              [fromColumnId]: updatedFromColumn,
+              [toColumnId]: {
+                ...state.columns[toColumnId],
+                taskIds: newTaskIds,
+              },
+            },
+            tasks: {
+              ...state.tasks,
+              [taskId]: {
+                ...task,
+                columnId: toColumnId,
+              },
+            },
+          };
+        });
+      },
+      moveTask2: () => {},
+      sortTasks: (columnId, newOrder) => {
+        set((state) => ({
+          ...state,
+          columns: {
+            ...state.columns,
+            [columnId]: {
+              ...state.columns[columnId],
+              taskIds: newOrder,
+            },
+          },
+        }));
+      },
     }),
-    { name: 'projectStore', partialize: ({ projects, columns }) => ({ projects, columns }) }
+    { name: 'projectStore', partialize: ({ projects, columns, tasks }) => ({ projects, columns, tasks }) }
   )
 );
 

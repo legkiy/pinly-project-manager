@@ -8,7 +8,6 @@ export const createSchema = z.object({
     .nonempty('errors.required')
     .min(1, 'errors.required'),
   description: z.string().nonempty('errors.required').min(1, 'errors.required'),
-  // projectId: z.string().nonempty(),
   columnId: z.string().nonempty(),
 });
 

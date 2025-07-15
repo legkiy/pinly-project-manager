@@ -5,7 +5,6 @@ import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mu
 import { SubmitBtns, Text } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
 import { memo, useMemo } from 'react';
-import { routerService } from '@/shared/lib';
 
 interface Props {
   onCancel: () => void;
@@ -15,6 +14,8 @@ interface Props {
 
 const CreateForm = ({ onCancel, onSubmit, projectId }: Props) => {
   const columns = useProjectStore((s) => s.columns);
+  const createTask = useProjectStore((s) => s.createTask);
+
   const columnsList = useMemo(
     () =>
       Object.entries(columns)
@@ -26,16 +27,13 @@ const CreateForm = ({ onCancel, onSubmit, projectId }: Props) => {
   const methods = useForm<CreateTaskDTO>({
     resolver: zodResolver(createSchema),
     defaultValues: {
-      // projectId: projectId,
       columnId: columnsList[0].id,
     },
   });
 
   const handleOnSubmit = (data: CreateTaskDTO) => {
-    console.log(data);
-
-    // addTask(createTaskByDto(data));
-    // onSubmit();
+    createTask(data);
+    onSubmit();
   };
 
   return (
@@ -61,7 +59,7 @@ const CreateForm = ({ onCancel, onSubmit, projectId }: Props) => {
           name="columnId"
           control={methods.control}
           rules={{ required: true }}
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <FormControl fullWidth>
               <InputLabel>
                 <Text mess="toColumn" />
