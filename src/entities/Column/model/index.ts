@@ -1,7 +1,6 @@
-export type Column = {
-  id: string;
-  title: string;
-  createdAt: string;
+import { UniqEntity } from '@/shared/models';
+
+export type Column = UniqEntity & {
   projectId: string;
   taskIds: string[];
 };

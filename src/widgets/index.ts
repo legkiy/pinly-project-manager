@@ -3,5 +3,4 @@ export { QuickSettings } from './QuickSettings';
 export { ProjectsList } from './ProjectsList';
 export { Navbar } from './Navbar';
 export { ProjectHeader } from './ProjectHeader';
-export { Kanban } from './Kanban';
 export { KanbanBoard } from './KanbanBoard';

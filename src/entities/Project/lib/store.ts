@@ -21,8 +21,6 @@ type Actions = {
   //------------- Task CRUD
   createTask: (task: CreateTaskDTO) => void;
   moveTask: (taskId: string, toColumnId: string, beforeTaskId?: string) => void;
-  moveTask2: () => void;
-
   sortTasks: (columnId: string, newOrder: string[]) => void;
 };
 
@@ -152,8 +150,7 @@ const useProjectStore = create<ProjectStore>()(
           };
         });
       },
-
-      moveTask: (taskId, toColumnId, beforeTaskId) => {
+      moveTask: (taskId, toColumnId) => {
         set((state) => {
           const task = state.tasks[taskId];
           const fromColumnId = task.columnId;
@@ -165,14 +162,9 @@ const useProjectStore = create<ProjectStore>()(
             ...state.columns[fromColumnId],
             taskIds: state.columns[fromColumnId].taskIds.filter((id) => id !== taskId),
           };
-          console.log(
-            state.columns[fromColumnId].taskIds,
-            state.columns[fromColumnId].taskIds.filter((id) => id !== taskId)
-          );
 
           // Добавляем в новую колонку
           const newTaskIds = [...state.columns[toColumnId].taskIds, taskId];
-          const insertIndex = beforeTaskId ? newTaskIds.indexOf(beforeTaskId) : newTaskIds.length;
 
           return {
             ...state,
@@ -194,7 +186,6 @@ const useProjectStore = create<ProjectStore>()(
           };
         });
       },
-      moveTask2: () => {},
       sortTasks: (columnId, newOrder) => {
         set((state) => ({
           ...state,

@@ -2,7 +2,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { createSchema, CreateTaskDTO } from '../model';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
-import { SubmitBtns, Text } from '@/shared/ui';
+import { Form, SubmitBtns, Text } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
 import { memo, useMemo } from 'react';
 
@@ -37,7 +37,7 @@ const CreateForm = ({ onCancel, onSubmit, projectId }: Props) => {
   };
 
   return (
-    <form noValidate onSubmit={methods.handleSubmit(handleOnSubmit)}>
+    <Form methods={methods} onSubmit={handleOnSubmit}>
       <Stack gap={2} pt={1}>
         <TextField
           fullWidth
@@ -76,7 +76,7 @@ const CreateForm = ({ onCancel, onSubmit, projectId }: Props) => {
         />
         <SubmitBtns onCancel={onCancel} />
       </Stack>
-    </form>
+    </Form>
   );
 };
 export default memo(CreateForm);

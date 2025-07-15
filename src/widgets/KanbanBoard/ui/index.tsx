@@ -9,6 +9,7 @@ import {
   DragStartEvent,
   DragOverEvent,
   MeasuringStrategy,
+  defaultDropAnimationSideEffects,
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { Box, IconButton, Stack, TextField } from '@mui/material';
@@ -152,6 +153,13 @@ const KanbanBoard = ({ project }: KanbanBoardProps) => {
               dropAnimation={{
                 duration: 400,
                 easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+                sideEffects: defaultDropAnimationSideEffects({
+                  styles: {
+                    active: {
+                      opacity: '0.5',
+                    },
+                  },
+                }),
               }}
             >
               <Box

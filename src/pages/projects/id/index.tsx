@@ -1,6 +1,5 @@
 import { useProjectStore } from '@/entities/Project';
-import { CreateTask } from '@/features';
-import { KanbanBoard } from '@/widgets';
+import { KanbanBoard, ProjectHeader } from '@/widgets';
 import { Stack } from '@mui/material';
 import { useParams } from 'react-router';
 
@@ -10,7 +9,7 @@ const ProjectIdPage = () => {
 
   return (
     <Stack gap={1} height="100%">
-      <CreateTask projectId={id!} />
+      <ProjectHeader project={project} />
       <KanbanBoard project={project} />
     </Stack>
   );
