@@ -4,7 +4,6 @@ import { routerService } from '@/shared/lib';
 import { Link } from '@/shared/ui';
 import { RemoveCircleRounded } from '@mui/icons-material';
 import { Project } from '../model';
-import { useProjectStore } from '../lib';
 
 interface Props extends Project {
   height: number;
@@ -12,12 +11,9 @@ interface Props extends Project {
 }
 
 const ProjectCard = (project: Props) => {
-  // const { removeProject } = useProjectStore();
-
   const handleRemove = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
     event.preventDefault();
-    // removeProject(project.id);
   };
 
   return (

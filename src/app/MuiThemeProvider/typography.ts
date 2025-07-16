@@ -1,6 +1,5 @@
-import { Palette } from '@mui/material';
-import { TypographyOptions } from '@mui/material/styles/createTypography';
+import {  ThemeOptions } from '@mui/material';
 
-const typography: TypographyOptions | ((palette: Palette) => TypographyOptions) = {};
+const typography: ThemeOptions['typography']  = {};
 
 export default typography;
