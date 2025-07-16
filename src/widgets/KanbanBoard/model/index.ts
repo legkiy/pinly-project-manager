@@ -1,4 +1,4 @@
-export const enum DnDItemType {
+export const enum DndItemType {
   Task = 'task',
   Column = 'column',
 }

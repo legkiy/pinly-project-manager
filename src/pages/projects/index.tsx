@@ -1,7 +1,7 @@
 import { ProjectsList, QuickSettings } from '@/widgets';
 import { Container, Stack } from '@mui/material';
 
-const MainPage = () => {
+const ProjectsPage = () => {
   return (
     <Container maxWidth="lg" sx={{ p: 1, height: '100vh' }}>
       <Stack gap={2} height="100%">
@@ -11,4 +11,4 @@ const MainPage = () => {
     </Container>
   );
 };
-export default MainPage;
+export default ProjectsPage;

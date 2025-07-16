@@ -1,3 +1,4 @@
+import { createEntityRouteMap } from './createEntityRouteMap';
 import Route from './Route';
 
 class RouterService {
@@ -17,4 +18,11 @@ class RouterService {
   };
 }
 
-export default RouterService;
+const routerService = {
+  projects: createEntityRouteMap('projects'),
+  settings: {
+    root: 'settings',
+  },
+};
+
+export default routerService;

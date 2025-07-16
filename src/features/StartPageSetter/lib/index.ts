@@ -13,7 +13,7 @@ type Actions = {
 type Store = State & Actions;
 
 const initState: State = {
-  startPage: routerService.main.root,
+  startPage: routerService.projects.root,
 };
 
 export const useStartPageSetter = create<Store>()(

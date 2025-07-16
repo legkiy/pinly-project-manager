@@ -2,8 +2,8 @@ import { ThemeMode, useThemeStore } from '@/features/ThemeSwitcher';
 import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 import typography from './typography';
 import components from './components';
-import dark from './palette/dark';
-import light from './palette/light';
+import dark from './colorSchemes/dark';
+import light from './colorSchemes/light';
 
 interface Props {
   children: React.ReactNode;

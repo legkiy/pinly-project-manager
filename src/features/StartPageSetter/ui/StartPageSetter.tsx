@@ -24,13 +24,13 @@ const StartPageSetter = ({ projects }: Props) => {
       <InputLabel>
         <Text mess="settings.pageWhenOpened" />
       </InputLabel>
-      <Select onChange={handleChange} label={<Text mess="settings.pageWhenOpened" />} value={startPage}>
+      <Select onChange={handleChange} label={<Text mess="settings.pageWhenOpened" text />} value={startPage}>
         <MenuItem value="/">
-          <Text mess="projectsList" />
+          <Text mess="project.list" />
         </MenuItem>
         {projects.map((project) => (
-          <MenuItem key={project.id} value={routerService.project.slug(project.id)}>
-            {project.name}
+          <MenuItem key={project.id} value={routerService.projects.id(project.id)}>
+            {project.title}
           </MenuItem>
         ))}
       </Select>

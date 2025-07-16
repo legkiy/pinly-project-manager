@@ -1,6 +1,6 @@
 import { Text } from '@/shared/ui';
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material';
-import { Button, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { Button, IconButton, Stack, TextField } from '@mui/material';
 import { ArrayPath, FieldArray, FieldValues, useFieldArray, UseFormReturn } from 'react-hook-form';
 
 interface Props<T extends FieldValues> {
@@ -18,11 +18,9 @@ const CreateColumnsArray = <T extends FieldValues>({ methods, name, defaultField
   return (
     <Stack spacing={2} mt={2}>
       <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h6">
-          <Text mess="kanban.columns" />
-        </Typography>
+        <Text mess="kanban.columns" variant="h6" />
         <Button onClick={() => append(defaultField)} startIcon={<AddCircleRounded />} size="small">
-          <Text mess="kanban.addColumn" />
+          <Text mess="kanban.addColumn" text />
         </Button>
       </Stack>
       {fields.map((field, index) => (
@@ -43,9 +41,9 @@ const CreateColumnsArray = <T extends FieldValues>({ methods, name, defaultField
           }}
           fullWidth
           label={`Column ${index + 1}`}
-          {...methods.register(`${name}.${index}.name` as any)}
+          {...methods.register(`${name}.${index}.title` as any)}
           error={!!(methods.formState.errors[name] as any)?.[index]}
-          helperText={<Text mess={(methods.formState.errors[name] as any)?.[index]?.name?.message ?? ''} />}
+          helperText={<Text mess={(methods.formState.errors[name] as any)?.[index]?.name?.message ?? ''} text />}
         />
       ))}
     </Stack>

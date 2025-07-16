@@ -1,12 +1,15 @@
 import { Text } from '@/shared/ui';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { CreateProject } from '@/features';
 import { ProjectCard, useProjectStore } from '@/entities/Project';
 
 const CARD_SIZE = { width: 355, height: 200 };
 
 const ProjectsList = () => {
-  const { projectsList } = useProjectStore();
+  const { projects } = useProjectStore();
+
+  const projectsList = Object.values(projects);
+
   return (
     <>
       <Stack
@@ -17,9 +20,7 @@ const ProjectsList = () => {
           mx: 2,
         }}
       >
-        <Typography variant="h3">
-          <Text mess="avalableProjectsCount" options={{ count: projectsList.length }} />
-        </Typography>
+        <Text mess="project.avalableCount" options={{ count: projectsList.length }} variant="h3" />
         <CreateProject />
       </Stack>
       <Box

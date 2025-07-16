@@ -1,6 +1,7 @@
 import { Project } from '@/entities/Project';
 import { CreateTask } from '@/features';
-import { Box, Stack, Typography } from '@mui/material';
+import { Text } from '@/shared/ui';
+import { Box, Stack } from '@mui/material';
 import { memo } from 'react';
 
 interface Props {
@@ -10,9 +11,9 @@ interface Props {
 const ProjectHeader = ({ project }: Props) => {
   return (
     <Stack direction="row" justifyContent="space-between">
-      <Typography variant="h3">{project?.name}</Typography>
+      <Text mess={project.title} variant="h3" />
       <Box alignContent="center">
-        <CreateTask projectId={project.id} columnId={project.columns[0].id} />
+        <CreateTask projectId={project.id} />
       </Box>
     </Stack>
   );

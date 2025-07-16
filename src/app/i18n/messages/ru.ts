@@ -9,15 +9,20 @@ const RU: typeof EN = {
   },
   kanban: {
     columns: 'Колонки',
-    toDo: 'Сделать',
+    queue: 'Очередь',
     inProgress: 'В процессе',
     done: 'Готово',
     addColumn: 'Добавить колонку',
-    newTask: 'Новая задача',
+    toColumn: 'В колонку',
   },
-  avalableProjectsCount: 'Доступые Проекты {{count}}',
-  projectsList: 'Список Проектов',
-  project: 'Проект',
+  task: {
+    new: 'Новая задача',
+  },
+  project: {
+    title: 'Проект',
+    avalableCount: 'Доступые Проекты {{count}}',
+    list: 'Список Проектов',
+  },
   common: {
     name: 'Имя',
     description: 'Описание',
