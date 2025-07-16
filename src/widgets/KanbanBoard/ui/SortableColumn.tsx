@@ -1,11 +1,10 @@
 import { useProjectStore } from '@/entities/Project';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Box, IconButton, Paper } from '@mui/material';
+import { Box, IconButton, Paper, Stack } from '@mui/material';
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import SortableTaskItem from './SortableTaskItem';
 import { DndItemType } from '../model';
-import { useDroppable } from '@dnd-kit/core';
 
 interface SortableColumnProps {
   id: string;
@@ -16,13 +15,6 @@ const SortableColumn = ({ id }: SortableColumnProps) => {
   const deleteColumn = useProjectStore((s) => s.deleteColumn);
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id,
-    data: {
-      type: DndItemType.Column,
-    },
-  });
-
-  const { setNodeRef: droppableRef } = useDroppable({
     id,
     data: {
       type: DndItemType.Column,
@@ -40,13 +32,10 @@ const SortableColumn = ({ id }: SortableColumnProps) => {
       ref={setNodeRef}
       sx={{
         ...style,
-        p: 2,
-        pt: 1,
-        minWidth: 240,
-        maxWidth: 280,
+        p: 1.4,
+        width: 300,
         height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        position: 'relative',
       }}
     >
       <div
@@ -55,6 +44,10 @@ const SortableColumn = ({ id }: SortableColumnProps) => {
         style={{
           alignSelf: 'center',
           cursor: 'grab',
+          position: 'absolute',
+          top: 0,
+          left: '50%',
+          transform: `translate(-50%, 0)`,
         }}
       >
         <Box
@@ -68,33 +61,29 @@ const SortableColumn = ({ id }: SortableColumnProps) => {
           }}
         />
       </div>
-      <Box ref={droppableRef}>
-        <SortableContext items={column.taskIds} strategy={verticalListSortingStrategy}>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{
-              mb: 2,
-            }}
-          >
-            {column.title}
-            <IconButton
-              onClick={() => {
-                deleteColumn(id);
-              }}
-              size="small"
-            >
-              <DeleteRounded fontSize="small" />
-            </IconButton>
-          </Box>
-          <Box minHeight={50}>
-            {column.taskIds.map((taskId) => (
-              <SortableTaskItem key={taskId} taskId={taskId} />
-            ))}
-          </Box>
-        </SortableContext>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        {column.title}
+        <IconButton
+          onClick={() => {
+            deleteColumn(id);
+          }}
+          size="small"
+        >
+          <DeleteRounded fontSize="small" />
+        </IconButton>
       </Box>
+      <Stack
+        gap={1}
+        sx={{
+          mt: column.taskIds.length > 0 ? 1 : 0,
+        }}
+      >
+        <SortableContext items={column.taskIds} strategy={verticalListSortingStrategy}>
+          {column.taskIds.map((taskId) => (
+            <SortableTaskItem key={taskId} taskId={taskId} />
+          ))}
+        </SortableContext>
+      </Stack>
     </Paper>
   );
 };

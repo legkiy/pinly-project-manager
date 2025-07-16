@@ -5,14 +5,19 @@ import { memo } from 'react';
 import { Task } from '../model';
 
 interface Props extends Task {
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
-const TaskCard = ({ id, name, description, onDelete }: Props) => {
+const TaskCard = ({ id, title, description, onDelete }: Props) => {
   return (
     <Card elevation={1}>
       <CardHeader
-        title={name}
+        slotProps={{
+          title: {
+            variant: 'h6',
+          },
+        }}
+        title={title}
         action={
           <DropdownMenu
             renderBtn={(onOpen) => (
@@ -26,7 +31,7 @@ const TaskCard = ({ id, name, description, onDelete }: Props) => {
                 <MenuItem
                   onClick={() => {
                     onClose();
-                    onDelete(id);
+                    onDelete?.(id);
                   }}
                 >
                   <DeleteRounded />

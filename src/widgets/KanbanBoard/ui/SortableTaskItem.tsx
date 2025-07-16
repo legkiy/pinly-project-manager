@@ -1,8 +1,9 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Box, Paper, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { useProjectStore } from '@/entities/Project';
 import { DndItemType } from '../model';
+import { TaskCard } from '@/entities/Task';
 
 interface SortableTaskItemProps {
   taskId: string;
@@ -10,6 +11,7 @@ interface SortableTaskItemProps {
 
 const SortableTaskItem = ({ taskId }: SortableTaskItemProps) => {
   const task = useProjectStore((s) => s.tasks[taskId]);
+  const deleteTask = useProjectStore((s) => s.deleteTask);
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging, active } = useSortable({
     id: taskId,
@@ -25,19 +27,14 @@ const SortableTaskItem = ({ taskId }: SortableTaskItemProps) => {
   };
 
   return (
-    <Paper
+    <Box
       ref={active?.data.current?.type === DndItemType.Column ? null : setNodeRef}
       {...attributes}
       {...listeners}
-      sx={{ p: 1, mb: 1, cursor: 'grab', ...style }}
+      sx={{ cursor: 'grab', ...style }}
     >
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Box>
-          {task.title}
-          {task.description && <div>{task.description}</div>}
-        </Box>
-      </Stack>
-    </Paper>
+      <TaskCard {...task} onDelete={deleteTask} />
+    </Box>
   );
 };
 

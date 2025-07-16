@@ -18,6 +18,7 @@ import SortableColumn from './SortableColumn';
 import { Project, useProjectStore } from '@/entities/Project';
 import { createPortal } from 'react-dom';
 import { DndItemType } from '../model';
+import { TaskCard } from '@/entities/Task';
 
 interface KanbanBoardProps {
   project: Project;
@@ -162,15 +163,18 @@ const KanbanBoard = ({ project }: KanbanBoardProps) => {
                 }),
               }}
             >
-              <Box
-                sx={{
-                  bgcolor: 'rgba(255, 200, 200, 1)',
-                  width: 220,
-                  height: 70,
+              <div
+                style={{
+                  cursor: 'grabbing',
                 }}
               >
-                {activeDragItem?.type}
-              </Box>
+                {activeDragItem &&
+                  (activeDragItem?.type === DndItemType.Task ? (
+                    <TaskCard {...tasks[activeDragItem.id]} />
+                  ) : (
+                    <SortableColumn id={activeDragItem.id} />
+                  ))}
+              </div>
             </DragOverlay>,
             document.body
           )}

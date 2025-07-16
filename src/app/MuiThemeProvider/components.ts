@@ -61,6 +61,7 @@ const components: Theme['components'] = {
       }),
       invisible: {
         backdropFilter: 'none',
+        backgroundColor: 'transparent',
       },
     },
   },

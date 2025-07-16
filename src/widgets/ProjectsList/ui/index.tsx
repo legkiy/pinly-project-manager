@@ -20,7 +20,7 @@ const ProjectsList = () => {
           mx: 2,
         }}
       >
-        <Text mess="avalableProjectsCount" options={{ count: projectsList.length }} variant="h3" />
+        <Text mess="project.avalableCount" options={{ count: projectsList.length }} variant="h3" />
         <CreateProject />
       </Stack>
       <Box

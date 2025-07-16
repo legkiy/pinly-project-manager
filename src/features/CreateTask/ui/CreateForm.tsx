@@ -62,9 +62,9 @@ const CreateForm = ({ onCancel, onSubmit, projectId }: Props) => {
           render={({ field }) => (
             <FormControl fullWidth>
               <InputLabel>
-                <Text mess="toColumn" />
+                <Text mess="kanban.toColumn" />
               </InputLabel>
-              <Select onChange={field.onChange} label={<Text mess="toColumn" text />} value={field.value}>
+              <Select onChange={field.onChange} label={<Text mess="kanban.toColumn" text />} value={field.value}>
                 {columnsList.map((col) => (
                   <MenuItem key={col.id} value={col.id}>
                     {col.title}

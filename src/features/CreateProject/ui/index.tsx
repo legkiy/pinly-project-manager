@@ -15,9 +15,9 @@ const CreateProject = () => {
         }}
         onClick={modal.onOpen}
       >
-        <Text mess={['common.add', ' ', 'project']} text />
+        <Text mess={['common.add', ' ', 'project.title']} text />
       </Button>
-      <ModalComponent title={<Text mess={['common.new', ' ', 'project']} text />}>
+      <ModalComponent title={<Text mess={['common.new', ' ', 'project.title']} text />}>
         <CreateForm onCancel={modal.onClose} onSubmit={modal.onClose} />
       </ModalComponent>
     </>

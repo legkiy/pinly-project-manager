@@ -7,15 +7,20 @@ const EN = {
   },
   kanban: {
     columns: 'Columns',
-    toDo: 'To Do',
+    queue: 'Queue',
     inProgress: 'In Progress',
     done: 'Done',
     addColumn: 'Add Column',
-    newTask: 'New task',
+    toColumn: 'To Column',
   },
-  avalableProjectsCount: 'Available Projects {{count}}',
-  projectsList: 'Projects List',
-  project: 'Project',
+  task: {
+    new: 'New task',
+  },
+  project: {
+    title: 'Project',
+    avalableCount: 'Available Projects {{count}}',
+    list: 'Projects List',
+  },
   common: {
     name: 'Name',
     description: 'Description',

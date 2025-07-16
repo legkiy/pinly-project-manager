@@ -15,9 +15,9 @@ const CreateTask = ({ projectId }: Props) => {
   return (
     <>
       <Button startIcon={<AddCircleRounded />} onClick={modal.toggleModal}>
-        <Text mess="kanban.newTask" />
+        <Text mess="task.new" />
       </Button>
-      <ModalComponent title={<Text mess="kanban.newTask" text />}>
+      <ModalComponent title={<Text mess="task.new" text />}>
         <CreateForm onCancel={modal.onClose} onSubmit={modal.onClose} projectId={projectId} />
       </ModalComponent>
     </>

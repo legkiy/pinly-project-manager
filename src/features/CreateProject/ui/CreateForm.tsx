@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import CreateColumnsArray from './CreateColumnsArray';
 import { useProjectStore } from '@/entities/Project';
 import { routerService } from '@/shared/lib';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onCancel: () => void;
@@ -14,10 +15,11 @@ interface Props {
 }
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
+  const { t } = useTranslation();
   const defaultColumns = [
-    { title: 'Очередь', id: 'column-' + crypto.randomUUID() },
-    { title: 'В процессе', id: 'column-' + crypto.randomUUID() },
-    { title: 'Завершено', id: 'column-' + crypto.randomUUID() },
+    { title: t('kanban.queue'), id: 'column-' + crypto.randomUUID() },
+    { title: t('kanban.inProgress'), id: 'column-' + crypto.randomUUID() },
+    { title: t('kanban.done'), id: 'column-' + crypto.randomUUID() },
   ];
 
   const navigate = useNavigate();

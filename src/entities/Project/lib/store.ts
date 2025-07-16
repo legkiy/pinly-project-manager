@@ -22,6 +22,7 @@ type Actions = {
   createTask: (task: CreateTaskDTO) => void;
   moveTask: (taskId: string, toColumnId: string, beforeTaskId?: string) => void;
   sortTasks: (columnId: string, newOrder: string[]) => void;
+  deleteTask: (taskId: string) => void;
 };
 
 type ProjectStore = State & Actions;
@@ -93,11 +94,18 @@ const useProjectStore = create<ProjectStore>()(
         });
       },
       deleteColumn: (columnId) => {
-        console.log('delete', columnId);
-
-        const { columns, projects } = get();
+        const { columns, projects, tasks } = get();
         const { [columnId]: column, ...rest } = columns;
+
         if (!column) return;
+
+        const keysToRemove = new Set(column.taskIds);
+        const updateTasks = Object.keys(tasks).reduce<Record<string, Task>>((acc, key) => {
+          if (!keysToRemove.has(key)) {
+            acc[key] = tasks[key];
+          }
+          return acc;
+        }, {});
 
         set({
           columns: rest,
@@ -108,8 +116,7 @@ const useProjectStore = create<ProjectStore>()(
               columnsIds: projects[column.projectId].columnsIds.filter((id) => id !== columnId),
             },
           },
-          // TODO: добавить удаление задач при удалении столбца
-          // tasks: Object.fromEntries(Object.entries(tasks).filter(([, task]) => task.columnId !== columnId)),
+          tasks: updateTasks,
         });
       },
       moveColumn: (projectId, newOrder) => {
@@ -196,6 +203,15 @@ const useProjectStore = create<ProjectStore>()(
               taskIds: newOrder,
             },
           },
+        }));
+      },
+      deleteTask: (taskId) => {
+        const { tasks } = get();
+        const { [taskId]: _deletedTask, ...rest } = tasks;
+
+        set((state) => ({
+          ...state,
+          tasks: rest,
         }));
       },
     }),
