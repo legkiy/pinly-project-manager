@@ -28,16 +28,6 @@ const components: Theme['components'] = {
       },
     },
   },
-  MuiPaper: {
-    styleOverrides: {
-      elevation1: ({ theme }) => ({
-        boxShadow: 'none',
-        borderColor: theme.palette.grey[200],
-        borderWidth: 1,
-        borderStyle: 'solid',
-      }),
-    },
-  },
   MuiCard: {
     defaultProps: {
       elevation: 5,

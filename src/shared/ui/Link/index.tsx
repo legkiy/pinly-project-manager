@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router';
+import { Link as RouterLink } from 'react-router';
 import { Link as MuiLink, LinkProps } from '@mui/material';
 import { memo } from 'react';
 
@@ -7,7 +7,7 @@ interface Props extends Omit<LinkProps, 'href'> {
 }
 const Link = (props: Props) => {
   return (
-    <MuiLink {...props} component={NavLink} to={props.to}>
+    <MuiLink underline="none" {...props} component={RouterLink} to={props.to}>
       {props.children}
     </MuiLink>
   );

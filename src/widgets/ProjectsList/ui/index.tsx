@@ -1,9 +1,7 @@
 import { Text } from '@/shared/ui';
-import { Box, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { CreateProject } from '@/features';
 import { ProjectCard, useProjectStore } from '@/entities/Project';
-
-const CARD_SIZE = { width: 355, height: 200 };
 
 const ProjectsList = () => {
   const { projects } = useProjectStore();
@@ -31,17 +29,13 @@ const ProjectsList = () => {
           px: 2,
         }}
       >
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 2,
-            gridTemplateColumns: 'repeat(auto-fit, minmax(calc(50% - 16px), calc(50% - 16px)))',
-          }}
-        >
+        <Grid container spacing={2}>
           {projectsList.map((project) => (
-            <ProjectCard key={project.id} {...project} {...CARD_SIZE} />
+            <Grid key={project.id} size={6}>
+              <ProjectCard key={project.id} {...project} />
+            </Grid>
           ))}
-        </Box>
+        </Grid>
       </Box>
     </>
   );

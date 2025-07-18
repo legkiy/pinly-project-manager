@@ -1,16 +1,20 @@
-import { Button, ButtonGroup } from '@mui/material';
+import { Button, ButtonGroup, useColorScheme } from '@mui/material';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import ContrastRoundedIcon from '@mui/icons-material/ContrastRounded';
-import { useThemeStore } from '../lib';
 import { ThemeMode } from '../model';
 
 const ThemeSwitcher = () => {
-  const { mode, setThemeMode } = useThemeStore();
+  const { mode, setMode } = useColorScheme();
 
   const handleSwitchTheme = (theme: ThemeMode) => {
-    setThemeMode(theme);
+    // setThemeMode(theme);
+    setMode(theme);
   };
+
+  if (!mode) {
+    return null;
+  }
 
   return (
     <ButtonGroup>

@@ -14,6 +14,7 @@ type State = {
 
 type Actions = {
   createProject: (project: CreateProjectDTO) => Project;
+  deleteProject: (projectId: string) => void;
   //------------- Column CRUD
   createColumn: (projectId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;
@@ -62,6 +63,38 @@ const useProjectStore = create<ProjectStore>()(
           },
         }));
         return newProject;
+      },
+      deleteProject: (projectId: string) => {
+        const { projects, columns, tasks } = get();
+        const project = projects[projectId];
+        if (!project) return;
+
+        const columnIds = project.columnsIds;
+
+        // Собираем все taskIds, которые есть в колонках проекта
+        const taskIdsToRemove = columnIds.flatMap((columnId) => columns[columnId]?.taskIds || []);
+
+        // Удаляем колонки
+        const updatedColumns = { ...columns };
+        columnIds.forEach((id) => {
+          delete updatedColumns[id];
+        });
+
+        // Удаляем задачи
+        const updatedTasks = { ...tasks };
+        taskIdsToRemove.forEach((id) => {
+          delete updatedTasks[id];
+        });
+
+        // Удаляем проект
+        const updatedProjects = { ...projects };
+        delete updatedProjects[projectId];
+
+        set({
+          projects: updatedProjects,
+          columns: updatedColumns,
+          tasks: updatedTasks,
+        });
       },
       //------------- Column CRUD
       createColumn: (projectId, title) => {
