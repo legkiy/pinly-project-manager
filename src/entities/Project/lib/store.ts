@@ -252,22 +252,4 @@ const useProjectStore = create<ProjectStore>()(
   )
 );
 
-// Перегрузка функции для корректного определения возвращаемого объекта
-// export function useProjectStore(): ProjectStore;
-// export function useProjectStore(id: string | undefined): { project: Project | undefined } & ProjectStore;
-
-// export function useProjectStore(projectId?: string) {
-//   const store = projectStore((state) => {
-//     if (projectId) {
-//       return {
-//         ...state,
-//         project: state.projectsList[projectId] || undefined,
-//       };
-//     }
-//     return state;
-//   });
-
-//   return store;
-// }
-
 export default useProjectStore;
