@@ -24,6 +24,5 @@
     }
   },
   "include": ["src"],
-  "exclude": ["create-scripts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -2,7 +2,6 @@ import { PaletteOptions } from '@mui/material';
 
 const paletteLight: PaletteOptions = {
   mode: 'light',
-
   primary: {
     main: '#4A6CF7', // Мягкий индиго/синий
     contrastText: '#ffffff',

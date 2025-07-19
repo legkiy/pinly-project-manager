@@ -1,18 +1,18 @@
 import { useProjectStore } from '@/entities/Project';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Box, IconButton, Paper, Stack } from '@mui/material';
-import DeleteRounded from '@mui/icons-material/DeleteRounded';
-import SortableTaskItem from './SortableTaskItem';
-import { DndItemType } from '../model';
+import { Box, Paper, Stack } from '@mui/material';
+import SortableTaskItem from '../SortableTaskItem';
+import { COLUMN_WIDTH, DndItemType } from '../../model';
+import ColumnTitle from './ColumnTitle';
 
 interface SortableColumnProps {
   id: string;
+  isActive?: boolean;
 }
 
-const SortableColumn = ({ id }: SortableColumnProps) => {
+const SortableColumn = ({ id, isActive }: SortableColumnProps) => {
   const column = useProjectStore((s) => s.columns[id]);
-  const deleteColumn = useProjectStore((s) => s.deleteColumn);
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
@@ -30,10 +30,11 @@ const SortableColumn = ({ id }: SortableColumnProps) => {
   return (
     <Paper
       ref={setNodeRef}
+      elevation={2}
       sx={{
         ...style,
         p: 1.4,
-        width: 300,
+        width: COLUMN_WIDTH,
         height: '100%',
         position: 'relative',
       }}
@@ -43,7 +44,7 @@ const SortableColumn = ({ id }: SortableColumnProps) => {
         {...listeners}
         style={{
           alignSelf: 'center',
-          cursor: 'grab',
+          cursor: isActive ? 'grabbing' : 'grab',
           position: 'absolute',
           top: 0,
           left: '50%',
@@ -58,20 +59,11 @@ const SortableColumn = ({ id }: SortableColumnProps) => {
             bgcolor: 'divider',
             mx: 6,
             my: 1,
+            
           }}
         />
       </div>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        {column.title}
-        <IconButton
-          onClick={() => {
-            deleteColumn(id);
-          }}
-          size="small"
-        >
-          <DeleteRounded fontSize="small" />
-        </IconButton>
-      </Box>
+      <ColumnTitle title={column.title} columnId={id} />
       <Stack
         gap={1}
         sx={{
