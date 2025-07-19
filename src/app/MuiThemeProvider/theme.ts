@@ -6,7 +6,7 @@ import shadows from './shadows';
 
 const theme = createTheme({
   shape: {
-    borderRadius: 14,
+    borderRadius: 16,
   },
   shadows,
   colorSchemes,

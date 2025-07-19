@@ -22,6 +22,36 @@ const components: Theme['components'] = {
     defaultProps: {
       variant: 'contained',
     },
+    variants: [
+      {
+        props: { variant: 'square' },
+        //@ts-expect-error
+        style: ({ theme, color }) => {
+          //@ts-expect-error
+          const paletteColor = theme.palette[color ?? 'primary'];
+          return {
+            boxShadow: SHADOWS_MAP.contained,
+            padding: 4,
+            minWidth: 'unset',
+            borderRadius: +theme.shape.borderRadius * 0.64,
+            backgroundColor: paletteColor.main,
+            color: paletteColor.contrastText,
+            '&:hover': {
+              backgroundColor: paletteColor.dark,
+              boxShadow: theme.shadows[4],
+            },
+            '&:active': {
+              boxShadow: theme.shadows[1],
+            },
+            '&.Mui-disabled': {
+              backgroundColor: theme.palette.action.disabledBackground,
+              color: theme.palette.action.disabled,
+              boxShadow: 'none',
+            },
+          };
+        },
+      },
+    ],
     styleOverrides: {
       contained: {
         boxShadow: SHADOWS_MAP.contained,

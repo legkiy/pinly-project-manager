@@ -9,6 +9,7 @@ const RU: typeof EN = {
   },
   kanban: {
     columns: 'Колонки',
+    
     queue: 'Очередь',
     inProgress: 'В процессе',
     done: 'Готово',

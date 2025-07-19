@@ -19,6 +19,7 @@ type Actions = {
   createColumn: (projectId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;
   moveColumn: (projectId: string, newOrder: string[]) => void;
+  updateColumn: (columnId: string, title: string) => void;
   //------------- Task CRUD
   createTask: (task: CreateTaskDTO) => void;
   moveTask: (taskId: string, toColumnId: string, beforeTaskId?: string) => void;
@@ -163,6 +164,23 @@ const useProjectStore = create<ProjectStore>()(
             },
           },
         }));
+      },
+      updateColumn: (columnId, title) => {
+        set((state) => {
+          const column = state.columns[columnId];
+          if (!column) return state;
+
+          return {
+            ...state,
+            columns: {
+              ...state.columns,
+              [columnId]: {
+                ...column,
+                title,
+              },
+            },
+          };
+        });
       },
       //------------- Task CRUD
       createTask: (task) => {
