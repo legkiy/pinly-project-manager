@@ -12,6 +12,7 @@ dist*
 dist-ssr
 *.local
 /create-scripts/dist
+.env
 
 # Editor directories and files
 .vscode/*
