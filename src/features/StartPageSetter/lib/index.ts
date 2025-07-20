@@ -1,6 +1,6 @@
-import { routerService } from '@/shared/lib';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { routerService } from '@/shared/lib';
 
 type State = {
   startPage: string;

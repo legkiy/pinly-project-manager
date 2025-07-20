@@ -1,8 +1,8 @@
-import { CreateNewItem } from '@/shared/ui';
-import { COLUMN_WIDTH } from '../model';
 import { useState } from 'react';
 import { Box, ClickAwayListener, IconButton, Paper, TextField } from '@mui/material';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import { COLUMN_WIDTH } from '../model';
+import { CreateNewItem } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
 
 interface Props {

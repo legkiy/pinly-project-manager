@@ -1,8 +1,8 @@
 import { CardActions, CardContent, CardMedia, Grid, IconButton, Typography } from '@mui/material';
 import { memo } from 'react';
+import { RemoveCircleRounded } from '@mui/icons-material';
 import { routerService } from '@/shared/lib';
 import { ScalingCard } from '@/shared/ui';
-import { RemoveCircleRounded } from '@mui/icons-material';
 import { Project } from '../model';
 import { useProjectStore } from '../lib';
 

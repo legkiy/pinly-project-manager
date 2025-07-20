@@ -1,4 +1,4 @@
-import { Navigate, RouteObject, createHashRouter } from 'react-router';
+import { createHashRouter, Navigate, RouteObject } from 'react-router';
 import * as Pages from '@/pages';
 import { LayoutWithNavbar } from '@/widgets';
 import ErrorDisplay from '@/shared/ui/ErrorDisplay';

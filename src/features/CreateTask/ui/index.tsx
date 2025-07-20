@@ -1,9 +1,9 @@
-import { useModal } from '@/shared/lib';
-import { Text } from '@/shared/ui';
 import { AddCircleRounded } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import CreateForm from './CreateForm';
 import { memo } from 'react';
+import { useModal } from '@/shared/lib';
+import { Text } from '@/shared/ui';
+import CreateForm from './CreateForm';
 
 interface Props {
   projectId: string;

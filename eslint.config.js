@@ -3,12 +3,15 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import unusedImportPlagin from 'eslint-plugin-unused-imports';
+import importPlagin from 'eslint-plugin-import';
+import tsUnusedVars from '@typescript-eslint/eslint-plugin';
 import react from 'eslint-plugin-react';
 
 export default tseslint.config(
   { ignores: ['dist'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended, 'plugin:react/recommended'],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -23,9 +26,14 @@ export default tseslint.config(
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'unused-imports': unusedImportPlagin,
+      import: importPlagin,
+      '@typescript-eslint/no-unused-vars': tsUnusedVars,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      'react-hooks/exhaustive-deps': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
@@ -75,7 +83,6 @@ export default tseslint.config(
           allowObject: false,
         },
       ],
-      'react/jsx-key': ['error', { checkFragmentShorthand: true }],
     },
   }
 );

@@ -1,5 +1,5 @@
-import { routerService } from '@/shared/lib';
 import WindowRounded from '@mui/icons-material/WindowRounded';
+import { routerService } from '@/shared/lib';
 
 export const NAV_ITEMS_LIST = [
   {

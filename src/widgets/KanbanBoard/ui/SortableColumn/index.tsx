@@ -1,9 +1,9 @@
-import { useProjectStore } from '@/entities/Project';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Box, Paper, Stack } from '@mui/material';
-import SortableTaskItem from '../SortableTaskItem';
 import { COLUMN_WIDTH, DndItemType } from '../../model';
+import { useProjectStore } from '@/entities/Project';
+import SortableTaskItem from '../SortableTaskItem';
 import ColumnTitle from './ColumnTitle';
 
 interface SortableColumnProps {
@@ -59,7 +59,6 @@ const SortableColumn = ({ id, isActive }: SortableColumnProps) => {
             bgcolor: 'divider',
             mx: 6,
             my: 1,
-            
           }}
         />
       </div>

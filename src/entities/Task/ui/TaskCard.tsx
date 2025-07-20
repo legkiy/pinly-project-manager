@@ -1,7 +1,7 @@
-import { DropdownMenu } from '@/shared/ui';
 import { DeleteRounded, MoreVert } from '@mui/icons-material';
 import { Card, CardContent, CardHeader, IconButton, MenuItem } from '@mui/material';
 import { memo } from 'react';
+import { DropdownMenu } from '@/shared/ui';
 import { Task } from '../model';
 
 interface Props extends Task {

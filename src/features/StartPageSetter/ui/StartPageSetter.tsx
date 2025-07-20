@@ -1,5 +1,5 @@
-import { Text } from '@/shared/ui';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Text } from '@/shared/ui';
 import { useStartPageSetter } from '../lib';
 import { routerService } from '@/shared/lib';
 import { Project } from '@/entities/Project';

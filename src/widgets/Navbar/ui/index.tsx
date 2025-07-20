@@ -1,8 +1,8 @@
-import { Link, Text } from '@/shared/ui';
 import { Box, Button, Drawer, IconButton, List, ListItem, useTheme } from '@mui/material';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
+import { Link, Text } from '@/shared/ui';
 import { closedMixin, NAV_ITEMS_LIST, openedMixin } from '../lib';
 
 interface Props {

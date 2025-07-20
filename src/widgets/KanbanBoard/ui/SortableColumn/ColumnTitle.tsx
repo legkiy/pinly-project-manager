@@ -2,8 +2,8 @@ import { Button, ClickAwayListener, IconButton, Stack, TextField } from '@mui/ma
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import { Text } from '@/shared/ui';
 import { useState } from 'react';
+import { Text } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
 
 interface Props {

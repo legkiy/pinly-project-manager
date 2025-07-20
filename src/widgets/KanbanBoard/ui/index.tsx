@@ -1,22 +1,22 @@
 import {
-  DndContext,
   closestCenter,
+  defaultDropAnimationSideEffects,
+  DndContext,
+  DragEndEvent,
+  DragOverEvent,
+  DragOverlay,
+  DragStartEvent,
+  MeasuringStrategy,
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
-  DragOverlay,
-  DragStartEvent,
-  DragOverEvent,
-  MeasuringStrategy,
-  defaultDropAnimationSideEffects,
 } from '@dnd-kit/core';
-import { arrayMove, SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
+import { arrayMove, horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { Box, Stack } from '@mui/material';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import SortableColumn from './SortableColumn';
 import { Project, useProjectStore } from '@/entities/Project';
-import { createPortal } from 'react-dom';
 import { DndItemType } from '../model';
 import { TaskCard } from '@/entities/Task';
 import CreateColumn from './CreateColumn';

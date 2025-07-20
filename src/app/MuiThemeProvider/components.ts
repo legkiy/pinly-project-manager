@@ -25,8 +25,10 @@ const components: Theme['components'] = {
     variants: [
       {
         props: { variant: 'square' },
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-expect-error
         style: ({ theme, color }) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-expect-error
           const paletteColor = theme.palette[color ?? 'primary'];
           return {

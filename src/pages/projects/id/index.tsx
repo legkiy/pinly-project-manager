@@ -1,7 +1,7 @@
-import { useProjectStore } from '@/entities/Project';
-import { KanbanBoard, ProjectHeader } from '@/widgets';
 import { Stack } from '@mui/material';
 import { useParams } from 'react-router';
+import { useProjectStore } from '@/entities/Project';
+import { KanbanBoard, ProjectHeader } from '@/widgets';
 
 const ProjectIdPage = () => {
   const { id } = useParams();

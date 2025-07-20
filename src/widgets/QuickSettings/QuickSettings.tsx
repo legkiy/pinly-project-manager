@@ -1,6 +1,6 @@
+import { Card, CardContent, Stack } from '@mui/material';
 import { LocaleSwitcher, ThemeSwitcher } from '@/features';
 import { Text } from '@/shared/ui';
-import { Card, CardContent, Stack } from '@mui/material';
 
 interface Props {
   collapse?: boolean;

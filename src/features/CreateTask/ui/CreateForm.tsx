@@ -1,10 +1,10 @@
 import { Controller, useForm } from 'react-hook-form';
-import { createSchema, CreateTaskDTO } from '../model';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { memo, useMemo } from 'react';
+import { createSchema, CreateTaskDTO } from '../model';
 import { Form, SubmitBtns, Text } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
-import { memo, useMemo } from 'react';
 
 interface Props {
   onCancel: () => void;

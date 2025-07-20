@@ -3,7 +3,9 @@ class Route {
 
   private _getQueryString<Q>(params?: Q): string {
     if (!params) return '';
-    const queryString = new URLSearchParams(Object.entries(params).map(([key, value]) => [key, String(value)])).toString();
+    const queryString = new URLSearchParams(
+      Object.entries(params).map(([key, value]) => [key, String(value)])
+    ).toString();
     return `?${queryString}`;
   }
 
@@ -11,7 +13,7 @@ class Route {
     return new Route(`${this.rootPath}/${slug}`);
   }
 
-  query<Q extends Record<string, any> = {}>(params?: Q) {
+  query<Q extends Record<string, unknown> = {}>(params?: Q) {
     const newRoute = `${this.rootPath}${this._getQueryString<Q>(params)}`;
     return this._checkRouteDivider(newRoute);
   }

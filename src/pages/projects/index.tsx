@@ -1,5 +1,5 @@
-import { ProjectsList, QuickSettings } from '@/widgets';
 import { Container, Stack } from '@mui/material';
+import { ProjectsList, QuickSettings } from '@/widgets';
 
 const ProjectsPage = () => {
   return (

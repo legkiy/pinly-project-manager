@@ -1,8 +1,8 @@
+import { Box, Stack } from '@mui/material';
+import { memo } from 'react';
 import { Project } from '@/entities/Project';
 import { CreateTask } from '@/features';
 import { Text } from '@/shared/ui';
-import { Box, Stack } from '@mui/material';
-import { memo } from 'react';
 
 interface Props {
   project: Project;
