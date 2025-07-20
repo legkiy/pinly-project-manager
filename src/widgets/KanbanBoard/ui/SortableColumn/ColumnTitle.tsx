@@ -3,7 +3,7 @@ import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useState } from 'react';
-import { Text } from '@/shared/ui';
+import { ConfirmModal, Text } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
 
 interface Props {
@@ -55,9 +55,11 @@ const ColumnTitle = ({ title, columnId }: Props) => {
           {editMode ? <CheckRoundedIcon fontSize="small" /> : <EditRoundedIcon fontSize="small" />}
         </IconButton>
         {!editMode && (
-          <Button onClick={() => deleteColumn(columnId)} size="small" variant="square" color="error">
-            <DeleteRounded fontSize="small" />
-          </Button>
+          <ConfirmModal onConfirm={() => deleteColumn(columnId)}>
+            <Button size="small" variant="square" color="error">
+              <DeleteRounded fontSize="small" />
+            </Button>
+          </ConfirmModal>
         )}
       </Stack>
     </Stack>

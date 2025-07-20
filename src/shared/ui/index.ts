@@ -5,3 +5,4 @@ export { default as SubmitBtns } from './SubmitBtns';
 export { default as Form } from './Form';
 export { default as ScalingCard } from './ScalingCard';
 export { default as CreateNewItem } from './CreateNewItem';
+export { default as ConfirmModal } from './ConfirmModal';
