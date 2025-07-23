@@ -55,7 +55,7 @@ const ColumnTitle = ({ title, columnId }: Props) => {
           {editMode ? <CheckRoundedIcon fontSize="small" /> : <EditRoundedIcon fontSize="small" />}
         </IconButton>
         {!editMode && (
-          <ConfirmModal onConfirm={() => deleteColumn(columnId)}>
+          <ConfirmModal onConfirm={() => deleteColumn(columnId)} titleKey="confirmDElete" >
             <Button size="small" variant="square" color="error">
               <DeleteRounded fontSize="small" />
             </Button>

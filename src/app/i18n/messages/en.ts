@@ -1,4 +1,6 @@
-const EN = {
+import RU from './ru';
+
+const EN: typeof RU = {
   appName: 'Project Manager',
   settings: {
     title: 'Settings',
@@ -38,6 +40,7 @@ const EN = {
     create: 'Create',
     update: 'Update',
     confirm: 'Confirm',
+    deleteConfirm: 'To confirm deletion, enter',
   },
   errors: {
     required: 'This field is required',
