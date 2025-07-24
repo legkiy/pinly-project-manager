@@ -7,14 +7,14 @@ import Form from '../Form';
 import Modal from '../Modal';
 
 interface ConfirmModalProps {
-  titleKey: string | string[];
+  title: React.ReactNode;
   children: React.ReactNode;
   onConfirm: () => void;
   warningMess?: React.ReactNode;
   confirmValue?: string;
 }
 
-const ConfirmModal = ({ children, titleKey, onConfirm, warningMess, confirmValue = 'delete' }: ConfirmModalProps) => {
+const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 'delete' }: ConfirmModalProps) => {
   const methods = useForm({
     resolver: zodResolver(
       z.object({
@@ -37,11 +37,16 @@ const ConfirmModal = ({ children, titleKey, onConfirm, warningMess, confirmValue
   return (
     <>
       <div onClick={onOpenModal}>{children}</div>
-      <Modal.Component open={modalState} onClose={onCloseModal} title={<Text mess={titleKey} text />}>
+      <Modal.Component open={modalState} onClose={onCloseModal} title={title}>
         <Form methods={methods} onSubmit={handleConfirm}>
           {warningMess}
           <Box>
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              sx={{
+                mb: 2,
+              }}
+            >
               <Text mess="common.deleteConfirm" text /> <strong>{confirmValue}</strong>
             </Typography>
             <TextField fullWidth {...methods.register('value')} error={!!methods.formState.errors.value} />

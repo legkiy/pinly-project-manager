@@ -12,6 +12,7 @@ const RU = {
     done: 'Готово',
     addColumn: 'Добавить колонку',
     toColumn: 'В колонку',
+    deleteColumn: 'Удалить колонку',
   },
   task: {
     new: 'Новая задача',

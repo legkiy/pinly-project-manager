@@ -14,6 +14,7 @@ const EN: typeof RU = {
     done: 'Done',
     addColumn: 'Add Column',
     toColumn: 'To Column',
+    deleteColumn: 'Delete column',
   },
   task: {
     new: 'New task',
