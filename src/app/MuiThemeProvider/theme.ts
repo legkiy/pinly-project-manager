@@ -12,6 +12,12 @@ const theme = createTheme({
   colorSchemes,
   typography,
   components,
+  transitions: {
+    duration: {
+      enteringScreen: 200,
+      leavingScreen: 200,
+    },
+  },
 });
 
 export default theme;

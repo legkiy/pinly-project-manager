@@ -6,3 +6,4 @@ export { default as Form } from './Form';
 export { default as ScalingCard } from './ScalingCard';
 export { default as CreateNewItem } from './CreateNewItem';
 export { default as ConfirmModal } from './ConfirmModal';
+export { default as Modal } from './Modal/index.tsx';
