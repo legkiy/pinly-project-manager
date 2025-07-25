@@ -13,6 +13,7 @@ const RU = {
     addColumn: 'Добавить колонку',
     toColumn: 'В колонку',
     deleteColumn: 'Удалить колонку',
+    whatToBoTasks: 'Выберите что сделать с оставшимися задачами',
   },
   task: {
     new: 'Новая задача',
@@ -40,6 +41,7 @@ const RU = {
     update: 'Обновить',
     confirm: 'Подтвердить',
     deleteConfirm: 'Для подтвержденяи удаления введите',
+    move: 'Переместить',
   },
   errors: {
     required: 'Это поле обязательно',

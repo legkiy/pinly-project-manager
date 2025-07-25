@@ -15,6 +15,7 @@ const EN: typeof RU = {
     addColumn: 'Add Column',
     toColumn: 'To Column',
     deleteColumn: 'Delete column',
+    whatToBoTasks: 'Choose what to do with the remaining tasks',
   },
   task: {
     new: 'New task',
@@ -42,6 +43,7 @@ const EN: typeof RU = {
     update: 'Update',
     confirm: 'Confirm',
     deleteConfirm: 'To confirm deletion, enter',
+    move: 'move',
   },
   errors: {
     required: 'This field is required',

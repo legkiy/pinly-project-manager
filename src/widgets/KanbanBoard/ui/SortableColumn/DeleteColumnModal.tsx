@@ -2,12 +2,12 @@ import {
   Button,
   FormControl,
   FormControlLabel,
-  Grid,
   InputLabel,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
+  Stack,
 } from '@mui/material';
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import { memo, useMemo, useState } from 'react';
@@ -23,6 +23,7 @@ type OnDeleteAction = 'delete' | 'move';
 const DeleteColumnModal = ({ title, columnId }: Props) => {
   const columns = useProjectStore((s) => s.columns);
   const deleteColumn = useProjectStore((s) => s.deleteColumn);
+  const moveTask = useProjectStore((e) => e.moveTask);
 
   const [action, setAction] = useState<OnDeleteAction>('delete');
 
@@ -36,47 +37,59 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
   );
 
   const [selectColumnId, setSelectColumnId] = useState<string>(columnsList[0]?.id || '');
-
+  const handleDelete = () => {
+    if (action === 'move') {
+      moveTask(columns[columnId].taskIds, selectColumnId);
+    }
+    return deleteColumn(columnId);
+  };
   return (
     <ConfirmModal
-      onConfirm={() => deleteColumn(columnId)}
+      onConfirm={handleDelete}
       title={
         <>
-          <Text mess="kanban.deleteColumn" text /> <strong>«{title}»</strong>
+          <Text mess="kanban.deleteColumn" text /> <strong>«{title}»</strong>?
         </>
       }
       warningMess={
-        <>
-          <Text mess="common.deleteConfirm" text />
-
-          <RadioGroup value={action} onChange={(_e, value) => setAction(value as OnDeleteAction)}>
-            <Grid container>
-              <Grid size={6}>
-                <FormControlLabel control={<Radio />} label="move" value="move" />
-                <FormControl size="small" disabled={action !== 'move'}>
-                  <InputLabel>
-                    <Text mess="kanban.toColumn" />
-                  </InputLabel>
-                  <Select
-                    label={<Text mess="kanban.toColumn" text />}
-                    value={selectColumnId}
-                    onChange={(e) => setSelectColumnId(e.target.value)}
-                  >
-                    {columnsList.map((col) => (
-                      <MenuItem key={col.id} value={col.id}>
-                        {col.title}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              <Grid size={[12]}>
-                <FormControlLabel control={<Radio />} label="delete" value="delete" />
-              </Grid>
-            </Grid>
+        <Stack gap={2}>
+          <Text mess={['kanban.whatToBoTasks', ':']} />
+          <RadioGroup
+            value={action}
+            onChange={(_e, value) => setAction(value as OnDeleteAction)}
+            sx={{
+              gap: 0.4,
+            }}
+          >
+            <Stack direction="row">
+              <FormControlLabel control={<Radio />} label={<Text mess="common.move" text />} value="move" />
+              <FormControl size="small" disabled={action !== 'move'}>
+                <InputLabel>
+                  <Text mess="kanban.toColumn" />
+                </InputLabel>
+                <Select
+                  label={<Text mess="kanban.toColumn" text />}
+                  value={selectColumnId}
+                  onChange={(e) => setSelectColumnId(e.target.value)}
+                  sx={{
+                    minWidth: [100, 200],
+                  }}
+                >
+                  {columnsList.map((col) => (
+                    <MenuItem key={col.id} value={col.id}>
+                      {col.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Stack>
+            <FormControlLabel
+              control={<Radio color="error" />}
+              label={<Text mess="common.delete" text />}
+              value="delete"
+            />
           </RadioGroup>
-        </>
+        </Stack>
       }
     >
       <Button size="small" variant="square" color="error">
