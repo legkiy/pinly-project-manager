@@ -8,6 +8,7 @@ import {
   RadioGroup,
   Select,
   Stack,
+  Tooltip,
 } from '@mui/material';
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import { memo, useMemo, useState } from 'react';
@@ -43,6 +44,9 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
     }
     return deleteColumn(columnId);
   };
+
+  console.log(columnsList.length > 0);
+
   return (
     <ConfirmModal
       onConfirm={handleDelete}
@@ -61,28 +65,39 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
               gap: 0.4,
             }}
           >
-            <Stack direction="row">
-              <FormControlLabel control={<Radio />} label={<Text mess="common.move" text />} value="move" />
-              <FormControl size="small" disabled={action !== 'move'}>
-                <InputLabel>
-                  <Text mess="kanban.toColumn" />
-                </InputLabel>
-                <Select
-                  label={<Text mess="kanban.toColumn" text />}
-                  value={selectColumnId}
-                  onChange={(e) => setSelectColumnId(e.target.value)}
-                  sx={{
-                    minWidth: [100, 200],
-                  }}
-                >
-                  {columnsList.map((col) => (
-                    <MenuItem key={col.id} value={col.id}>
-                      {col.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Stack>
+            <Tooltip
+              title={<Text mess="kanban.noAvailableColumns" />}
+              disableInteractive={columnsList.length > 0}
+              placement="top"
+            >
+              <Stack direction="row" width="fit-content">
+                <FormControlLabel
+                  control={<Radio />}
+                  label={<Text mess="common.move" text />}
+                  value="move"
+                  disabled={columnsList.length < 1}
+                />
+                <FormControl size="small" disabled={action !== 'move'}>
+                  <InputLabel>
+                    <Text mess="kanban.toColumn" />
+                  </InputLabel>
+                  <Select
+                    label={<Text mess="kanban.toColumn" text />}
+                    value={selectColumnId}
+                    onChange={(e) => setSelectColumnId(e.target.value)}
+                    sx={{
+                      minWidth: [100, 200],
+                    }}
+                  >
+                    {columnsList.map((col) => (
+                      <MenuItem key={col.id} value={col.id}>
+                        {col.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Stack>
+            </Tooltip>
             <FormControlLabel
               control={<Radio color="error" />}
               label={<Text mess="common.delete" text />}

@@ -16,6 +16,7 @@ const EN: typeof RU = {
     toColumn: 'To Column',
     deleteColumn: 'Delete column',
     whatToBoTasks: 'Choose what to do with the remaining tasks',
+    noAvailableColumns: 'there are no available columns',
   },
   task: {
     new: 'New task',

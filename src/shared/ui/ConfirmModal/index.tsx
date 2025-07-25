@@ -2,9 +2,19 @@ import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
+import { keyframes } from '@emotion/react';
 import Text from '../Text';
 import Form from '../Form';
 import Modal from '../Modal';
+
+const shake = keyframes`
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+`;
 
 interface ConfirmModalProps {
   title: React.ReactNode;
@@ -23,7 +33,9 @@ const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 
     ),
   });
 
-  const { modalState, onCloseModal, onOpenModal } = Modal.handlers();
+  const { modalState, onCloseModal, onOpenModal } = Modal.handlers({
+    onClose: () => methods.reset(),
+  });
 
   const handleConfirm = ({ value }: { value: string }) => {
     if (value === confirmValue) {
@@ -49,7 +61,14 @@ const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 
             >
               <Text mess="common.deleteConfirm" text /> <strong>{confirmValue}</strong>
             </Typography>
-            <TextField fullWidth {...methods.register('value')} error={!!methods.formState.errors.value} />
+            <TextField
+              fullWidth
+              {...methods.register('value')}
+              error={!!methods.formState.errors.value}
+              sx={{
+                animation: methods.formState.errors.value ? `${shake} 0.4s` : 'none',
+              }}
+            />
           </Box>
           <Stack
             direction="row"

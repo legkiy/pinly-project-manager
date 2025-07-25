@@ -14,6 +14,7 @@ const RU = {
     toColumn: 'В колонку',
     deleteColumn: 'Удалить колонку',
     whatToBoTasks: 'Выберите что сделать с оставшимися задачами',
+    noAvailableColumns: 'Нету доступных колонок',
   },
   task: {
     new: 'Новая задача',
