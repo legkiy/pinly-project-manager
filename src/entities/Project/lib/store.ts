@@ -22,7 +22,7 @@ type Actions = {
   updateColumn: (columnId: string, title: string) => void;
   //------------- Task CRUD
   createTask: (task: CreateTaskDTO) => void;
-  moveTask: (taskId: string, toColumnId: string, beforeTaskId?: string) => void;
+  moveTask: (taskId: string | string[], toColumnId: string, beforeTaskId?: string) => void;
   sortTasks: (columnId: string, newOrder: string[]) => void;
   deleteTask: (taskId: string) => void;
 };
@@ -210,38 +210,77 @@ const useProjectStore = create<ProjectStore>()(
       },
       moveTask: (taskId, toColumnId) => {
         set((state) => {
-          const task = state.tasks[taskId];
-          const fromColumnId = task.columnId;
+          const taskIds = Array.isArray(taskId) ? taskId : [taskId];
+          const updatedTasks = { ...state.tasks };
+          const updatedColumns = { ...state.columns };
 
-          if (!task || !state.columns[toColumnId]) return state;
+          // Проверка: все задачи и колонка должны существовать
+          if (!state.columns[toColumnId]) return state;
 
-          // Удаляем из старой колонки
-          const updatedFromColumn: Column = {
-            ...state.columns[fromColumnId],
-            taskIds: state.columns[fromColumnId].taskIds.filter((id) => id !== taskId),
+          // Сначала удалим все задачи из их старых колонок
+          taskIds.forEach((id) => {
+            const task = updatedTasks[id];
+            if (!task || !updatedColumns[task.columnId]) return;
+
+            updatedColumns[task.columnId] = {
+              ...updatedColumns[task.columnId],
+              taskIds: updatedColumns[task.columnId].taskIds.filter((tId) => tId !== id),
+            };
+          });
+
+          // Добавим задачи в новую колонку
+          updatedColumns[toColumnId] = {
+            ...updatedColumns[toColumnId],
+            taskIds: [...updatedColumns[toColumnId].taskIds, ...taskIds],
           };
 
-          // Добавляем в новую колонку
-          const newTaskIds = [...state.columns[toColumnId].taskIds, taskId];
+          // Обновим columnId у самих задач
+          taskIds.forEach((id) => {
+            const task = updatedTasks[id];
+            if (!task) return;
+            updatedTasks[id] = {
+              ...task,
+              columnId: toColumnId,
+            };
+          });
 
           return {
             ...state,
-            columns: {
-              ...state.columns,
-              [fromColumnId]: updatedFromColumn,
-              [toColumnId]: {
-                ...state.columns[toColumnId],
-                taskIds: newTaskIds,
-              },
-            },
-            tasks: {
-              ...state.tasks,
-              [taskId]: {
-                ...task,
-                columnId: toColumnId,
-              },
-            },
+            columns: updatedColumns,
+            tasks: updatedTasks,
           };
+          // const task = state.tasks[taskId];
+          // const fromColumnId = task.columnId;
+
+          // if (!task || !state.columns[toColumnId]) return state;
+
+          // // Удаляем из старой колонки
+          // const updatedFromColumn: Column = {
+          //   ...state.columns[fromColumnId],
+          //   taskIds: state.columns[fromColumnId].taskIds.filter((id) => id !== taskId),
+          // };
+
+          // // Добавляем в новую колонку
+          // const newTaskIds = [...state.columns[toColumnId].taskIds, taskId];
+
+          // return {
+          //   ...state,
+          //   columns: {
+          //     ...state.columns,
+          //     [fromColumnId]: updatedFromColumn,
+          //     [toColumnId]: {
+          //       ...state.columns[toColumnId],
+          //       taskIds: newTaskIds,
+          //     },
+          //   },
+          //   tasks: {
+          //     ...state.tasks,
+          //     [taskId]: {
+          //       ...task,
+          //       columnId: toColumnId,
+          //     },
+          //   },
+          // };
         });
       },
       sortTasks: (columnId, newOrder) => {

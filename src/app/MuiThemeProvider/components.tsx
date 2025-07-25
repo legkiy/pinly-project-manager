@@ -77,9 +77,9 @@ const components: Theme['components'] = {
   },
   MuiBackdrop: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: () => ({
         backdropFilter: 'blur(2px)',
-        backgroundColor: alpha(theme.palette.background.paper, 0.2),
+        backgroundColor: alpha('#000', 0.05),
       }),
       invisible: {
         backdropFilter: 'none',

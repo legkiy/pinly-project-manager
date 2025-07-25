@@ -1,6 +1,4 @@
-import EN from './en';
-
-const RU: typeof EN = {
+const RU = {
   appName: 'Менеджер Проектов',
   settings: {
     title: 'Настройки',
@@ -9,12 +7,14 @@ const RU: typeof EN = {
   },
   kanban: {
     columns: 'Колонки',
-    
     queue: 'Очередь',
     inProgress: 'В процессе',
     done: 'Готово',
     addColumn: 'Добавить колонку',
     toColumn: 'В колонку',
+    deleteColumn: 'Удалить колонку',
+    whatToBoTasks: 'Выберите что сделать с оставшимися задачами',
+    noAvailableColumns: 'Нету доступных колонок',
   },
   task: {
     new: 'Новая задача',
@@ -41,6 +41,8 @@ const RU: typeof EN = {
     create: 'Создать',
     update: 'Обновить',
     confirm: 'Подтвердить',
+    deleteConfirm: 'Для подтвержденяи удаления введите',
+    move: 'Переместить',
   },
   errors: {
     required: 'Это поле обязательно',

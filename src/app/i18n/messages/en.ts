@@ -1,4 +1,6 @@
-const EN = {
+import RU from './ru';
+
+const EN: typeof RU = {
   appName: 'Project Manager',
   settings: {
     title: 'Settings',
@@ -12,6 +14,9 @@ const EN = {
     done: 'Done',
     addColumn: 'Add Column',
     toColumn: 'To Column',
+    deleteColumn: 'Delete column',
+    whatToBoTasks: 'Choose what to do with the remaining tasks',
+    noAvailableColumns: 'there are no available columns',
   },
   task: {
     new: 'New task',
@@ -38,6 +43,8 @@ const EN = {
     create: 'Create',
     update: 'Update',
     confirm: 'Confirm',
+    deleteConfirm: 'To confirm deletion, enter',
+    move: 'move',
   },
   errors: {
     required: 'This field is required',

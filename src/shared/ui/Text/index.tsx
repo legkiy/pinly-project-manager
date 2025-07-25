@@ -17,7 +17,7 @@ interface TextPropsNoTypogrphy {
 type TextProps = TextPropsTypogrphy | TextPropsNoTypogrphy;
 
 const Text = ({ mess, options, text, ...typographyProps }: TextProps) => {
-  const { t } = useTranslation();
+  const { t} = useTranslation();
 
   const formatedText = Array.isArray(mess) ? mess.map((item) => t(item, options)).join('') : t(mess, options);
 

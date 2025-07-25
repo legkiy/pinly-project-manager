@@ -1,10 +1,10 @@
-import { Button, ClickAwayListener, IconButton, Stack, TextField } from '@mui/material';
-import DeleteRounded from '@mui/icons-material/DeleteRounded';
+import { ClickAwayListener, IconButton, Stack, TextField } from '@mui/material';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useState } from 'react';
 import { Text } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
+import DeleteColumnModal from './DeleteColumnModal';
 
 interface Props {
   title: string;
@@ -12,7 +12,6 @@ interface Props {
 }
 
 const ColumnTitle = ({ title, columnId }: Props) => {
-  const deleteColumn = useProjectStore((s) => s.deleteColumn);
   const updateColumn = useProjectStore((s) => s.updateColumn);
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -54,11 +53,7 @@ const ColumnTitle = ({ title, columnId }: Props) => {
         <IconButton onClick={handleSaveTitle} size="small" color={editMode ? 'success' : 'default'}>
           {editMode ? <CheckRoundedIcon fontSize="small" /> : <EditRoundedIcon fontSize="small" />}
         </IconButton>
-        {!editMode && (
-          <Button onClick={() => deleteColumn(columnId)} size="small" variant="square" color="error">
-            <DeleteRounded fontSize="small" />
-          </Button>
-        )}
+        {!editMode && <DeleteColumnModal title={title} columnId={columnId} />}
       </Stack>
     </Stack>
   );
