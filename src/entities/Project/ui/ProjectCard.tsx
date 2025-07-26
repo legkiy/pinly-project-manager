@@ -1,21 +1,13 @@
-import { CardActions, CardContent, CardMedia, Grid, IconButton, Typography } from '@mui/material';
+import { CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import { memo } from 'react';
-import { RemoveCircleRounded } from '@mui/icons-material';
 import { routerService } from '@/shared/lib';
 import { ScalingCard } from '@/shared/ui';
 import { Project } from '../model';
-import { useProjectStore } from '../lib';
+import DeleteProjectModal from './DeleteProjectModal';
 
 interface Props extends Project {}
 
 const ProjectCard = (project: Props) => {
-  const deleteProject = useProjectStore((s) => s.deleteProject);
-  const handleRemove = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.stopPropagation();
-    event.preventDefault();
-    deleteProject(project.id);
-  };
-
   return (
     <ScalingCard
       to={routerService.projects.id(project.id)}
@@ -55,13 +47,10 @@ const ProjectCard = (project: Props) => {
               }}
             >
               {project.description}
-              Описание проекта
             </Typography>
           </CardContent>
           <CardActions>
-            <IconButton onClick={handleRemove}>
-              <RemoveCircleRounded />
-            </IconButton>
+            <DeleteProjectModal projectId={project.id} projectName={project.title} />
           </CardActions>
         </Grid>
         <Grid size={5}>

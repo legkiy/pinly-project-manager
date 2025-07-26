@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
-import { memo, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ConfirmModal, Text } from '@/shared/ui';
 import { useProjectStore } from '@/entities/Project';
 
@@ -21,6 +21,7 @@ interface Props {
 }
 
 type OnDeleteAction = 'delete' | 'move';
+
 const DeleteColumnModal = ({ title, columnId }: Props) => {
   const columns = useProjectStore((s) => s.columns);
   const deleteColumn = useProjectStore((s) => s.deleteColumn);
@@ -45,8 +46,6 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
     return deleteColumn(columnId);
   };
 
-  console.log(columnsList.length > 0);
-
   return (
     <ConfirmModal
       onConfirm={handleDelete}
@@ -69,6 +68,7 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
               title={<Text mess="kanban.noAvailableColumns" />}
               disableInteractive={columnsList.length > 0}
               placement="top"
+              disableHoverListener={columnsList.length > 0}
             >
               <Stack direction="row" width="fit-content">
                 <FormControlLabel
@@ -113,4 +113,4 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
     </ConfirmModal>
   );
 };
-export default memo(DeleteColumnModal);
+export default DeleteColumnModal;

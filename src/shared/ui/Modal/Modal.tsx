@@ -4,7 +4,7 @@ import { memo } from 'react';
 interface ModalProps {
   title: React.ReactNode;
   children: React.ReactNode;
-  onClose: () => void;
+  onClose: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   open: boolean;
   slotProps?: {
     dialog?: DialogProps;
@@ -13,7 +13,17 @@ interface ModalProps {
 
 const Modal = ({ children, title, open, onClose, slotProps }: ModalProps) => {
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" {...slotProps?.dialog}>
+    <Dialog
+      open={open}
+      onClose={(e) => {
+        const event = e as React.MouseEvent<HTMLElement, MouseEvent>;
+        event?.preventDefault?.();
+        onClose(event);
+      }}
+      fullWidth
+      maxWidth="sm"
+      {...slotProps?.dialog}
+    >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
     </Dialog>

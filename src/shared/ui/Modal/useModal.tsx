@@ -1,22 +1,28 @@
 import { useCallback, useState } from 'react';
 
 interface IUseModal {
-  onOpen?: () => void;
-  onClose?: () => void;
+  onOpen?: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onClose?: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 const useModal = (props?: IUseModal) => {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = useCallback(() => {
-    setOpen(true);
-    props?.onOpen?.();
-  }, [props?.onOpen]);
+  const handleOpen = useCallback(
+    (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      setOpen(true);
+      props?.onOpen?.(e);
+    },
+    [props?.onOpen]
+  );
 
-  const handleClose = useCallback(() => {
-    setOpen(false);
-    props?.onClose?.();
-  }, [props?.onClose]);
+  const handleClose = useCallback(
+    (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      setOpen(false);
+      props?.onClose?.(e);
+    },
+    [props?.onClose]
+  );
 
   return {
     modalState: open,

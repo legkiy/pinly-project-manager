@@ -34,7 +34,13 @@ const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 
   });
 
   const { modalState, onCloseModal, onOpenModal } = Modal.handlers({
-    onClose: () => methods.reset(),
+    onClose: (e) => {
+      e?.preventDefault();
+      methods.reset();
+    },
+    onOpen: (e) => {
+      e?.preventDefault();
+    },
   });
 
   const handleConfirm = ({ value }: { value: string }) => {
@@ -81,7 +87,7 @@ const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 
             <Button onClick={onCloseModal} variant="outlined" color="error">
               <Text mess="common.cancel" text />
             </Button>
-            <Button type="submit" color="success">
+            <Button type="submit" color="success" onClick={(e) => e.stopPropagation()}>
               <Text mess="common.confirm" text />
             </Button>
           </Stack>

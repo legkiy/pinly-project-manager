@@ -23,6 +23,8 @@ const RU = {
     title: 'Проект',
     avalableCount: 'Доступые Проекты {{count}}',
     list: 'Список Проектов',
+    deleteConfirm: 'Удалить проект',
+    deleteWarn: 'Все внутренние задачи удаляться',
   },
   common: {
     name: 'Имя',

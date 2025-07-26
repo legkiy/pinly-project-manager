@@ -25,6 +25,8 @@ const EN: typeof RU = {
     title: 'Project',
     avalableCount: 'Available Projects {{count}}',
     list: 'Projects List',
+    deleteConfirm: 'Delete project',
+    deleteWarn: 'All internal tasks will be deleted',
   },
   common: {
     name: 'Name',
