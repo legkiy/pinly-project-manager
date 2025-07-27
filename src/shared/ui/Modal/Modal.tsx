@@ -22,6 +22,7 @@ const Modal = ({ children, title, open, onClose, slotProps }: ModalProps) => {
       }}
       fullWidth
       maxWidth="sm"
+      onClick={(e)=>e.preventDefault()}
       {...slotProps?.dialog}
     >
       <DialogTitle>{title}</DialogTitle>

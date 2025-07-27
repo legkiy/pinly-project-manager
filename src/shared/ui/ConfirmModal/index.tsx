@@ -55,7 +55,7 @@ const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 
   return (
     <>
       <div onClick={onOpenModal}>{children}</div>
-      <Modal.Component open={modalState} onClose={onCloseModal} title={title}>
+      <Modal.Component open={modalState} onClose={onCloseModal} title={title} >
         <Form methods={methods} onSubmit={handleConfirm}>
           {warningMess}
           <Box>
