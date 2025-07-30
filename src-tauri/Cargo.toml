@@ -1,5 +1,5 @@
 [package]
-name = "project-manager"
+name = "pinly-project-manager"
 version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]
