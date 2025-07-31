@@ -1,6 +1,5 @@
-import { Button } from '@mui/material';
 import { memo } from 'react';
-import { Modal, Text } from '@/shared/ui';
+import { CreateNewItem, Modal, Text } from '@/shared/ui';
 import CreateForm from './CreateForm';
 
 interface Props {
@@ -12,9 +11,7 @@ const CreateTask = ({ projectId }: Props) => {
 
   return (
     <>
-      <Button size="medium" sx={{ height: 'fit-content' }} onClick={onOpenModal}>
-        <Text mess="task.new" text />
-      </Button>
+      <CreateNewItem onClick={onOpenModal} titleKey="task.new" variant="button" />
       <Modal.Component title={<Text mess="task.new" text />} open={modalState} onClose={onCloseModal}>
         <CreateForm onCancel={onCloseModal} onSubmit={onCloseModal} projectId={projectId} />
       </Modal.Component>

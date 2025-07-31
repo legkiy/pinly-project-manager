@@ -22,7 +22,7 @@ const Modal = ({ children, title, open, onClose, slotProps }: ModalProps) => {
       }}
       fullWidth
       maxWidth="sm"
-      onClick={(e)=>e.preventDefault()}
+      onClick={(e) => e.stopPropagation()}
       {...slotProps?.dialog}
     >
       <DialogTitle>{title}</DialogTitle>

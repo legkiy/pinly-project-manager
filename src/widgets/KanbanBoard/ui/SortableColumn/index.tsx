@@ -5,6 +5,7 @@ import { COLUMN_WIDTH, DndItemType } from '../../model';
 import { useProjectStore } from '@/entities/Project';
 import SortableTaskItem from '../SortableTaskItem';
 import ColumnTitle from './ColumnTitle';
+import { CreateTask } from '@/features';
 
 interface SortableColumnProps {
   id: string;
@@ -74,6 +75,7 @@ const SortableColumn = ({ id, isActive }: SortableColumnProps) => {
             <SortableTaskItem key={taskId} taskId={taskId} />
           ))}
         </SortableContext>
+        <CreateTask projectId={column.projectId} />
       </Stack>
     </Paper>
   );

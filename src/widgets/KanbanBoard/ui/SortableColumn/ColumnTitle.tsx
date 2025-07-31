@@ -32,7 +32,7 @@ const ColumnTitle = ({ title, columnId }: Props) => {
       justifyContent="space-between"
       alignItems="center"
       sx={{
-        mt: 1,
+        my: 1,
       }}
       gap={1}
     >

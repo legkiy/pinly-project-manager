@@ -2,7 +2,6 @@ import { Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router';
-import { useTranslation } from 'react-i18next';
 import { CreateProjectDTO, projectSchema } from '../model';
 import { Form, SubmitBtns, Text } from '@/shared/ui';
 import CreateColumnsArray from './CreateColumnsArray';
@@ -15,11 +14,10 @@ interface Props {
 }
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
-  const { t } = useTranslation();
   const defaultColumns = [
-    { title: t('kanban.queue'), id: 'column-' + crypto.randomUUID() },
-    { title: t('kanban.inProgress'), id: 'column-' + crypto.randomUUID() },
-    { title: t('kanban.done'), id: 'column-' + crypto.randomUUID() },
+    { title: 'kanban.queue', id: 'column-' + crypto.randomUUID() },
+    { title: 'kanban.inProgress', id: 'column-' + crypto.randomUUID() },
+    { title: 'kanban.done', id: 'column-' + crypto.randomUUID() },
   ];
 
   const navigate = useNavigate();
