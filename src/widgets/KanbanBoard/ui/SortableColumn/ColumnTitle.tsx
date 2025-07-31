@@ -40,10 +40,22 @@ const ColumnTitle = ({ title, columnId }: Props) => {
         <ClickAwayListener onClickAway={() => setEditMode(false)}>
           <TextField
             defaultValue={title}
-            size="small"
             onChange={(event) => setNewTitle(event.target.value.trim())}
             fullWidth
             autoFocus
+            slotProps={{
+              input: {
+                sx: ({ typography }) => ({
+                  p: 0,
+                  fontSize: typography.h5.fontSize,
+                }),
+              },
+              htmlInput: {
+                sx: {
+                  p: 1,
+                },
+              },
+            }}
           />
         </ClickAwayListener>
       ) : (

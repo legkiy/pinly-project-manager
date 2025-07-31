@@ -1,8 +1,8 @@
 import { createHashRouter, Navigate, RouteObject } from 'react-router';
-import * as Pages from '@/pages';
 import { LayoutWithNavbar } from '@/widgets';
 import ErrorDisplay from '@/shared/ui/ErrorDisplay';
 import { routerService } from '@/shared/lib';
+import { ProjectIdPage, ProjectsPage, SettingsPage } from '@/pages';
 
 const routes: RouteObject[] = [
   {
@@ -14,22 +14,21 @@ const routes: RouteObject[] = [
       },
       {
         path: '/projects',
-        element: <Pages.Projects />,
+        element: <ProjectsPage />,
       },
       {
         path: '/projects',
         Component: LayoutWithNavbar,
         children: [
           {
-            index: true,
             path: ':id',
-            element: <Pages.ProjectId />,
+            element: <ProjectIdPage />,
           },
         ],
       },
       {
         path: '/settings',
-        element: <Pages.Settings />,
+        element: <SettingsPage />,
       },
     ],
   },
