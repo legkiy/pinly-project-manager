@@ -87,6 +87,13 @@ const components: Theme['components'] = {
       },
     },
   },
+  MuiDrawer: {
+    styleOverrides: {
+      paper: ({ theme }) => ({
+        borderRadius: +theme.shape.borderRadius * 2,
+      }),
+    },
+  },
 };
 
 export default components;

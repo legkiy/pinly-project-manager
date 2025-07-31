@@ -1,30 +1,25 @@
 import { Box, Drawer } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 const ProjectIdNotesPage = () => {
-  console.log('asdasd');
-
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
-  // Закрытие при клике вне
   const handleClose = () => {
-    navigate(-1); // Возврат к /projects/:id
+    setOpen(false); // сначала закрыть с анимацией
+    setTimeout(() => navigate(-1), 200); // потом перейти назад после анимации
   };
 
-  // Чтобы избежать мигания на SSR/первом рендере
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = '';
-    };
+    const timeout = setTimeout(() => setOpen(true), 10); // следующий tick
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
-    <Drawer anchor="bottom" open keepMounted={false} onClose={handleClose}>
-      <Box p={2} height="40vh">
-        {/* Контент drawer */}
-        Детали проекта
+    <Drawer anchor="bottom" open={open} onClose={handleClose} keepMounted>
+      <Box p={2} height="50vh" sx={{ backgroundColor: 'white' }}>
+        Drawer контент
       </Box>
     </Drawer>
   );

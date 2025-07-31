@@ -1,11 +1,14 @@
-export function createEntityRouteMap(
+export function createEntityRouteMap<T extends Record<string, (id: string | number) => string>>(
   rootPath: string,
-  additionalRoutes?: (rootPath: string) => Record<string, string | ((id: number | string) => string)>
-) {
-  const cleanPAth = rootPath.replace(/^\//, '');
+  additionalRoutes?: (rootPath: string) => T
+): {
+  root: string;
+  id: (id: string | number) => string;
+} & T {
+  const cleanPath = rootPath.replace(/^\//, '');
   return {
-    root: `/${cleanPAth}`,
-    id: (id: number | string) => `/${cleanPAth}/${id}`,
-    ...additionalRoutes?.(cleanPAth),
+    root: `/${cleanPath}`,
+    id: (id: string | number) => `/${cleanPath}/${id}`,
+    ...(additionalRoutes?.(cleanPath) ?? ({} as T)),
   };
 }

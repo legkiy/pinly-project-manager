@@ -6,7 +6,7 @@ import { ProjectIdPage, ProjectsPage, SettingsPage } from '@/pages';
 
 const routes: RouteObject[] = [
   {
-    element: <ErrorDisplay />,
+    Component: ErrorDisplay,
     children: [
       {
         path: '/',
@@ -14,7 +14,7 @@ const routes: RouteObject[] = [
       },
       {
         path: '/projects',
-        element: <ProjectsPage />,
+        Component: ProjectsPage,
       },
       {
         path: '/projects',
@@ -22,13 +22,24 @@ const routes: RouteObject[] = [
         children: [
           {
             path: ':id',
-            element: <ProjectIdPage />,
+            Component: ProjectIdPage,
+            children: [
+              {
+                path: 'notes',
+                lazy: async () => {
+                  const module = await import('@/pages/projects/id/notes');
+                  return {
+                    Component: module.default,
+                  };
+                },
+              },
+            ],
           },
         ],
       },
       {
         path: '/settings',
-        element: <SettingsPage />,
+        Component: SettingsPage,
       },
     ],
   },

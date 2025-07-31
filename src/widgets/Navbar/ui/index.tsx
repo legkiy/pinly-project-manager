@@ -37,6 +37,13 @@ const Navbar = ({ width }: Props) => {
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
       }}
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: 0,
+          },
+        },
+      }}
     >
       <Box
         sx={{

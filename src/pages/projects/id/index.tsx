@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { useParams } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 import { useProjectStore } from '@/entities/Project';
 import { KanbanBoard, ProjectHeader } from '@/widgets';
 
@@ -9,6 +9,7 @@ const ProjectIdPage = () => {
 
   return (
     <Stack gap={1} height="100%">
+      <Outlet />
       <ProjectHeader project={project} />
       <KanbanBoard project={project} />
     </Stack>
