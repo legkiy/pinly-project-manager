@@ -1,6 +1,6 @@
-# Tauri + React + Typescript
+# What is Pinly Project Manager?
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+This is a simple application for local management of projects and tasks within them. Pinly does not use network access, and all data is stored exclusively on your device
 
 ## Recommended IDE Setup
 
