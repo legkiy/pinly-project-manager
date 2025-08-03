@@ -5,6 +5,7 @@ import { CreateProjectDTO } from '@/features/CreateProject/model';
 import { Task } from '@/entities/Task';
 import { Column } from '@/entities/Column';
 import { CreateTaskDTO } from '@/features/CreateTask/model';
+import { useNotesStore } from '@/entities/Note';
 
 type State = {
   projects: Record<string, Project>;
@@ -15,6 +16,7 @@ type State = {
 type Actions = {
   createProject: (project: CreateProjectDTO) => Project;
   deleteProject: (projectId: string) => void;
+  addNote: (projectId: string, noteId: string) => void;
   //------------- Column CRUD
   createColumn: (projectId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;
@@ -40,13 +42,14 @@ const useProjectStore = create<ProjectStore>()(
     (set, get) => ({
       ...initState,
       createProject: ({ columns, ...project }) => {
-        const projectId = crypto.randomUUID();
+        const projectId = 'project-' + crypto.randomUUID();
 
         const newProject: Project = {
           ...project,
           id: projectId,
           createdAt: new Date().toISOString(),
           columnsIds: columns.map((el) => el.id),
+          notesIds: [],
         };
 
         set((state) => ({
@@ -87,6 +90,8 @@ const useProjectStore = create<ProjectStore>()(
           delete updatedTasks[id];
         });
 
+        // Удаляем заметки
+        useNotesStore.getState().deleteNote(project.notesIds);
         // Удаляем проект
         const updatedProjects = { ...projects };
         delete updatedProjects[projectId];
@@ -96,6 +101,18 @@ const useProjectStore = create<ProjectStore>()(
           columns: updatedColumns,
           tasks: updatedTasks,
         });
+      },
+      addNote: (projectId, noteId) => {
+        set((stete) => ({
+          ...stete,
+          projects: {
+            ...stete.projects,
+            [projectId]: {
+              ...stete.projects[projectId],
+              notesIds: [...(stete.projects[projectId].notesIds || []), noteId],
+            },
+          },
+        }));
       },
       //------------- Column CRUD
       createColumn: (projectId, title) => {
@@ -249,38 +266,6 @@ const useProjectStore = create<ProjectStore>()(
             columns: updatedColumns,
             tasks: updatedTasks,
           };
-          // const task = state.tasks[taskId];
-          // const fromColumnId = task.columnId;
-
-          // if (!task || !state.columns[toColumnId]) return state;
-
-          // // Удаляем из старой колонки
-          // const updatedFromColumn: Column = {
-          //   ...state.columns[fromColumnId],
-          //   taskIds: state.columns[fromColumnId].taskIds.filter((id) => id !== taskId),
-          // };
-
-          // // Добавляем в новую колонку
-          // const newTaskIds = [...state.columns[toColumnId].taskIds, taskId];
-
-          // return {
-          //   ...state,
-          //   columns: {
-          //     ...state.columns,
-          //     [fromColumnId]: updatedFromColumn,
-          //     [toColumnId]: {
-          //       ...state.columns[toColumnId],
-          //       taskIds: newTaskIds,
-          //     },
-          //   },
-          //   tasks: {
-          //     ...state.tasks,
-          //     [taskId]: {
-          //       ...task,
-          //       columnId: toColumnId,
-          //     },
-          //   },
-          // };
         });
       },
       sortTasks: (columnId, newOrder) => {

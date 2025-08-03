@@ -12,4 +12,3 @@ export const projectSchema = z.object({
 });
 
 export type CreateProjectDTO = z.infer<typeof projectSchema>;
-

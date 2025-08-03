@@ -21,7 +21,7 @@ const routes: RouteObject[] = [
         Component: LayoutWithNavbar,
         children: [
           {
-            path: ':id',
+            path: ':projectId',
             Component: ProjectIdPage,
             children: [
               {

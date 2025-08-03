@@ -4,8 +4,8 @@ import { useProjectStore } from '@/entities/Project';
 import { KanbanBoard, ProjectHeader } from '@/widgets';
 
 const ProjectIdPage = () => {
-  const { id } = useParams();
-  const project = useProjectStore((state) => state.projects[id!]);
+  const { projectId } = useParams();
+  const project = useProjectStore((state) => state.projects[projectId!]);
 
   return (
     <Stack gap={1} height="100%">
