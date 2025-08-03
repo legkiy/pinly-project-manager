@@ -2,7 +2,7 @@ import { Stack } from '@mui/material';
 import { memo } from 'react';
 import { Project } from '@/entities/Project';
 import { Text } from '@/shared/ui';
-import { OpenNotesDrawer } from '@/entities/Note';
+import { OpenNotesDrawer } from '@/features';
 
 interface Props {
   project: Project;

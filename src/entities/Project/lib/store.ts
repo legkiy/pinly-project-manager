@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Project } from '../model';
-import { CreateProjectDTO } from '@/features/CreateProject/model';
+import { CreateProjectDTO, Project } from '../model';
 import { Task } from '@/entities/Task';
 import { Column } from '@/entities/Column';
 import { CreateTaskDTO } from '@/features/CreateTask/model';

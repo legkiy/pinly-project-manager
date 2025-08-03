@@ -3,9 +3,9 @@ import { CSS } from '@dnd-kit/utilities';
 import { Box, Paper, Stack } from '@mui/material';
 import { COLUMN_WIDTH, DndItemType } from '../../model';
 import { useProjectStore } from '@/entities/Project';
+import { CreateTask } from '@/entities/Task';
 import SortableTaskItem from '../SortableTaskItem';
 import ColumnTitle from './ColumnTitle';
-import { CreateTask } from '@/features';
 
 interface SortableColumnProps {
   id: string;

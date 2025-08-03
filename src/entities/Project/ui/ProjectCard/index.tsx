@@ -2,8 +2,8 @@ import { CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/mate
 import { memo } from 'react';
 import { routerService } from '@/shared/lib';
 import { ScalingCard } from '@/shared/ui';
-import { Project } from '../model';
-import DeleteProjectModal from './DeleteProjectModal';
+import { Project } from '../../model';
+import DeleteProjectModal from '../DeleteProjectMotal';
 
 interface Props extends Project {}
 

@@ -5,3 +5,6 @@ export type Task = UniqEntity & {
   description?: string;
   createdAt: string;
 };
+
+export { createSchema } from './schemas';
+export type { CreateTaskDTO } from './schemas';

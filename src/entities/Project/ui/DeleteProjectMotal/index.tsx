@@ -1,7 +1,7 @@
 import { Button, Stack } from '@mui/material';
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import { ConfirmModal, Text } from '@/shared/ui';
-import { useProjectStore } from '../lib';
+import { useProjectStore } from '../../lib';
 
 interface Props {
   projectId: string;

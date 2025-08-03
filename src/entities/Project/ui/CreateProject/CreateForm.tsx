@@ -2,11 +2,11 @@ import { Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router';
-import { CreateProjectDTO, projectSchema } from '../model';
 import { Form, SubmitBtns, Text } from '@/shared/ui';
 import CreateColumnsArray from './CreateColumnsArray';
 import { useProjectStore } from '@/entities/Project';
 import { routerService } from '@/shared/lib';
+import { CreateProjectDTO, projectSchema } from '../../model';
 
 interface Props {
   onCancel: () => void;

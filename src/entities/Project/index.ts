@@ -1,3 +1,3 @@
 export { useProjectStore } from './lib';
-export { ProjectCard } from './ui';
+export { ProjectCard, CreateProject } from './ui';
 export * from './model';

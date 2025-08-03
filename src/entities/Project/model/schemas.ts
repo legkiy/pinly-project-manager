@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const columnSchema = z.object({
+const columnSchema = z.object({
   title: z.string().min(1, 'errors.required'),
   id: z.string().nonempty().min(1, 'errors.required'),
 });
