@@ -1,12 +1,12 @@
 import { createHashRouter, Navigate, RouteObject } from 'react-router';
-import * as Pages from '@/pages';
 import { LayoutWithNavbar } from '@/widgets';
 import ErrorDisplay from '@/shared/ui/ErrorDisplay';
 import { routerService } from '@/shared/lib';
+import { ProjectIdPage, ProjectsPage, SettingsPage } from '@/pages';
 
 const routes: RouteObject[] = [
   {
-    element: <ErrorDisplay />,
+    Component: ErrorDisplay,
     children: [
       {
         path: '/',
@@ -14,22 +14,32 @@ const routes: RouteObject[] = [
       },
       {
         path: '/projects',
-        element: <Pages.Projects />,
+        Component: ProjectsPage,
       },
       {
         path: '/projects',
         Component: LayoutWithNavbar,
         children: [
           {
-            index: true,
-            path: ':id',
-            element: <Pages.ProjectId />,
+            path: ':projectId',
+            Component: ProjectIdPage,
+            children: [
+              {
+                path: 'notes',
+                lazy: async () => {
+                  const module = await import('@/pages/projects/id/notes');
+                  return {
+                    Component: module.default,
+                  };
+                },
+              },
+            ],
           },
         ],
       },
       {
         path: '/settings',
-        element: <Pages.Settings />,
+        Component: SettingsPage,
       },
     ],
   },

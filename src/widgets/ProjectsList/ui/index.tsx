@@ -1,7 +1,6 @@
 import { Box, Grid, Stack } from '@mui/material';
 import { Text } from '@/shared/ui';
-import { CreateProject } from '@/features';
-import { ProjectCard, useProjectStore } from '@/entities/Project';
+import { CreateProject, ProjectCard, useProjectStore } from '@/entities/Project';
 
 const ProjectsList = () => {
   const { projects } = useProjectStore();

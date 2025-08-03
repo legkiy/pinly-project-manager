@@ -1,2 +1,2 @@
-export { TaskCard } from './ui';
+export * from './ui';
 export * from './model';
