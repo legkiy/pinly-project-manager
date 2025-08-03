@@ -1,33 +1,24 @@
-import { useDraggable } from '@dnd-kit/core';
-import { Card } from '@mui/material';
+import { Box } from '@mui/material';
 import { memo } from 'react';
-import { CSS } from '@dnd-kit/utilities';
 import { Note } from '../../model';
 
 interface Props extends Note {}
 
-const NoteCard = ({ title, descriptions, positionPercent, id }: Props) => {
-  const { attributes, listeners, setNodeRef, transform, active } = useDraggable({
-    id,
-  });
-
+const NoteCard = ({ title, descriptions }: Props) => {
   return (
-    <Card
-      ref={setNodeRef}
-      sx={{
-        cursor: active ? 'grabbing' : 'grab',
-        userSelect: 'none',
-        transform: CSS.Translate.toString(transform),
-        position: 'absolute',
-        left: `${positionPercent.x}%`,
-        top: `${positionPercent.y}%`,
-      }}
-      {...listeners}
-      {...attributes}
+    <Box
+      sx={({ shadows }) => ({
+        bgcolor: '#dac66d',
+        width: 270,
+        height: 240,
+        boxShadow: shadows[4],
+        p: 1,
+        color: '#000',
+      })}
     >
       {title}
       {descriptions}
-    </Card>
+    </Box>
   );
 };
 

@@ -3,8 +3,9 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToParentElement } from '@dnd-kit/modifiers';
-import { CreateNote, NoteCard, useNotesStore } from '@/entities/Note';
+import { CreateNote, useNotesStore } from '@/entities/Note';
 import { useProjectStore } from '@/entities/Project';
+import DraggableNote from './DraggableNote';
 
 interface Props {
   projectId: string;
@@ -17,7 +18,6 @@ const NotesDrawer = ({ projectId }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const notesIds = useProjectStore((s) => s.projects[projectId].notesIds);
 
-  const notes = useNotesStore((s) => s.notes);
   const moveNote = useNotesStore((s) => s.moveNote);
 
   const pointerSensor = useSensor(PointerSensor, {
@@ -49,6 +49,7 @@ const NotesDrawer = ({ projectId }: Props) => {
 
     const offsetX = (delta.x / (containerRect?.width || 0)) * 100;
     const offsetY = (delta.y / (containerRect?.height || 0)) * 100;
+
     moveNote(activeId, {
       offsetX,
       offsetY,
@@ -56,15 +57,29 @@ const NotesDrawer = ({ projectId }: Props) => {
   };
 
   return (
-    <Drawer anchor="bottom" open={open} onClose={handleClose} keepMounted={false}>
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd} modifiers={[restrictToParentElement]}>
-        <Box p={2} height={['85vh']} sx={{ backgroundColor: 'white' }} ref={containerRef}>
+    <Drawer
+      anchor="bottom"
+      open={open}
+      onClose={handleClose}
+      keepMounted={false}
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: 2,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+          },
+        },
+      }}
+    >
+      <Box m={2} height={['85vh']} ref={containerRef}>
+        <DndContext sensors={sensors} onDragEnd={handleDragEnd} modifiers={[restrictToParentElement]}>
           <CreateNote projectId={projectId} />
           {notesIds?.map((noteId) => (
-            <NoteCard {...notes[noteId]} key={noteId} />
+            <DraggableNote key={noteId} noteId={noteId} />
           ))}
-        </Box>
-      </DndContext>
+        </DndContext>
+      </Box>
     </Drawer>
   );
 };
