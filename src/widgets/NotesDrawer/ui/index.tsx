@@ -1,4 +1,4 @@
-import { Box, Drawer, useTheme } from '@mui/material';
+import { Drawer, Stack, useTheme } from '@mui/material';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -6,6 +6,7 @@ import { restrictToParentElement } from '@dnd-kit/modifiers';
 import { CreateNote, useNotesStore } from '@/entities/Note';
 import { useProjectStore } from '@/entities/Project';
 import DraggableNote from './DraggableNote';
+import TrashContainer from './TraashContainer';
 
 interface Props {
   projectId: string;
@@ -16,9 +17,11 @@ const NotesDrawer = ({ projectId }: Props) => {
   const [open, setOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
   const notesIds = useProjectStore((s) => s.projects[projectId].notesIds);
 
   const moveNote = useNotesStore((s) => s.moveNote);
+  const deleteNote = useNotesStore((s) => s.deleteNote);
 
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
@@ -42,9 +45,15 @@ const NotesDrawer = ({ projectId }: Props) => {
   }, []);
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const { delta, active } = event;
+    const { delta, active, over } = event;
 
     const activeId = active.id as string;
+
+    // TODO: Добавить модалку которая будет спрашивать об удалении
+    if (over?.id === 'trash') {
+      return deleteNote(activeId);
+    }
+
     const containerRect = containerRef.current?.getBoundingClientRect();
 
     const offsetX = (delta.x / (containerRect?.width || 0)) * 100;
@@ -68,18 +77,37 @@ const NotesDrawer = ({ projectId }: Props) => {
             borderRadius: 2,
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
+            maxWidth: '100vw',
+            overflowX: 'clip',
           },
         },
       }}
     >
-      <Box m={2} height={['85vh']} ref={containerRef}>
+      <Stack
+        spacing={2}
+        sx={{
+          p: 2,
+          height: '85vh',
+          maxWidth: '100vw',
+          overflowX: 'clip',
+        }}
+      >
+        <CreateNote projectId={projectId} />
         <DndContext sensors={sensors} onDragEnd={handleDragEnd} modifiers={[restrictToParentElement]}>
-          <CreateNote projectId={projectId} />
-          {notesIds?.map((noteId) => (
-            <DraggableNote key={noteId} noteId={noteId} />
-          ))}
+          <Stack
+            ref={containerRef}
+            height={['100%']}
+            sx={{
+              position: 'relative',
+            }}
+          >
+            {notesIds?.map((noteId) => (
+              <DraggableNote key={noteId} noteId={noteId} />
+            ))}
+            <TrashContainer />
+          </Stack>
         </DndContext>
-      </Box>
+      </Stack>
     </Drawer>
   );
 };

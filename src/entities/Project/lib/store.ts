@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { CreateProjectDTO, Project } from '../model';
-import { Task } from '@/entities/Task';
+import { CreateTaskDTO, Task } from '@/entities/Task';
 import { Column } from '@/entities/Column';
-import { CreateTaskDTO } from '@/features/CreateTask/model';
 import { useNotesStore } from '@/entities/Note';
 
 type State = {
@@ -15,7 +14,8 @@ type State = {
 type Actions = {
   createProject: (project: CreateProjectDTO) => Project;
   deleteProject: (projectId: string) => void;
-  addNote: (projectId: string, noteId: string) => void;
+  // addNote: (projectId: string, noteId: string) => void;
+  updateProject: (projectId: string, updatedFields: (prev: Project) => Partial<Project>) => void;
   //------------- Column CRUD
   createColumn: (projectId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;
@@ -101,14 +101,26 @@ const useProjectStore = create<ProjectStore>()(
           tasks: updatedTasks,
         });
       },
-      addNote: (projectId, noteId) => {
+      // addNote: (projectId, noteId) => {
+      //   set((stete) => ({
+      //     ...stete,
+      //     projects: {
+      //       ...stete.projects,
+      //       [projectId]: {
+      //         ...stete.projects[projectId],
+      //         notesIds: [...(stete.projects[projectId].notesIds || []), noteId],
+      //       },
+      //     },
+      //   }));
+      // },
+      updateProject: (projectId, updatedFields) => {
         set((stete) => ({
           ...stete,
           projects: {
             ...stete.projects,
             [projectId]: {
               ...stete.projects[projectId],
-              notesIds: [...(stete.projects[projectId].notesIds || []), noteId],
+              ...updatedFields(stete.projects[projectId]),
             },
           },
         }));

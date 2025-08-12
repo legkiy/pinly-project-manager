@@ -9,7 +9,7 @@ const CreateNote = ({ projectId }: Props) => {
 
   return (
     <>
-      <CreateNewItem onClick={onOpenModal} titleKey={['common.add', ' ', 'note.title']} variant="button" />
+      <CreateNewItem onClick={onOpenModal} titleKey={['common.add', ' ', 'note.title']} variant="button"  />
       <Modal.Component
         title={<Text mess={['common.new', ' ', 'note.title']} text />}
         open={modalState}

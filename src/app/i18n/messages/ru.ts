@@ -26,6 +26,12 @@ const RU = {
     deleteConfirm: 'Удалить проект',
     deleteWarn: 'Все внутренние задачи удаляться',
   },
+
+  note: {
+    title: 'Заметки',
+    deleteConfirm: 'Удалить проект',
+  },
+
   common: {
     name: 'Имя',
     description: 'Описание',

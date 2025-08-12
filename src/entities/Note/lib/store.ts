@@ -42,8 +42,11 @@ const useNotesStore = create<Store>()(
             [id]: newNote,
           },
         }));
-          useProjectStore.getState().addNote(noteDto.projectId,id);
-        
+
+        useProjectStore
+          .getState()
+          .updateProject(noteDto.projectId, ({ notesIds }) => ({ notesIds: [...(notesIds || []), id] }));
+
         return newNote;
       },
       moveNote: (noteId, newPosition) => {
@@ -69,7 +72,15 @@ const useNotesStore = create<Store>()(
         const noteIds = Array.isArray(noteId) ? noteId : [noteId];
         const notes = get().notes;
         const remainingNotes = Object.fromEntries(Object.entries(notes).filter(([key]) => !noteIds.includes(key)));
+
         set({ notes: remainingNotes });
+        // Удаляем так же из объекта  проект id 
+        const updatedProjectIds = Array.from(new Set(noteIds.map((el) => notes[el].projectId)));
+        updatedProjectIds.forEach((prjectId) => {
+          useProjectStore
+            .getState()
+            .updateProject(prjectId, ({ notesIds }) => ({ notesIds: notesIds.filter((el) => el !== noteId) }));
+        });
       },
     }),
     { name: 'notesStore', partialize: ({ notes }) => ({ notes }) }
