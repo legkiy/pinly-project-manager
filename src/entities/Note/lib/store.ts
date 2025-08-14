@@ -74,7 +74,7 @@ const useNotesStore = create<Store>()(
         const remainingNotes = Object.fromEntries(Object.entries(notes).filter(([key]) => !noteIds.includes(key)));
 
         set({ notes: remainingNotes });
-        // Удаляем так же из объекта  проект id 
+        // Удаляем так же из объекта  проект id заметки
         const updatedProjectIds = Array.from(new Set(noteIds.map((el) => notes[el].projectId)));
         updatedProjectIds.forEach((prjectId) => {
           useProjectStore

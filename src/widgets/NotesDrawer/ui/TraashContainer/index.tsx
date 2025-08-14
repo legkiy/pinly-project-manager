@@ -8,8 +8,6 @@ const TrashContainer = () => {
     id: 'trash',
   });
 
-  console.log(isOver);
-
   return (
     <Stack
       sx={{
@@ -19,10 +17,11 @@ const TrashContainer = () => {
     >
       <ScalingCard
         ref={setNodeRef}
-        active={isOver}
+        active={!!isOver}
         sx={{
           ml: 'auto',
           p: 1,
+          bgcolor: isOver ? 'error.light' : 'transparent',
         }}
       >
         <Stack

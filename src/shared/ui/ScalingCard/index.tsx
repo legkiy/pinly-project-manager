@@ -2,16 +2,16 @@ import { Card, CardProps, styled } from '@mui/material';
 import { forwardRef, memo } from 'react';
 import Link from '../Link';
 
-const StyledCard = styled(Card)(({ active }: { active: 'hover' | boolean }) => ({
+const StyledCard = styled(Card)(({ active }: { active?: 'hover' | 'false' | 'true' }) => ({
   position: 'relative',
-  transition: 'transform 0.3s',
+  transition: 'all 0.3s',
   ':hover':
     active === 'hover'
       ? {
           transform: 'scale(1.02)',
         }
       : {},
-  transform: active === true ? 'scale(1.02)' : '',
+  transform: active === 'true' ? 'scale(1.02)' : '',
 }));
 
 interface Props extends CardProps {
@@ -21,8 +21,14 @@ interface Props extends CardProps {
 }
 
 const ScalingCard = forwardRef<HTMLDivElement, Props>(({ to, children, active = 'hover', ...cardProps }, ref) => {
+  let normalizedActive: 'hover' | 'false' | 'true';
+  if (typeof active === 'boolean') {
+    normalizedActive = active ? 'true' : 'false';
+  } else {
+    normalizedActive = active;
+  }
   const content = (
-    <StyledCard {...cardProps} ref={ref} active={active}>
+    <StyledCard {...cardProps} ref={ref} active={normalizedActive}>
       {children}
     </StyledCard>
   );

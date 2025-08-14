@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
 import { memo } from 'react';
+import { Box } from '@mui/material';
 import { Note } from '../../model';
 
 interface Props extends Note {}
