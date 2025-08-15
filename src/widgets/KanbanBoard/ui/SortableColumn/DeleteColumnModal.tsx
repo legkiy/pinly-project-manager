@@ -55,56 +55,58 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
         </>
       }
       warningMess={
-        <Stack gap={2}>
-          <Text mess={['kanban.whatToBoTasks', ':']} />
-          <RadioGroup
-            value={action}
-            onChange={(_e, value) => setAction(value as OnDeleteAction)}
-            sx={{
-              gap: 0.4,
-            }}
-          >
-            <Tooltip
-              title={<Text mess="kanban.noAvailableColumns" />}
-              disableInteractive={columnsList.length > 0}
-              placement="top"
-              disableHoverListener={columnsList.length > 0}
+        columns[columnId].taskIds.length < 0 && (
+          <Stack gap={2}>
+            <Text mess={['kanban.whatToBoTasks', ':']} />
+            <RadioGroup
+              value={action}
+              onChange={(_e, value) => setAction(value as OnDeleteAction)}
+              sx={{
+                gap: 0.4,
+              }}
             >
-              <Stack direction="row" width="fit-content">
-                <FormControlLabel
-                  control={<Radio />}
-                  label={<Text mess="common.move" text />}
-                  value="move"
-                  disabled={columnsList.length < 1}
-                />
-                <FormControl size="small" disabled={action !== 'move'}>
-                  <InputLabel>
-                    <Text mess="kanban.toColumn" />
-                  </InputLabel>
-                  <Select
-                    label={<Text mess="kanban.toColumn" text />}
-                    value={selectColumnId}
-                    onChange={(e) => setSelectColumnId(e.target.value)}
-                    sx={{
-                      minWidth: [100, 200],
-                    }}
-                  >
-                    {columnsList.map((col) => (
-                      <MenuItem key={col.id} value={col.id}>
-                        {col.title}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Stack>
-            </Tooltip>
-            <FormControlLabel
-              control={<Radio color="error" />}
-              label={<Text mess="common.delete" text />}
-              value="delete"
-            />
-          </RadioGroup>
-        </Stack>
+              <Tooltip
+                title={<Text mess="kanban.noAvailableColumns" />}
+                disableInteractive={columnsList.length > 0}
+                placement="top"
+                disableHoverListener={columnsList.length > 0}
+              >
+                <Stack direction="row" width="fit-content">
+                  <FormControlLabel
+                    control={<Radio />}
+                    label={<Text mess="common.move" text />}
+                    value="move"
+                    disabled={columnsList.length < 1}
+                  />
+                  <FormControl size="small" disabled={action !== 'move'}>
+                    <InputLabel>
+                      <Text mess="kanban.toColumn" />
+                    </InputLabel>
+                    <Select
+                      label={<Text mess="kanban.toColumn" text />}
+                      value={selectColumnId}
+                      onChange={(e) => setSelectColumnId(e.target.value)}
+                      sx={{
+                        minWidth: [100, 200],
+                      }}
+                    >
+                      {columnsList.map((col) => (
+                        <MenuItem key={col.id} value={col.id}>
+                          {col.title}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Stack>
+              </Tooltip>
+              <FormControlLabel
+                control={<Radio color="error" />}
+                label={<Text mess="common.delete" text />}
+                value="delete"
+              />
+            </RadioGroup>
+          </Stack>
+        )
       }
     >
       <Button size="small" variant="square" color="error">
