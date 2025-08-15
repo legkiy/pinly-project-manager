@@ -15,7 +15,7 @@ type Actions = {
   createProject: (project: CreateProjectDTO) => Project;
   deleteProject: (projectId: string) => void;
   // addNote: (projectId: string, noteId: string) => void;
-  updateProject: (projectId: string, updatedFields: (prev: Project) => Partial<Project>) => void;
+  updateProject: (projectId: string, updatedFields: (prev: Project) => Partial<Omit<Project, 'id'>>) => void;
   //------------- Column CRUD
   createColumn: (projectId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;

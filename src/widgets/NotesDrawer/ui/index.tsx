@@ -41,7 +41,9 @@ const NotesDrawer = ({ projectId }: Props) => {
 
   useLayoutEffect(() => {
     const timeout = setTimeout(() => setOpen(true), 10); // следующий tick
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -102,7 +104,7 @@ const NotesDrawer = ({ projectId }: Props) => {
             }}
           >
             {notesIds?.map((noteId) => (
-              <DraggableNote key={noteId} noteId={noteId} />
+              <DraggableNote key={noteId} noteId={noteId} projectId={projectId} />
             ))}
             <TrashContainer />
           </Stack>

@@ -28,8 +28,9 @@ const RU = {
   },
 
   note: {
-    title: 'Заметки',
+    title: 'Заметка',
     deleteConfirm: 'Удалить проект',
+    add: 'Добавить заметку'
   },
 
   common: {

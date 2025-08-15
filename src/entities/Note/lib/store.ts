@@ -11,6 +11,7 @@ type Actions = {
   createNote: (note: CreateNoteDTO) => Note;
   moveNote: (noteId: string, posOffset: { offsetX: number; offsetY: number }) => void;
   deleteNote: (noteId: string | string[]) => void;
+  updateNote: (noteId: string, updatedFields: (prev: Note) => Partial<Omit<Note, 'id'>>) => void;
 };
 
 type Store = State & Actions;
@@ -71,16 +72,29 @@ const useNotesStore = create<Store>()(
       deleteNote: (noteId) => {
         const noteIds = Array.isArray(noteId) ? noteId : [noteId];
         const notes = get().notes;
-        const remainingNotes = Object.fromEntries(Object.entries(notes).filter(([key]) => !noteIds.includes(key)));
-
-        set({ notes: remainingNotes });
-        // Удаляем так же из объекта  проект id заметки
+        if (notes) {
+          const remainingNotes = Object.fromEntries(Object.entries(notes).filter(([key]) => !noteIds.includes(key)));
+          set({ notes: remainingNotes });
+        }
+        // Удаляем так же из проект id заметки
         const updatedProjectIds = Array.from(new Set(noteIds.map((el) => notes[el].projectId)));
-        updatedProjectIds.forEach((prjectId) => {
+        updatedProjectIds.forEach((projectId) => {
           useProjectStore
             .getState()
-            .updateProject(prjectId, ({ notesIds }) => ({ notesIds: notesIds.filter((el) => el !== noteId) }));
+            .updateProject(projectId, ({ notesIds }) => ({ notesIds: notesIds.filter((el) => el !== noteId) }));
         });
+      },
+      updateNote: (noteId, updatedFields) => {
+        set((stete) => ({
+          ...stete,
+          notes: {
+            ...stete.notes,
+            [noteId]: {
+              ...stete.notes[noteId],
+              ...updatedFields(stete.notes[noteId]),
+            },
+          },
+        }));
       },
     }),
     { name: 'notesStore', partialize: ({ notes }) => ({ notes }) }
