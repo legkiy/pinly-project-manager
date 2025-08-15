@@ -7,7 +7,6 @@ import { ThemeMode } from '../model';
 
 const ThemeSwitcher = () => {
   const { mode, setMode } = useColorScheme();
-  console.log(mode);
 
   const handleSwitchTheme = (theme: ThemeMode) => {
     // setThemeMode(theme);

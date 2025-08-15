@@ -12,7 +12,7 @@ type State = {
 };
 
 type Actions = {
-  createProject: (project: CreateProjectDTO) => Project;
+  createProject: (project: CreateProjectDTO) => Promise<Project>;
   deleteProject: (projectId: string) => void;
   // addNote: (projectId: string, noteId: string) => void;
   updateProject: (projectId: string, updatedFields: (prev: Project) => Partial<Omit<Project, 'id'>>) => void;
@@ -40,7 +40,7 @@ const useProjectStore = create<ProjectStore>()(
   persist(
     (set, get) => ({
       ...initState,
-      createProject: ({ columns, ...project }) => {
+      createProject: async ({ columns, ...project }) => {
         const projectId = 'project-' + crypto.randomUUID();
 
         const newProject: Project = {
