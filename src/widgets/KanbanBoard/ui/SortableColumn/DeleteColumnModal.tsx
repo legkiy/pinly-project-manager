@@ -55,7 +55,7 @@ const DeleteColumnModal = ({ title, columnId }: Props) => {
         </>
       }
       warningMess={
-        columns[columnId].taskIds.length < 0 && (
+        columns[columnId].taskIds.length > 0 && (
           <Stack gap={2}>
             <Text mess={['kanban.whatToBoTasks', ':']} />
             <RadioGroup

@@ -9,6 +9,20 @@ const components: Theme['components'] = {
     defaultProps: {
       autoComplete: 'off',
     },
+    styleOverrides: {
+      root: {
+        // Remove underline for all variants
+        '& .MuiInputBase-root:before': {
+          borderBottom: 'none',
+        },
+        '& .MuiInputBase-root:after': {
+          borderBottom: 'none',
+        },
+        '& .MuiInputBase-root:hover:not(.Mui-disabled):before': {
+          borderBottom: 'none',
+        },
+      },
+    },
   },
   MuiButtonGroup: {
     styleOverrides: {

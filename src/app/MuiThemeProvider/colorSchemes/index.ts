@@ -1,4 +1,4 @@
-import { ColorSystemOptions } from '@mui/material';
+import { ColorSystemOptions } from '@mui/material/styles';
 import paletteLight from './light';
 import paletteDark from './dark';
 

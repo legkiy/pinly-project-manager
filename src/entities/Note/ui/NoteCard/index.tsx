@@ -1,7 +1,8 @@
 import { memo } from 'react';
-import { Stack, TextField } from '@mui/material';
+import { Divider, Stack, TextField } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { CreateNoteDTO, createNoteSchema, Note } from '../../model';
 import { Form, Text } from '@/shared/ui';
 import { useNotesStore } from '../../lib';
@@ -10,6 +11,7 @@ import { useDebounce } from '@/shared/lib';
 interface Props extends Note {}
 
 const NoteCard = (note: Props) => {
+  const { t } = useTranslation();
   const updateNote = useNotesStore((s) => s.updateNote);
 
   const methods = useForm<CreateNoteDTO>({
@@ -47,20 +49,25 @@ const NoteCard = (note: Props) => {
           p: 1,
           color: '#000',
         })}
-        gap={2}
+        gap={1}
       >
         <TextField
           variant="standard"
           fullWidth
-          label={<Text mess="common.name" text />}
+          placeholder={t('common.name')}
           {...methods.register('title')}
           error={!!methods.formState.errors.title}
           helperText={<Text mess={methods.formState.errors.title?.message ?? ''} text />}
         />
+        <Divider
+          sx={{
+            borderColor: '#000',
+          }}
+        />
         <TextField
           variant="standard"
           fullWidth
-          label={<Text mess="common.description" text />}
+          placeholder={t('common.description')}
           {...methods.register('descriptions')}
           error={!!methods.formState.errors.descriptions}
           helperText={<Text mess={methods.formState.errors.descriptions?.message ?? ''} text />}

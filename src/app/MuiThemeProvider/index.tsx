@@ -1,4 +1,5 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 
 interface Props {
@@ -8,6 +9,8 @@ interface Props {
 const MuiThemeProvider = (props: Props) => {
   return (
     <ThemeProvider theme={theme} defaultMode="system" noSsr>
+      {/* <CssVarsProvider theme={theme} defaultMode="system"> */}
+      {/* </CssVarsProvider> */}
       <CssBaseline />
       {props.children}
     </ThemeProvider>

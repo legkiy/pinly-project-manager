@@ -1,7 +1,7 @@
 import { PaletteOptions } from '@mui/material';
 
 const paletteDark: PaletteOptions = {
-  mode: 'dark',
+  // mode: 'dark',
   primary: {
     main: '#3D5AFE', // Сохраняем синий для акцента
     contrastText: '#ffffff',

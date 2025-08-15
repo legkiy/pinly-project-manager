@@ -11,7 +11,7 @@ interface Props {
   projectId: string;
 }
 const DraggableNote = ({ noteId, projectId }: Props) => {
-  const { attributes, listeners, setNodeRef, transform, active } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: noteId,
   });
 
@@ -63,9 +63,9 @@ const DraggableNote = ({ noteId, projectId }: Props) => {
         <Icon
           iconName="pin"
           sx={{
-            cursor: active ? 'grabbing' : 'grab',
+            cursor: isDragging ? 'grabbing' : 'grab',
             position: 'absolute',
-            top: active ? -80 : -60,
+            top: isDragging ? -80 : -60,
             left: '50%',
             height: 80,
             transform: 'translate(-50%,0)',
