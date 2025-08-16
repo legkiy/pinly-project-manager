@@ -49,7 +49,6 @@ const NoteCard = (note: Props) => {
           p: 1,
           color: '#000',
         })}
-        gap={1}
       >
         <TextField
           variant="standard"
