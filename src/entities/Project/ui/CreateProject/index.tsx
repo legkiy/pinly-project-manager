@@ -6,7 +6,7 @@ const CreateProject = () => {
 
   return (
     <>
-      <CreateNewItem onClick={onOpenModal} titleKey={['common.add', ' ', 'project.title']} variant="button" />
+      <CreateNewItem onClick={onOpenModal} titleKey={['common.add', ' ', 'project.title']} type="button" />
       <Modal.Component
         title={<Text mess={['common.new', ' ', 'project.title']} text />}
         open={modalState}

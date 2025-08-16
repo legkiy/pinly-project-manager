@@ -14,15 +14,7 @@ const CreateNote = ({ projectId }: Props) => {
   };
   const createNote = useNotesStore((s) => s.createNote);
 
-  return (
-    <>
-      <CreateNewItem
-        onClick={() => createNote(baseNote)}
-        titleKey={['common.add', ' ', 'note.title']}
-        variant="button"
-      />
-    </>
-  );
+  return <CreateNewItem onClick={() => createNote(baseNote)} titleKey="note.add" type="button" color="success" />;
 };
 
 export default CreateNote;

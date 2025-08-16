@@ -1,4 +1,4 @@
-import { Drawer, Stack, useTheme } from '@mui/material';
+import { Box, Drawer, Stack, useTheme } from '@mui/material';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -86,7 +86,7 @@ const NotesDrawer = ({ projectId }: Props) => {
       }}
     >
       <Stack
-        spacing={2}
+        gap={2}
         sx={{
           p: 2,
           height: '85vh',
@@ -94,7 +94,9 @@ const NotesDrawer = ({ projectId }: Props) => {
           overflowX: 'clip',
         }}
       >
-        <CreateNote projectId={projectId} />
+        <Box>
+          <CreateNote projectId={projectId} />
+        </Box>
         <DndContext sensors={sensors} onDragEnd={handleDragEnd} modifiers={[restrictToParentElement]}>
           <Stack
             ref={containerRef}

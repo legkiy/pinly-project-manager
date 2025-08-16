@@ -36,7 +36,6 @@ const useNotesStore = create<Store>()(
             y: 0,
           },
         };
-
         set((state) => ({
           notes: {
             ...state.notes,
@@ -72,12 +71,16 @@ const useNotesStore = create<Store>()(
       deleteNote: (noteId) => {
         const noteIds = Array.isArray(noteId) ? noteId : [noteId];
         const notes = get().notes;
-        if (notes) {
-          const remainingNotes = Object.fromEntries(Object.entries(notes).filter(([key]) => !noteIds.includes(key)));
-          set({ notes: remainingNotes });
-        }
+        if (!notes || noteIds.length < 1) return;
+
+        const remainingNotes = Object.fromEntries(Object.entries(notes).filter(([key]) => !noteIds.includes(key)));
+
+        set({ notes: remainingNotes });
+
         // Удаляем так же из проект id заметки
-        const updatedProjectIds = Array.from(new Set(noteIds.map((el) => notes[el].projectId)));
+        const updatedProjectIds = Array.from(new Set(noteIds.map((el) => notes[el]?.projectId)));
+        if (updatedProjectIds.length < 1) return;
+
         updatedProjectIds.forEach((projectId) => {
           useProjectStore
             .getState()

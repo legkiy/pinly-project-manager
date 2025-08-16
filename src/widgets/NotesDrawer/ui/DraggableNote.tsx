@@ -19,6 +19,7 @@ const DraggableNote = ({ noteId, projectId }: Props) => {
 
   // для защиты когда нужная заметка не существует
   const updateProject = useProjectStore((s) => s.updateProject);
+
   useLayoutEffect(() => {
     if (!note) {
       updateProject(projectId, ({ notesIds }) => ({ notesIds: notesIds.filter((el) => el !== noteId) }));

@@ -101,19 +101,9 @@ const useProjectStore = create<ProjectStore>()(
           tasks: updatedTasks,
         });
       },
-      // addNote: (projectId, noteId) => {
-      //   set((stete) => ({
-      //     ...stete,
-      //     projects: {
-      //       ...stete.projects,
-      //       [projectId]: {
-      //         ...stete.projects[projectId],
-      //         notesIds: [...(stete.projects[projectId].notesIds || []), noteId],
-      //       },
-      //     },
-      //   }));
-      // },
       updateProject: (projectId, updatedFields) => {
+        if (!projectId) return;
+
         set((stete) => ({
           ...stete,
           projects: {

@@ -1,4 +1,4 @@
-import { SxProps, Theme } from '@mui/material';
+import { ButtonProps, SxProps, Theme } from '@mui/material';
 import { lazy, memo } from 'react';
 
 const ButtonVariant = lazy(() => import('./ButtonVariant'));
@@ -10,11 +10,19 @@ export interface IGeneralCreateNewItemProps {
   onClick?: () => void;
   sx?: SxProps<Theme>;
 }
-interface Props extends IGeneralCreateNewItemProps {
-  variant?: 'zone' | 'button';
-}
 
-const CreateNewItem = ({ variant = 'zone', ...props }: Props) => {
-  return variant === 'button' ? <ButtonVariant {...props} /> : <ZoneVariant {...props} />;
+export type PropsButton = IGeneralCreateNewItemProps &
+  ButtonProps & {
+    type?: 'button';
+  };
+
+type Props =
+  | PropsButton
+  | (IGeneralCreateNewItemProps & {
+      type?: 'zone';
+    });
+
+const CreateNewItem = ({ type = 'zone', ...props }: Props) => {
+  return type === 'button' ? <ButtonVariant {...props} /> : <ZoneVariant {...props} />;
 };
 export default memo(CreateNewItem);
