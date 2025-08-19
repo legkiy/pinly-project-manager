@@ -1,4 +1,5 @@
-import { Button, ButtonGroup, useColorScheme } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
+import { useColorScheme } from '@mui/material/styles';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import ContrastRoundedIcon from '@mui/icons-material/ContrastRounded';

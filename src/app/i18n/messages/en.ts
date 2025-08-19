@@ -28,6 +28,13 @@ const EN: typeof RU = {
     deleteConfirm: 'Delete project',
     deleteWarn: 'All internal tasks will be deleted',
   },
+
+  note: {
+    title: 'Note',
+    deleteConfirm: 'Delete project',
+    add: 'Add a note',
+  },
+
   common: {
     name: 'Name',
     description: 'Description',

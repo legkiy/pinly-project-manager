@@ -1,33 +1,93 @@
-import { useDraggable } from '@dnd-kit/core';
-import { Card } from '@mui/material';
 import { memo } from 'react';
-import { CSS } from '@dnd-kit/utilities';
-import { Note } from '../../model';
+import { Divider, Stack, TextField } from '@mui/material';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { CreateNoteDTO, createNoteSchema, Note } from '../../model';
+import { Form, Text } from '@/shared/ui';
+import { useNotesStore } from '../../lib';
+import { useDebounce } from '@/shared/lib';
 
 interface Props extends Note {}
 
-const NoteCard = ({ title, descriptions, positionPercent, id }: Props) => {
-  const { attributes, listeners, setNodeRef, transform, active } = useDraggable({
-    id,
+const NoteCard = (note: Props) => {
+  const { t } = useTranslation();
+  const updateNote = useNotesStore((s) => s.updateNote);
+
+  const methods = useForm<CreateNoteDTO>({
+    resolver: zodResolver(createNoteSchema),
+    defaultValues: {
+      ...note,
+    },
   });
 
+  const values = methods.watch();
+
+  const handleOnSubmit = (data: CreateNoteDTO) => {
+    updateNote(note.id, () => data);
+    methods.reset(data);
+  };
+
+  useDebounce(
+    () => {
+      if (!methods.formState.isDirty) {
+        return; // Не отправляем при первом рендере
+      }
+      methods.handleSubmit(handleOnSubmit)();
+    },
+    400,
+    [values]
+  );
+
   return (
-    <Card
-      ref={setNodeRef}
-      sx={{
-        cursor: active ? 'grabbing' : 'grab',
-        userSelect: 'none',
-        transform: CSS.Translate.toString(transform),
-        position: 'absolute',
-        left: `${positionPercent.x}%`,
-        top: `${positionPercent.y}%`,
-      }}
-      {...listeners}
-      {...attributes}
-    >
-      {title}
-      {descriptions}
-    </Card>
+    <Form methods={methods} onSubmit={handleOnSubmit}>
+      <Stack
+        sx={{
+          bgcolor: 'note.main',
+          width: 270,
+          boxShadow: 4,
+          p: 1,
+        }}
+      >
+        <TextField
+          variant="standard"
+          fullWidth
+          placeholder={t('common.name')}
+          {...methods.register('title')}
+          error={!!methods.formState.errors.title}
+          helperText={<Text mess={methods.formState.errors.title?.message ?? ''} text />}
+          slotProps={{
+            input: {
+              sx: {
+                color: '#000',
+              },
+            },
+          }}
+        />
+        <Divider
+          sx={{
+            borderColor: '#000',
+          }}
+        />
+        <TextField
+          variant="standard"
+          fullWidth
+          placeholder={t('common.description')}
+          {...methods.register('descriptions')}
+          error={!!methods.formState.errors.descriptions}
+          helperText={<Text mess={methods.formState.errors.descriptions?.message ?? ''} text />}
+          multiline
+          minRows={4}
+          slotProps={{
+            input: {
+              sx: {
+                color: '#000',
+              },
+            },
+          }}
+        />
+      </Stack>
+    </Form>
   );
 };
 

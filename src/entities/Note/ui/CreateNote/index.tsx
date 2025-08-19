@@ -1,24 +1,20 @@
-import { CreateNewItem, Modal, Text } from '@/shared/ui';
-import CreateForm from './CreateForm';
+import { CreateNewItem } from '@/shared/ui';
+import { useNotesStore } from '../../lib';
+import { CreateNoteDTO } from '../../model';
 
 interface Props {
   projectId: string;
 }
-const CreateNote = ({ projectId }: Props) => {
-  const { modalState, onCloseModal, onOpenModal } = Modal.handlers();
 
-  return (
-    <>
-      <CreateNewItem onClick={onOpenModal} titleKey={['common.add', ' ', 'note.title']} variant="button" />
-      <Modal.Component
-        title={<Text mess={['common.new', ' ', 'note.title']} text />}
-        open={modalState}
-        onClose={onCloseModal}
-      >
-        <CreateForm onCancel={onCloseModal} onSubmit={onCloseModal} projectId={projectId} />
-      </Modal.Component>
-    </>
-  );
+const CreateNote = ({ projectId }: Props) => {
+  const baseNote: CreateNoteDTO = {
+    projectId,
+    title: '',
+    descriptions: '',
+  };
+  const createNote = useNotesStore((s) => s.createNote);
+
+  return <CreateNewItem onClick={() => createNote(baseNote)} titleKey="note.add" type="button" color="success" />;
 };
 
 export default CreateNote;

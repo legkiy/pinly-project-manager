@@ -1,8 +1,8 @@
 import z from 'zod';
 
 export const createNoteSchema = z.object({
-  title: z.string().min(1, 'errors.required'),
-  descriptions: z.string().optional(),
+  title: z.string().trim().min(1, 'errors.required'),
+  descriptions: z.string().trim().optional(),
   projectId: z.string(),
 });
 

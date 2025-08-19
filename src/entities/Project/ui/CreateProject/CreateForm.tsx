@@ -1,6 +1,7 @@
 import { Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Form, SubmitBtns, Text } from '@/shared/ui';
 import CreateColumnsArray from './CreateColumnsArray';
@@ -14,14 +15,15 @@ interface Props {
 }
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
+  const { t } = useTranslation();
   const defaultColumns = [
-    { title: 'kanban.queue', id: 'column-' + crypto.randomUUID() },
-    { title: 'kanban.inProgress', id: 'column-' + crypto.randomUUID() },
-    { title: 'kanban.done', id: 'column-' + crypto.randomUUID() },
+    { title: t('kanban.queue'), id: 'column-' + crypto.randomUUID() },
+    { title: t('kanban.inProgress'), id: 'column-' + crypto.randomUUID() },
+    { title: t('kanban.done'), id: 'column-' + crypto.randomUUID() },
   ];
 
   const navigate = useNavigate();
-  const { createProject } = useProjectStore();
+  const createProject = useProjectStore((s) => s.createProject);
 
   const methods = useForm<CreateProjectDTO>({
     resolver: zodResolver(projectSchema),
@@ -30,8 +32,8 @@ const CreateForm = ({ onCancel, onSubmit }: Props) => {
     },
   });
 
-  const handleOnSubmit = (data: CreateProjectDTO) => {
-    const newProject = createProject(data);
+  const handleOnSubmit = async (data: CreateProjectDTO) => {
+    const newProject = await createProject(data);
     onSubmit();
     navigate(routerService.projects.id(newProject.id));
   };

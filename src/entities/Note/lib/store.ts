@@ -11,6 +11,7 @@ type Actions = {
   createNote: (note: CreateNoteDTO) => Note;
   moveNote: (noteId: string, posOffset: { offsetX: number; offsetY: number }) => void;
   deleteNote: (noteId: string | string[]) => void;
+  updateNote: (noteId: string, updatedFields: (prev: Note) => Partial<Omit<Note, 'id'>>) => void;
 };
 
 type Store = State & Actions;
@@ -35,15 +36,17 @@ const useNotesStore = create<Store>()(
             y: 0,
           },
         };
-
         set((state) => ({
           notes: {
             ...state.notes,
             [id]: newNote,
           },
         }));
-          useProjectStore.getState().addNote(noteDto.projectId,id);
-        
+
+        useProjectStore
+          .getState()
+          .updateProject(noteDto.projectId, ({ notesIds }) => ({ notesIds: [...(notesIds || []), id] }));
+
         return newNote;
       },
       moveNote: (noteId, newPosition) => {
@@ -68,8 +71,33 @@ const useNotesStore = create<Store>()(
       deleteNote: (noteId) => {
         const noteIds = Array.isArray(noteId) ? noteId : [noteId];
         const notes = get().notes;
+        if (!notes || noteIds.length < 1) return;
+
         const remainingNotes = Object.fromEntries(Object.entries(notes).filter(([key]) => !noteIds.includes(key)));
+
         set({ notes: remainingNotes });
+
+        // Удаляем так же из проект id заметки
+        const updatedProjectIds = Array.from(new Set(noteIds.map((el) => notes[el]?.projectId)));
+        if (updatedProjectIds.length < 1) return;
+
+        updatedProjectIds.forEach((projectId) => {
+          useProjectStore
+            .getState()
+            .updateProject(projectId, ({ notesIds }) => ({ notesIds: notesIds.filter((el) => el !== noteId) }));
+        });
+      },
+      updateNote: (noteId, updatedFields) => {
+        set((stete) => ({
+          ...stete,
+          notes: {
+            ...stete.notes,
+            [noteId]: {
+              ...stete.notes[noteId],
+              ...updatedFields(stete.notes[noteId]),
+            },
+          },
+        }));
       },
     }),
     { name: 'notesStore', partialize: ({ notes }) => ({ notes }) }

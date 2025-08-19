@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Box, ClickAwayListener, IconButton, Paper, TextField } from '@mui/material';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { COLUMN_WIDTH } from '../model';
@@ -15,13 +15,12 @@ const CreateColumn = ({ projectId }: Props) => {
   const createColumn = useProjectStore((s) => s.createColumn);
 
   const handleSaveTitle = () => {
-    if (open) {
-      createColumn(projectId, title);
-      setOpen(false);
-      return;
-    }
-    setOpen((prev) => !prev);
+    createColumn(projectId, title);
+    setOpen(false);
   };
+  useLayoutEffect(() => {
+    setTitle('');
+  }, [open]);
 
   return (
     <Box
@@ -47,6 +46,12 @@ const CreateColumn = ({ projectId }: Props) => {
               onChange={(event) => setTitle(event.target.value.trim())}
               fullWidth
               autoFocus
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault(); // чтобы не было переноса строки
+                  handleSaveTitle();
+                }
+              }}
             />
             <IconButton onClick={handleSaveTitle} size="small" color="success" sx={{}}>
               <CheckRoundedIcon fontSize="small" />
