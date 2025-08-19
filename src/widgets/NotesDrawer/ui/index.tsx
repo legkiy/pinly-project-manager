@@ -113,7 +113,7 @@ const NotesDrawer = ({ projectId }: Props) => {
                 position: 'relative',
                 backgroundImage: 'url(src/shared/assets/corkBoard.webp)',
                 borderRadius: 0.6,
-                boxShadow: '1px 1px 6px 4px rgba(0, 0, 0, 0.5) ,0px 5px 8px 4px rgba(0, 0, 0, 0.2) inset',
+                boxShadow: '0px 4px 8px 4px rgba(0, 0, 0, 0.3) inset',
               }}
             >
               <Box
