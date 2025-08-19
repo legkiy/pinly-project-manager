@@ -42,13 +42,12 @@ const NoteCard = (note: Props) => {
   return (
     <Form methods={methods} onSubmit={handleOnSubmit}>
       <Stack
-        sx={({ shadows }) => ({
-          bgcolor: '#dac66d',
+        sx={{
+          bgcolor: 'note.main',
           width: 270,
-          boxShadow: shadows[4],
+          boxShadow: 4,
           p: 1,
-          color: '#000',
-        })}
+        }}
       >
         <TextField
           variant="standard"
@@ -57,6 +56,13 @@ const NoteCard = (note: Props) => {
           {...methods.register('title')}
           error={!!methods.formState.errors.title}
           helperText={<Text mess={methods.formState.errors.title?.message ?? ''} text />}
+          slotProps={{
+            input: {
+              sx: {
+                color: '#000',
+              },
+            },
+          }}
         />
         <Divider
           sx={{
@@ -72,6 +78,13 @@ const NoteCard = (note: Props) => {
           helperText={<Text mess={methods.formState.errors.descriptions?.message ?? ''} text />}
           multiline
           minRows={4}
+          slotProps={{
+            input: {
+              sx: {
+                color: '#000',
+              },
+            },
+          }}
         />
       </Stack>
     </Form>

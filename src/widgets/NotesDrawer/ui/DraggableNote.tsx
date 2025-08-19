@@ -54,6 +54,7 @@ const DraggableNote = ({ noteId, projectId }: Props) => {
         position: 'absolute',
         left: `${note.positionPercent.x}%`,
         top: `${note.positionPercent.y}%`,
+        zIndex: 1,
       }}
     >
       <Box

@@ -11,8 +11,9 @@ const TrashContainer = () => {
   return (
     <Stack
       sx={{
+        m: 1,
         mt: 'auto',
-        zIndex: -1,
+        zIndex: 0,
       }}
     >
       <ScalingCard

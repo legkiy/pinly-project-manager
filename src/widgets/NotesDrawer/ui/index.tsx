@@ -81,6 +81,9 @@ const NotesDrawer = ({ projectId }: Props) => {
             borderBottomRightRadius: 0,
             maxWidth: '100vw',
             overflowX: 'clip',
+            bgcolor: 'transparent',
+            backgroundImage: 'none',
+            boxShadow: 0,
           },
         },
       }}
@@ -94,22 +97,39 @@ const NotesDrawer = ({ projectId }: Props) => {
           overflowX: 'clip',
         }}
       >
-        <Box>
-          <CreateNote projectId={projectId} />
-        </Box>
         <DndContext sensors={sensors} onDragEnd={handleDragEnd} modifiers={[restrictToParentElement]}>
-          <Stack
-            ref={containerRef}
-            height={['100%']}
+          <Box
             sx={{
-              position: 'relative',
+              height: ['100%'],
+              backgroundImage: 'url(src/shared/assets/boardBorder.webp)',
+              p: 2.5,
+              borderRadius: 1,
             }}
           >
-            {notesIds?.map((noteId) => (
-              <DraggableNote key={noteId} noteId={noteId} projectId={projectId} />
-            ))}
-            <TrashContainer />
-          </Stack>
+            <Stack
+              ref={containerRef}
+              height={['100%']}
+              sx={{
+                position: 'relative',
+                backgroundImage: 'url(src/shared/assets/corkBoard.webp)',
+                borderRadius: 0.6,
+                boxShadow: '1px 1px 6px 4px rgba(0, 0, 0, 0.5) ,0px 5px 8px 4px rgba(0, 0, 0, 0.2) inset',
+              }}
+            >
+              <Box
+                sx={{
+                  m: 1,
+                  ml: 'auto',
+                }}
+              >
+                <CreateNote projectId={projectId} />
+              </Box>
+              {notesIds?.map((noteId) => (
+                <DraggableNote key={noteId} noteId={noteId} projectId={projectId} />
+              ))}
+              <TrashContainer />
+            </Stack>
+          </Box>
         </DndContext>
       </Stack>
     </Drawer>
