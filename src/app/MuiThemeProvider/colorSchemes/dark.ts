@@ -1,8 +1,8 @@
 import { PaletteOptions } from '@mui/material';
-import lightScheme from './light';
+import generalColors from './generalColors';
 
 const paletteDark: PaletteOptions = {
-  ...lightScheme, // Для импортируются ощие цвета, возможно нужно будет выделить в отдельный файл
+  ...generalColors,
   mode: 'dark',
   primary: {
     main: '#3D5AFE', // Сохраняем синий для акцента
