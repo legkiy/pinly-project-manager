@@ -17,7 +17,7 @@ interface TextPropsNoTypogrphy {
 type TextProps = TextPropsTypogrphy | TextPropsNoTypogrphy;
 
 const Text = ({ mess, options, text, ...typographyProps }: TextProps) => {
-  const { t} = useTranslation();
+  const { t } = useTranslation();
 
   const formatedText = Array.isArray(mess) ? mess.map((item) => t(item, options)).join('') : t(mess, options);
 
@@ -25,6 +25,10 @@ const Text = ({ mess, options, text, ...typographyProps }: TextProps) => {
     return formatedText;
   }
 
-  return <Typography {...typographyProps}>{formatedText}</Typography>;
+  return (
+    <Typography variant="body1" {...typographyProps}>
+      {formatedText}
+    </Typography>
+  );
 };
 export default Text;

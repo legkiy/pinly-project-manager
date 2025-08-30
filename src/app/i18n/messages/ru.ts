@@ -4,7 +4,19 @@ const RU = {
     title: 'Настройки',
     quick: 'Быстрые Настройки',
     pageWhenOpened: 'Страница при открытии',
+
+    themes: {
+      select: 'Тема приложения',
+      light: 'Светлая',
+      dark: 'Темная',
+      system: 'Системная',
+    },
+
+    lang: {
+      title: 'Язык приложения',
+    },
   },
+
   kanban: {
     columns: 'Колонки',
     queue: 'Очередь',
@@ -30,7 +42,7 @@ const RU = {
   note: {
     title: 'Заметка',
     deleteConfirm: 'Удалить проект',
-    add: 'Добавить заметку'
+    add: 'Добавить заметку',
   },
 
   common: {
