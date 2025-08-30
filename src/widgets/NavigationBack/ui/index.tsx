@@ -14,7 +14,7 @@ const NavigationBack = ({ title, ...stackProps }: Props) => {
   };
   return (
     <Stack direction="row" gap={1} alignItems="center" {...stackProps}>
-      <IconButton onClick={handleOnback}>
+      <IconButton onClick={handleOnback} size="large">
         <KeyboardBackspaceRoundedIcon />
       </IconButton>
       {title}

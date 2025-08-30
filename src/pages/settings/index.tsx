@@ -7,7 +7,7 @@ const SettingsPage = () => {
   return (
     <Container>
       <NavigationBack
-        title={<Text mess="settings.title" />}
+        title={<Text mess="settings.title" variant="h1" />}
         sx={{
           my: 2,
         }}
