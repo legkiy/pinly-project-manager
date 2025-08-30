@@ -10,7 +10,7 @@ interface Props {
 const FullVariant = ({ onClick, currentMode }: Props) => {
   return (
     <Stack direction="row" justifyContent="space-between">
-      <Text mess="themes.select" />
+      <Text mess="settings.themes.select" />
       <Select value={currentMode} size="small">
         {themsOptionsList.map((el) => (
           <MenuItem key={el.option} onClick={() => onClick(el.option)} value={el.option}>

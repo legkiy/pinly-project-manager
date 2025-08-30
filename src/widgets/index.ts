@@ -5,3 +5,4 @@ export { Navbar } from './Navbar';
 export { ProjectHeader } from './ProjectHeader';
 export { KanbanBoard } from './KanbanBoard';
 export { NotesDrawer } from './NotesDrawer';
+export { NavigationBack } from './NavigationBack';

@@ -1,4 +1,4 @@
-import { Button, Container, Stack } from '@mui/material';
+import { Button, Container, Paper, Stack } from '@mui/material';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { ProjectsList, QuickSettings } from '@/widgets';
 import { Link } from '@/shared/ui';
@@ -11,15 +11,16 @@ const ProjectsPage = () => {
         <Stack direction="row" gap={2} justifyContent="center">
           <QuickSettings />
           <Link to={routerService.settings.root} display="flex">
-            <Button
-              variant="text"
-              sx={{
-                boxShadow: 1,
-                backgroundColor: 'background.paper',
-              }}
-            >
-              <SettingsRoundedIcon />
-            </Button>
+            <Paper>
+              <Button
+                variant="text"
+                sx={{
+                  height: '100%',
+                }}
+              >
+                <SettingsRoundedIcon />
+              </Button>
+            </Paper>
           </Link>
         </Stack>
         <ProjectsList />
