@@ -18,6 +18,10 @@ const EN: typeof RU = {
     lang: {
       title: 'Language of the App',
     },
+
+    clear: {
+      title: 'Clear App data',
+    },
   },
 
   kanban: {
