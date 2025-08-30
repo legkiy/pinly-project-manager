@@ -1,15 +1,18 @@
-import { Button, ButtonGroup } from '@mui/material';
+import { lazy } from 'react';
 import { useColorScheme } from '@mui/material/styles';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
-import ContrastRoundedIcon from '@mui/icons-material/ContrastRounded';
 import { ThemeMode } from '../model';
 
-const ThemeSwitcher = () => {
+const FullVariant = lazy(() => import('./FullVariant'));
+const ShortVariant = lazy(() => import('./ShortVariant'));
+
+interface Props {
+  variant?: 'full' | 'short';
+}
+
+const ThemeSwitcher = ({ variant = 'short' }: Props) => {
   const { mode, setMode } = useColorScheme();
 
   const handleSwitchTheme = (theme: ThemeMode) => {
-    // setThemeMode(theme);
     setMode(theme);
   };
 
@@ -17,27 +20,10 @@ const ThemeSwitcher = () => {
     return null;
   }
 
-  return (
-    <ButtonGroup>
-      <Button
-        onClick={() => handleSwitchTheme(ThemeMode.Light)}
-        variant={mode === ThemeMode.Light ? 'contained' : 'outlined'}
-      >
-        <LightModeRoundedIcon />
-      </Button>
-      <Button
-        onClick={() => handleSwitchTheme(ThemeMode.Dark)}
-        variant={mode === ThemeMode.Dark ? 'contained' : 'outlined'}
-      >
-        <DarkModeOutlinedIcon />
-      </Button>
-      <Button
-        onClick={() => handleSwitchTheme(ThemeMode.System)}
-        variant={mode === ThemeMode.System ? 'contained' : 'outlined'}
-      >
-        <ContrastRoundedIcon />
-      </Button>
-    </ButtonGroup>
+  return variant === 'full' ? (
+    <FullVariant onClick={handleSwitchTheme} currentMode={mode as ThemeMode} />
+  ) : (
+    <ShortVariant onClick={handleSwitchTheme} currentMode={mode as ThemeMode} />
   );
 };
 export default ThemeSwitcher;

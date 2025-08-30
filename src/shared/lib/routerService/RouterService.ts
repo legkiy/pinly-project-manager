@@ -5,7 +5,7 @@ const routerService = {
     notes: (projectId) => `/${rootPath}/${projectId}/notes`,
   })),
   settings: {
-    root: 'settings',
+    root: '/settings',
   },
 };
 

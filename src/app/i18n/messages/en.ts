@@ -2,11 +2,24 @@ import RU from './ru';
 
 const EN: typeof RU = {
   appName: 'Project Manager',
+
   settings: {
     title: 'Settings',
     quick: 'Quick Setting',
     pageWhenOpened: 'Page when opened',
+
+    themes: {
+      select: 'Theme of the App',
+      light: 'Light',
+      dark: 'Dark',
+      system: 'System',
+    },
+
+    lang: {
+      title: 'Language of the App',
+    },
   },
+
   kanban: {
     columns: 'Columns',
     queue: 'Queue',
@@ -18,9 +31,11 @@ const EN: typeof RU = {
     whatToBoTasks: 'Choose what to do with the remaining tasks',
     noAvailableColumns: 'there are no available columns',
   },
+
   task: {
     new: 'New task',
   },
+
   project: {
     title: 'Project',
     avalableCount: 'Available Projects {{count}}',
