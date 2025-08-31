@@ -21,6 +21,7 @@ const EN: typeof RU = {
 
     clear: {
       title: 'Clear App data',
+      confirm: 'Are you sure what you want to clean all the data of the App? It is impossible to cancel this action',
     },
   },
 
