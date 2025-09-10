@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
@@ -55,16 +55,16 @@ const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 
   return (
     <>
       <div onClick={onOpenModal}>{children}</div>
-      <Modal.Component open={modalState} onClose={onCloseModal} title={title} >
+      <Modal.Component open={modalState} onClose={onCloseModal} title={title}>
         <Form methods={methods} onSubmit={handleConfirm}>
           {warningMess}
-          <Box>
-            <Typography
-              variant="body1"
-              sx={{
-                mb: 2,
-              }}
-            >
+          <Stack
+            gap={1}
+            sx={{
+              mt: 2,
+            }}
+          >
+            <Typography variant="body1">
               <Text mess="common.deleteConfirm" text /> <strong>{confirmValue}</strong>
             </Typography>
             <TextField
@@ -75,7 +75,7 @@ const ConfirmModal = ({ children, title, onConfirm, warningMess, confirmValue = 
                 animation: methods.formState.errors.value ? `${shake} 0.4s` : 'none',
               }}
             />
-          </Box>
+          </Stack>
           <Stack
             direction="row"
             sx={{

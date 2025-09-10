@@ -6,8 +6,8 @@ const ClearAppData = () => {
   return (
     <ClearModal>
       <Button
-        variant="outlined"
-        size="small"
+        variant="contained"
+        color="error"
         sx={{
           textTransform: 'none',
           maxWidth: 'fit-content',

@@ -16,16 +16,18 @@ type Actions = {
   deleteProject: (projectId: string) => void;
   // addNote: (projectId: string, noteId: string) => void;
   updateProject: (projectId: string, updatedFields: (prev: Project) => Partial<Omit<Project, 'id'>>) => void;
-  //------------- Column CRUD
+  //--- Column CRUD
   createColumn: (projectId: string, title: string) => void;
   deleteColumn: (columnId: string) => void;
   moveColumn: (projectId: string, newOrder: string[]) => void;
   updateColumn: (columnId: string, title: string) => void;
-  //------------- Task CRUD
+  //--- Task CRUD
   createTask: (task: CreateTaskDTO) => void;
   moveTask: (taskId: string | string[], toColumnId: string, beforeTaskId?: string) => void;
   sortTasks: (columnId: string, newOrder: string[]) => void;
   deleteTask: (taskId: string) => void;
+  //--- Clear Store
+  clearStore: () => void;
 };
 
 type ProjectStore = State & Actions;
@@ -289,6 +291,10 @@ const useProjectStore = create<ProjectStore>()(
           ...state,
           tasks: rest,
         }));
+      },
+      // --- Clear Store
+      clearStore: async () => {
+        set(initState);
       },
     }),
     { name: 'projectStore', partialize: ({ projects, columns, tasks }) => ({ projects, columns, tasks }) }

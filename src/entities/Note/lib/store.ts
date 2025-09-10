@@ -12,6 +12,8 @@ type Actions = {
   moveNote: (noteId: string, posOffset: { offsetX: number; offsetY: number }) => void;
   deleteNote: (noteId: string | string[]) => void;
   updateNote: (noteId: string, updatedFields: (prev: Note) => Partial<Omit<Note, 'id'>>) => void;
+  // --- Clear Store
+  clearStore: () => void;
 };
 
 type Store = State & Actions;
@@ -98,6 +100,16 @@ const useNotesStore = create<Store>()(
             },
           },
         }));
+      },
+      // --- Clear Store
+      clearStore: async () => {
+        const notes = get().notes;
+        const updatedProjectIds = Object.entries(notes).map(([_id, note]) => note.projectId);
+
+        updatedProjectIds.forEach((projectId) => {
+          useProjectStore.getState().updateProject(projectId, () => ({ notesIds: [] }));
+        });
+        set(initState);
       },
     }),
     { name: 'notesStore', partialize: ({ notes }) => ({ notes }) }
