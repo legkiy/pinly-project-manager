@@ -18,6 +18,11 @@ const EN: typeof RU = {
     lang: {
       title: 'Language of the App',
     },
+
+    clear: {
+      title: 'Clear App data',
+      confirm: 'Are you sure what you want to clean all the data of the App? It is impossible to cancel this action',
+    },
   },
 
   kanban: {
