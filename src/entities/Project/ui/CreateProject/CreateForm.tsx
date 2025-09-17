@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { Form, SubmitBtns, Text } from '@/shared/ui';
+import { Form, RichTextEditor, SubmitBtns, Text } from '@/shared/ui';
 import CreateColumnsArray from './CreateColumnsArray';
 import { useProjectStore } from '@/entities/Project';
 import { routerService } from '@/shared/lib';
@@ -16,6 +16,7 @@ interface Props {
 
 const CreateForm = ({ onCancel, onSubmit }: Props) => {
   const { t } = useTranslation();
+
   const defaultColumns = [
     { title: t('kanban.queue'), id: 'column-' + crypto.randomUUID() },
     { title: t('kanban.inProgress'), id: 'column-' + crypto.randomUUID() },
@@ -60,6 +61,7 @@ const CreateForm = ({ onCancel, onSubmit }: Props) => {
           multiline
           minRows={3}
         />
+        <RichTextEditor />
         <CreateColumnsArray
           methods={methods}
           name="columns"

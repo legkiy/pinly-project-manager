@@ -8,7 +8,7 @@ const ProjectsList = () => {
   const projectsList = Object.values(projects);
 
   return (
-    <>
+    <Stack gap={2}>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -36,7 +36,7 @@ const ProjectsList = () => {
           ))}
         </Grid>
       </Box>
-    </>
+    </Stack>
   );
 };
 export default ProjectsList;
