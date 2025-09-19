@@ -1,14 +1,19 @@
-import { Text } from '@tiptap/extension-text';
 import StarterKit from '@tiptap/starter-kit';
 import { ChainedCommands, Extensions } from '@tiptap/react';
+import { TextStyleKit } from '@tiptap/extension-text-style';
+import FormatBoldRoundedIcon from '@mui/icons-material/FormatBoldRounded';
+import { SvgIconTypeMap } from '@mui/material';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 
-export const extensions: Extensions = [Text, StarterKit];
+export const extensions: Extensions = [TextStyleKit, StarterKit];
 
 type MenuBarItem = {
   titleKey: string;
   name: string;
   tooltipKey: string;
-  icon?: React.JSX.Element;
+  icon?: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+    muiName: string;
+  };
   onClick?: () => void;
 };
 
@@ -24,5 +29,12 @@ export const menuBarItems = (focus: ChainedCommands): MenuBarItem[] => [
     name: 'h2',
     tooltipKey: 'editor.h2',
     onClick: () => focus.toggleHeading({ level: 2 }).run(),
+  },
+  {
+    titleKey: 'Bold',
+    name: 'bold',
+    tooltipKey: 'editor.bold',
+    onClick: () => focus.toggleBold().run(),
+    icon: FormatBoldRoundedIcon,
   },
 ];

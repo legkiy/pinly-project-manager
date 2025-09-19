@@ -2,12 +2,26 @@ import { Paper } from '@mui/material';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { extensions } from './models';
 import MenuBar from './MenuBar';
+import './styel.css';
 
-const RichTextEditor = () => {
+interface RichTextEditorProps {
+  label?: string;
+  value?: string;
+  onChange?: (val: string) => void;
+  error?: boolean;
+  helperText?: string;
+}
+
+const RichTextEditor = ({ error, value, onChange, helperText, label }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions,
-    content: '<p>Hello World!</p>',
+    content: value || '',
+    onUpdate: ({ editor }) => {
+      onChange?.(editor.getHTML());
+    },
   });
+
+  if (!editor) return null;
 
   return (
     <Paper>
