@@ -1,0 +1,26 @@
+/* .tiptap {
+  outline: none;
+} */
+
+.editorBox {
+  position: relative;
+  :focus {
+    border-color: blue;
+  }
+  :target {
+    border-color: red;
+  }
+}
+
+.menuBar {
+}
+
+.editorField {
+  :focus-visible {
+    outline: none;
+    border-color: var(--theme-palette-primary-main);
+    border-width: 2px;
+    border-style: solid;
+    border-radius: var(--theme-shape-borderRadius);
+  }
+}

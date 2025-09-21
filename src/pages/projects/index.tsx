@@ -1,7 +1,7 @@
-import { Button, Container, Paper, Stack } from '@mui/material';
+import { Button, Container, Paper, Stack, TextField } from '@mui/material';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { ProjectsList, QuickSettings } from '@/widgets';
-import { Link } from '@/shared/ui';
+import { Link, RichTextEditor } from '@/shared/ui';
 import { routerService } from '@/shared/lib';
 
 const ProjectsPage = () => {
@@ -23,6 +23,8 @@ const ProjectsPage = () => {
             </Paper>
           </Link>
         </Stack>
+        <TextField fullWidth />
+        <RichTextEditor />
         <ProjectsList />
       </Stack>
     </Container>
