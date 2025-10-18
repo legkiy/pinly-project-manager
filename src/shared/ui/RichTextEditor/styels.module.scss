@@ -13,13 +13,16 @@
 }
 
 .menuBar {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
 }
 
 .editorField {
   :focus-visible {
     outline: none;
     border-color: var(--theme-palette-primary-main);
-    border-width: 2px;
+    border-width: 0px;
     border-style: solid;
     border-radius: var(--theme-shape-borderRadius);
   }

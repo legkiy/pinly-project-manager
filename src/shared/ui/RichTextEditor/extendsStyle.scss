@@ -1,0 +1,27 @@
+.tiptap {
+  outline: none; /* Убираем дефолтный outline */
+  min-height: 100px; /* Минимальная высота для заметки */
+  padding: 8px 12px; /* Как в TextField */
+  font-family: inherit; /* Наследует от MUI */
+  font-size: 1rem;
+  padding-top: calc(4 * var(--theme-spacing));
+}
+
+.tiptap p {
+  margin: 0;
+}
+
+.tiptap.ProseMirror-focused {
+  /* Фокус-эффект как в MUI */
+  border-color: var(--mui-palette-primary-main); /* Использует MUI переменные */
+  box-shadow: 0 0 0 2px var(--theme-palette-primary-main); /* Лёгкий glow */
+}
+
+/* Placeholder стиль как в MUI */
+.tiptap .is-empty::before {
+  content: attr(data-placeholder);
+  color: rgba(0, 0, 0, 0.6); /* grey[600] */
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
