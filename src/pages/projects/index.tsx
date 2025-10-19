@@ -24,7 +24,7 @@ const ProjectsPage = () => {
           </Link>
         </Stack>
         <TextField fullWidth />
-        <RichTextEditor placeholder="set" />
+        <RichTextEditor />
         <ProjectsList />
       </Stack>
     </Container>

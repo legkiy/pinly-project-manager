@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
-import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import styles from './styels.module.scss';
 import MenuBar from './MenuBar';
 import './extendsStyle.scss';
@@ -23,15 +23,15 @@ interface RichTextEditorProps {
 const RichTextEditor = forwardRef<EditorRef, RichTextEditorProps>(
   ({ error, value, onChange, helperText, label, placeholder }, ref) => {
     const editor = useEditor({
-      // shouldRerenderOnTransaction: true,
       extensions,
-      content: value || '',
+      content: value || ``,
       onUpdate: ({ editor }) => {
         onChange?.(editor.getHTML());
       },
+      autofocus: false,
       editorProps: {
         attributes: {
-          class: 'tiptap', // Для scoping стилей
+          class: 'tiptap',
         },
       },
     });
@@ -39,11 +39,17 @@ const RichTextEditor = forwardRef<EditorRef, RichTextEditorProps>(
     const editorRef = useRef<Editor | null>(null);
     useImperativeHandle(ref, () => ({
       getHTML: () => editor?.getHTML(),
-      setContent: (html: string) => editor?.commands.setContent(html),
+      setContent: (html: string) =>
+        editor?.commands.setContent(html, {
+          emitUpdate: false,
+        }),
     }));
     editorRef.current = editor;
 
-    if (!editor) return null;
+    useEffect(() => {
+      if (!(editor && value)) return;
+      editor.commands.setContent(value);
+    }, [editor]);
 
     return (
       <Paper className={styles.editorBox}>
